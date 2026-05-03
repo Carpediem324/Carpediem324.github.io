@@ -1,12 +1,13 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Carpediem · Main</title>
+    <title>Carpediem Portfolio · Main</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
+        darkMode: "class",
         theme: {
           extend: {
             fontFamily: {
@@ -22,10 +23,7 @@
               ],
             },
             boxShadow: {
-              glow: "0 20px 60px -12px rgba(15, 23, 42, 0.25)",
-            },
-            backgroundImage: {
-              mesh: "radial-gradient(at 20% 20%, rgba(255,255,255,.45) 0px, transparent 50%), radial-gradient(at 80% 10%, rgba(255,255,255,.35) 0px, transparent 40%), radial-gradient(at 50% 80%, rgba(255,255,255,.2) 0px, transparent 45%)",
+              soft: "0 24px 64px -24px rgba(15, 23, 42, 0.3)",
             },
           },
         },
@@ -33,53 +31,34 @@
     </script>
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body class="min-h-screen bg-slate-100 text-slate-800 antialiased selection:bg-slate-800 selection:text-white">
-    <div class="relative isolate overflow-hidden">
-      <div class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-white to-slate-100"></div>
-      <div class="pointer-events-none absolute inset-0 -z-10 bg-mesh"></div>
-
-      <header class="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6 md:px-8">
-        <h1 class="text-sm font-semibold tracking-[0.2em] text-slate-500">CARPEDIEM</h1>
-        <button
-          id="themeButton"
-          class="rounded-full border border-slate-200 bg-white/80 px-4 py-2 text-sm font-medium text-slate-700 backdrop-blur transition hover:bg-white"
-          type="button"
-        >
-          다크 모드
-        </button>
+  <body class="min-h-screen bg-slate-50 text-slate-800 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100">
+    <div class="mx-auto max-w-6xl px-6 py-6 md:px-8">
+      <header class="flex items-center justify-between">
+        <a href="index.html" class="text-sm font-semibold tracking-[0.2em] text-slate-500 dark:text-slate-400">CARPEDIEM</a>
+        <button id="themeButton" class="rounded-full border border-slate-300 px-4 py-2 text-sm font-medium transition hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800">다크 모드</button>
       </header>
 
-      <main class="mx-auto grid w-full max-w-6xl gap-8 px-6 pb-16 pt-6 md:px-8 md:pb-24 md:pt-12 lg:grid-cols-[1.2fr,1fr]">
-        <section class="space-y-6">
-          <p class="inline-flex items-center rounded-full border border-slate-200 bg-white/80 px-3 py-1 text-xs font-medium text-slate-600 backdrop-blur">
-            ✨ Apple 스타일 감성 메인 페이지
-          </p>
-          <h2 class="text-4xl font-semibold leading-tight text-slate-900 md:text-6xl">
-            Simple,
-            <span class="bg-gradient-to-r from-slate-900 via-slate-600 to-slate-900 bg-clip-text text-transparent">Beautiful</span>
-            <br />
-            and Ready to Launch.
-          </h2>
-          <p class="max-w-xl text-base leading-relaxed text-slate-600 md:text-lg">
-            기본 HTML, CSS, JavaScript 구조 위에 Tailwind를 더해 미니멀하고 고급스러운 첫 화면을 구성했습니다.
-            지금 바로 당신의 스토리를 시작해보세요.
-          </p>
+      <main class="mt-16 grid items-center gap-10 lg:grid-cols-[1.2fr,1fr]">
+        <section>
+          <p class="inline-flex rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-600 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">고도화된 포트폴리오 웹사이트</p>
+          <h1 class="mt-5 text-4xl font-semibold leading-tight md:text-6xl">신뢰감을 주는
+            <span class="bg-gradient-to-r from-slate-900 via-slate-600 to-slate-900 bg-clip-text text-transparent dark:from-slate-100 dark:via-slate-300 dark:to-slate-100">현업형 포트폴리오</span>
+          </h1>
+          <p class="mt-6 max-w-xl text-base leading-relaxed text-slate-600 dark:text-slate-300">프로필과 프로젝트를 빠르게 탐색할 수 있도록 정보 구조를 단순화하고, 타이포그래피/여백/대비를 정교하게 다듬었습니다.</p>
 
-          <div class="flex flex-wrap gap-3 pt-2">
-            <a href="#" class="rounded-full bg-slate-900 px-6 py-3 text-sm font-medium text-white transition hover:bg-slate-700">Get Started</a>
-            <a href="#" class="rounded-full border border-slate-300 bg-white/90 px-6 py-3 text-sm font-medium text-slate-700 transition hover:border-slate-400">Learn More</a>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="profile.html" class="rounded-full bg-slate-900 px-6 py-3 text-sm font-medium text-white transition hover:bg-slate-700 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200">개인정보 페이지</a>
+            <a href="projects.html" class="rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-medium text-slate-700 transition hover:border-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">프로젝트 페이지</a>
           </div>
         </section>
 
-        <section>
-          <div class="group relative rounded-[2rem] border border-white/60 bg-white/70 p-6 shadow-glow backdrop-blur-xl transition hover:-translate-y-1 hover:shadow-2xl md:p-8">
-            <div class="mb-5 h-52 rounded-3xl bg-gradient-to-br from-slate-900 via-slate-700 to-slate-400"></div>
-            <p class="text-sm font-medium text-slate-500">FEATURED</p>
-            <h3 class="mt-2 text-2xl font-semibold text-slate-900">Your Next Project</h3>
-            <p class="mt-3 text-sm leading-relaxed text-slate-600">
-              카드형 컴포넌트, 부드러운 블러 배경, 자연스러운 그림자로 Apple 느낌의 시각적 레이어를 만들었습니다.
-            </p>
-          </div>
+        <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-soft transition dark:border-slate-800 dark:bg-slate-900 md:p-8">
+          <h2 class="text-xl font-semibold">탐색 흐름</h2>
+          <ol class="mt-5 space-y-4 text-sm text-slate-600 dark:text-slate-300">
+            <li class="rounded-2xl bg-slate-100 p-4 dark:bg-slate-800/70"><span class="font-semibold">1.</span> 개인정보 페이지에서 강점과 경력을 확인합니다.</li>
+            <li class="rounded-2xl bg-slate-100 p-4 dark:bg-slate-800/70"><span class="font-semibold">2.</span> 프로젝트 페이지에서 대표 프로젝트를 선택합니다.</li>
+            <li class="rounded-2xl bg-slate-100 p-4 dark:bg-slate-800/70"><span class="font-semibold">3.</span> 상세 페이지에서 문제 해결 과정과 성과를 검토합니다.</li>
+          </ol>
         </section>
       </main>
     </div>

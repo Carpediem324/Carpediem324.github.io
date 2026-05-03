@@ -1,15 +1,23 @@
-const themeButton = document.getElementById("themeButton");
-const body = document.body;
+(() => {
+  const root = document.documentElement;
+  const themeButton = document.getElementById('themeButton');
+  const storageKey = 'theme';
 
-function applyTheme(isDark) {
-  body.classList.toggle("dark", isDark);
-  themeButton.textContent = isDark ? "라이트 모드" : "다크 모드";
-  localStorage.setItem("theme", isDark ? "dark" : "light");
-}
+  const getInitialTheme = () => {
+    const savedTheme = localStorage.getItem(storageKey);
+    if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  };
 
-const savedTheme = localStorage.getItem("theme");
-applyTheme(savedTheme === "dark");
+  const applyTheme = (theme) => {
+    const isDark = theme === 'dark';
+    root.classList.toggle('dark', isDark);
+    if (themeButton) themeButton.textContent = isDark ? '라이트 모드' : '다크 모드';
+    localStorage.setItem(storageKey, theme);
+  };
 
-themeButton?.addEventListener("click", () => {
-  applyTheme(!body.classList.contains("dark"));
-});
+  applyTheme(getInitialTheme());
+  themeButton?.addEventListener('click', () => {
+    applyTheme(root.classList.contains('dark') ? 'light' : 'dark');
+  });
+})();
