@@ -1,0 +1,33 @@
+:root {
+  color-scheme: light;
+}
+
+body.dark {
+  color-scheme: dark;
+  background: #020617;
+  color: #e2e8f0;
+}
+
+body.dark .bg-white,
+body.dark .bg-white\/70,
+body.dark .bg-white\/80,
+body.dark .bg-white\/90 {
+  background-color: rgba(15, 23, 42, 0.8) !important;
+}
+
+body.dark .text-slate-900 {
+  color: #f8fafc !important;
+}
+
+body.dark .text-slate-800,
+body.dark .text-slate-700,
+body.dark .text-slate-600,
+body.dark .text-slate-500 {
+  color: #cbd5e1 !important;
+}
+
+body.dark .border-slate-200,
+body.dark .border-slate-300,
+body.dark .border-white\/60 {
+  border-color: rgba(148, 163, 184, 0.35) !important;
+}
