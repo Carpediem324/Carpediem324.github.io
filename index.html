@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carpediem · Main</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: [
+                "-apple-system",
+                "BlinkMacSystemFont",
+                "SF Pro Display",
+                "Segoe UI",
+                "Roboto",
+                "Helvetica Neue",
+                "Arial",
+                "sans-serif",
+              ],
+            },
+            boxShadow: {
+              glow: "0 20px 60px -12px rgba(15, 23, 42, 0.25)",
+            },
+            backgroundImage: {
+              mesh: "radial-gradient(at 20% 20%, rgba(255,255,255,.45) 0px, transparent 50%), radial-gradient(at 80% 10%, rgba(255,255,255,.35) 0px, transparent 40%), radial-gradient(at 50% 80%, rgba(255,255,255,.2) 0px, transparent 45%)",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="min-h-screen bg-slate-100 text-slate-800 antialiased selection:bg-slate-800 selection:text-white">
+    <div class="relative isolate overflow-hidden">
+      <div class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-white to-slate-100"></div>
+      <div class="pointer-events-none absolute inset-0 -z-10 bg-mesh"></div>
+
+      <header class="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6 md:px-8">
+        <h1 class="text-sm font-semibold tracking-[0.2em] text-slate-500">CARPEDIEM</h1>
+        <button
+          id="themeButton"
+          class="rounded-full border border-slate-200 bg-white/80 px-4 py-2 text-sm font-medium text-slate-700 backdrop-blur transition hover:bg-white"
+          type="button"
+        >
+          다크 모드
+        </button>
+      </header>
+
+      <main class="mx-auto grid w-full max-w-6xl gap-8 px-6 pb-16 pt-6 md:px-8 md:pb-24 md:pt-12 lg:grid-cols-[1.2fr,1fr]">
+        <section class="space-y-6">
+          <p class="inline-flex items-center rounded-full border border-slate-200 bg-white/80 px-3 py-1 text-xs font-medium text-slate-600 backdrop-blur">
+            ✨ Apple 스타일 감성 메인 페이지
+          </p>
+          <h2 class="text-4xl font-semibold leading-tight text-slate-900 md:text-6xl">
+            Simple,
+            <span class="bg-gradient-to-r from-slate-900 via-slate-600 to-slate-900 bg-clip-text text-transparent">Beautiful</span>
+            <br />
+            and Ready to Launch.
+          </h2>
+          <p class="max-w-xl text-base leading-relaxed text-slate-600 md:text-lg">
+            기본 HTML, CSS, JavaScript 구조 위에 Tailwind를 더해 미니멀하고 고급스러운 첫 화면을 구성했습니다.
+            지금 바로 당신의 스토리를 시작해보세요.
+          </p>
+
+          <div class="flex flex-wrap gap-3 pt-2">
+            <a href="#" class="rounded-full bg-slate-900 px-6 py-3 text-sm font-medium text-white transition hover:bg-slate-700">Get Started</a>
+            <a href="#" class="rounded-full border border-slate-300 bg-white/90 px-6 py-3 text-sm font-medium text-slate-700 transition hover:border-slate-400">Learn More</a>
+          </div>
+        </section>
+
+        <section>
+          <div class="group relative rounded-[2rem] border border-white/60 bg-white/70 p-6 shadow-glow backdrop-blur-xl transition hover:-translate-y-1 hover:shadow-2xl md:p-8">
+            <div class="mb-5 h-52 rounded-3xl bg-gradient-to-br from-slate-900 via-slate-700 to-slate-400"></div>
+            <p class="text-sm font-medium text-slate-500">FEATURED</p>
+            <h3 class="mt-2 text-2xl font-semibold text-slate-900">Your Next Project</h3>
+            <p class="mt-3 text-sm leading-relaxed text-slate-600">
+              카드형 컴포넌트, 부드러운 블러 배경, 자연스러운 그림자로 Apple 느낌의 시각적 레이어를 만들었습니다.
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
