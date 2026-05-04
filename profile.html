@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title data-i18n-title data-i18n-ko="신현학 포트폴리오 | 프로필" data-i18n-en="Hyeonhak Shin Portfolio | Profile">
-      신현학 포트폴리오 | 프로필
+    <title data-i18n-title data-i18n-ko="Hyeonhak Shin | Profile" data-i18n-en="Hyeonhak Shin | Profile">
+      Hyeonhak Shin | Profile
     </title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -17,53 +17,83 @@
       <div id="siteHeader" data-site-header data-page="profile"></div>
 
       <main class="mt-12 space-y-7 pb-20">
-        <section class="content-panel p-7 md:p-9">
-          <p class="text-sm font-bold text-teal-700 dark:text-teal-200">Hyeonhak Shin</p>
-          <h1 class="mt-3 text-3xl font-bold md:text-5xl" data-i18n data-i18n-ko="신현학" data-i18n-en="Hyeonhak Shin">신현학</h1>
-          <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-300" data-i18n data-i18n-ko="로보틱스와 자율주행을 기반으로 시스템을 이해하고, SCADA Level2 현장 경험으로 실무 문제를 해결하는 엔지니어입니다." data-i18n-en="An engineer who understands systems through robotics and autonomous driving, and solves practical problems through SCADA Level2 field experience.">
-            로보틱스와 자율주행을 기반으로 시스템을 이해하고, SCADA Level2 현장 경험으로 실무 문제를 해결하는 엔지니어입니다.
-          </p>
+        <section class="content-panel profile-hero p-7 md:p-9">
+          <div class="profile-copy">
+            <p class="text-sm font-bold text-teal-700 dark:text-teal-200">Hyeonhak Shin</p>
+            <h1 class="mt-3 text-3xl font-bold md:text-5xl" data-i18n data-i18n-ko="신현학" data-i18n-en="Hyeonhak Shin">신현학</h1>
+            <p class="mt-4 max-w-4xl text-lg leading-8 text-slate-600 dark:text-slate-300" data-i18n data-i18n-ko="C++, Python, 로봇공학 지식을 바탕으로 자율주행과 로보틱스 발전에 기여할 수 있는 신뢰성 높은 소프트웨어 시스템을 개발하고자 합니다." data-i18n-en="I aim to contribute to autonomous driving and robotics by building reliable software systems with C++, Python, and robotics expertise.">
+              C++, Python, 로봇공학 지식을 바탕으로 자율주행과 로보틱스 발전에 기여할 수 있는 신뢰성 높은 소프트웨어 시스템을 개발하고자 합니다.
+            </p>
+            <div class="pill-list">
+              <span>C++</span>
+              <span>Python</span>
+              <span>ROS / ROS2</span>
+              <span>JavaScript</span>
+              <span>Autonomous Driving</span>
+              <span>SLAM</span>
+            </div>
+          </div>
+          <figure class="profile-photo-card">
+            <img src="assets/images/profile/hyeonhak-shin.jpg" alt="Hyeonhak Shin profile photo" class="profile-photo" />
+          </figure>
+        </section>
+
+        <section class="grid gap-6 lg:grid-cols-[0.85fr,1.15fr]">
+          <article class="content-panel p-6">
+            <h2 class="text-xl font-bold" data-i18n data-i18n-ko="연락처" data-i18n-en="Contact">연락처</h2>
+            <ul class="profile-list">
+              <li>Gwangju, Republic of Korea</li>
+              <li><a class="project-link" href="mailto:imur.navigator@gmail.com">imur.navigator@gmail.com</a></li>
+              <li><a class="project-link" href="https://github.com/Carpediem324" target="_blank" rel="noreferrer">github.com/Carpediem324</a></li>
+              <li data-i18n data-i18n-ko="한국어 Native | 영어 Business Level" data-i18n-en="Korean Native | English Business Level">한국어 Native | 영어 Business Level</li>
+            </ul>
+          </article>
+
+          <article class="content-panel p-6">
+            <h2 class="text-xl font-bold" data-i18n data-i18n-ko="경험" data-i18n-en="Experience">경험</h2>
+            <ul class="profile-list">
+              <li data-i18n data-i18n-ko="포스코DX Smart School 인턴 | 진행 중" data-i18n-en="POSCO DX Smart School Intern | In progress">포스코DX Smart School 인턴 | 진행 중</li>
+              <li data-i18n data-i18n-ko="한국원자력연구원 인턴연구원 | 2024.01 - 2024.06 | 로봇 운영 데이터 시각화 패널, Isaac Sim 기반 3D SLAM 테스트, Unitree Go1 극한 환경 실험" data-i18n-en="KAERI Research Intern | Jan 2024 - Jun 2024 | Robot operation data visualization panel, Isaac Sim 3D SLAM testing, Unitree Go1 experiments in extreme environments">한국원자력연구원 인턴연구원 | 2024.01 - 2024.06 | 로봇 운영 데이터 시각화 패널, Isaac Sim 기반 3D SLAM 테스트, Unitree Go1 극한 환경 실험</li>
+              <li data-i18n data-i18n-ko="여수시청 행정 인턴 | 2022.07 | 우정직 기본 업무 및 민원 응대" data-i18n-en="Yeosu City Hall Administrative Intern | Jul 2022 | Postal administration and civil service support">여수시청 행정 인턴 | 2022.07 | 우정직 기본 업무 및 민원 응대</li>
+            </ul>
+          </article>
         </section>
 
         <section class="grid gap-6 md:grid-cols-2">
           <article class="content-panel p-6">
-            <h2 class="text-xl font-bold" data-i18n data-i18n-ko="학력" data-i18n-en="Education">학력</h2>
-            <p class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300" data-i18n data-i18n-ko="한국기술교육대학교 컴퓨터공학부 컴퓨터공학전공 학사 (2018.03 - 2024.08)" data-i18n-en="Korea University of Technology and Education, B.S. in Computer Science and Engineering (Mar 2018 - Aug 2024)">
-              한국기술교육대학교 컴퓨터공학부 컴퓨터공학전공 학사 (2018.03 - 2024.08)
-            </p>
+            <h2 class="text-xl font-bold" data-i18n data-i18n-ko="학력 및 활동" data-i18n-en="Education & Activities">학력 및 활동</h2>
+            <ul class="profile-list">
+              <li data-i18n data-i18n-ko="한국기술교육대학교 컴퓨터공학부 스마트IoT 트랙 공학사 | 2018 - 2024 | GPA 3.50/4.5" data-i18n-en="KOREATECH, B.S. in Computer Science, Smart IoT Track | 2018 - 2024 | GPA 3.50/4.5">한국기술교육대학교 컴퓨터공학부 스마트IoT 트랙 공학사 | 2018 - 2024 | GPA 3.50/4.5</li>
+              <li data-i18n data-i18n-ko="삼성청년SW아카데미 임베디드 로봇 트랙 | 2024.07 - 2025.06" data-i18n-en="Samsung Software AI Academy for Youth, Embedded Robot Track | Jul 2024 - Jun 2025">삼성청년SW아카데미 임베디드 로봇 트랙 | 2024.07 - 2025.06</li>
+              <li data-i18n data-i18n-ko="여천고등학교 | 2015 - 2018" data-i18n-en="Yeocheon High School | 2015 - 2018">여천고등학교 | 2015 - 2018</li>
+            </ul>
           </article>
+
           <article class="content-panel p-6">
-            <h2 class="text-xl font-bold" data-i18n data-i18n-ko="관심 분야" data-i18n-en="Research Interests">관심 분야</h2>
-            <ul class="mt-4 list-disc space-y-2 pl-5 text-sm leading-7 text-slate-600 dark:text-slate-300">
-              <li data-i18n data-i18n-ko="로보틱스" data-i18n-en="Robotics">로보틱스</li>
-              <li data-i18n data-i18n-ko="자율주행" data-i18n-en="Autonomous Driving">자율주행</li>
-              <li>3D SLAM / Spatial Intelligence</li>
-              <li data-i18n data-i18n-ko="산업 자동화 및 SCADA" data-i18n-en="Industrial automation and SCADA">산업 자동화 및 SCADA</li>
+            <h2 class="text-xl font-bold" data-i18n data-i18n-ko="수상 및 성과" data-i18n-en="Awards & Achievements">수상 및 성과</h2>
+            <ul class="profile-list">
+              <li data-i18n data-i18n-ko="2023 대학생 창작모빌리티 경진대회 무인모빌리티 부문 대상 | 국토교통부 장관상" data-i18n-en="Grand Prize, Student Creative Mobility Competition 2023, Unmanned Mobility | MOLIT Minister Award">2023 대학생 창작모빌리티 경진대회 무인모빌리티 부문 대상 | 국토교통부 장관상</li>
+              <li data-i18n data-i18n-ko="삼성청년SW아카데미 성적우수상 | 2등" data-i18n-en="SSAFY Academic Excellence Award | 2nd place">삼성청년SW아카데미 성적우수상 | 2등</li>
+              <li data-i18n data-i18n-ko="삼성청년SW AI아카데미 DA사업부 연계 프로젝트 우수상 | 3등" data-i18n-en="SSAFY AI Academy DA-linked Project Excellence Award | 3rd place">삼성청년SW AI아카데미 DA사업부 연계 프로젝트 우수상 | 3등</li>
+              <li data-i18n data-i18n-ko="삼성청년SW AI아카데미 자율프로젝트 우수상 | 1등" data-i18n-en="SSAFY AI Academy Autonomous Project Excellence Award | 1st place">삼성청년SW AI아카데미 자율프로젝트 우수상 | 1등</li>
+              <li data-i18n data-i18n-ko="삼성청년SW AI아카데미 프로젝트 전시발표회 발표부문 1등" data-i18n-en="SSAFY AI Academy Project Exhibition Presentation Award | 1st place">삼성청년SW AI아카데미 프로젝트 전시발표회 발표부문 1등</li>
             </ul>
           </article>
         </section>
 
         <section class="content-panel p-6">
-          <h2 class="text-xl font-bold" data-i18n data-i18n-ko="경험" data-i18n-en="Experience">경험</h2>
-          <div class="mt-5 space-y-5 text-sm leading-7 text-slate-600 dark:text-slate-300">
-            <article>
-              <p class="font-bold text-slate-900 dark:text-slate-100">POSCO DX</p>
-              <p data-i18n data-i18n-ko="2025.08 - 현재 | 제강 공정 ISA-95 Level2(SCADA/P-C) 설계 및 운영, OPC 데이터 시뮬레이터 개발, 인터페이스 작업 지원" data-i18n-en="Aug 2025 - Present | Designed and operated ISA-95 Level2 (SCADA/P-C) for steelmaking, built an OPC data simulator, and supported interface coordination">
-                2025.08 - 현재 | 제강 공정 ISA-95 Level2(SCADA/P-C) 설계 및 운영, OPC 데이터 시뮬레이터 개발, 인터페이스 작업 지원
-              </p>
-            </article>
-            <article>
-              <p class="font-bold text-slate-900 dark:text-slate-100" data-i18n data-i18n-ko="한국원자력연구원 인턴" data-i18n-en="KAERI Intern">한국원자력연구원 인턴</p>
-              <p data-i18n data-i18n-ko="2024.01 - 2024.06 | 4족 보행 로봇 기반 3D SLAM 실험, LAPIS 데이터 시각화 패널 개발" data-i18n-en="Jan 2024 - Jun 2024 | 3D SLAM experiments with quadruped robots and LAPIS data visualization panel development">
-                2024.01 - 2024.06 | 4족 보행 로봇 기반 3D SLAM 실험, LAPIS 데이터 시각화 패널 개발
-              </p>
-            </article>
-            <article>
-              <p class="font-bold text-slate-900 dark:text-slate-100" data-i18n data-i18n-ko="여수시청 청년인턴" data-i18n-en="Yeosu City Hall Intern">여수시청 청년인턴</p>
-              <p data-i18n data-i18n-ko="2022.07 | 민원 응대와 행정 지원을 통해 커뮤니케이션 역량 강화" data-i18n-en="Jul 2022 | Improved communication through civil service response and administrative support">
-                2022.07 | 민원 응대와 행정 지원을 통해 커뮤니케이션 역량 강화
-              </p>
-            </article>
+          <h2 class="text-xl font-bold" data-i18n data-i18n-ko="자격 및 인증" data-i18n-en="Licenses & Certifications">자격 및 인증</h2>
+          <div class="grid gap-4 md:grid-cols-2">
+            <ul class="profile-list">
+              <li data-i18n data-i18n-ko="직업능력개발훈련교사 3급 | 고용노동청 | 2024.08.14" data-i18n-en="Vocational Training Teacher Grade 3 | Ministry of Employment and Labor | Aug 14, 2024">직업능력개발훈련교사 3급 | 고용노동청 | 2024.08.14</li>
+              <li data-i18n data-i18n-ko="정보처리기사 | 한국산업인력공단 | 2024.09.10" data-i18n-en="Engineer Information Processing | HRD Korea | Sep 10, 2024">정보처리기사 | 한국산업인력공단 | 2024.09.10</li>
+              <li>Microsoft Certified: Azure AI Fundamentals (AI-900) | 2023.12.06</li>
+            </ul>
+            <ul class="profile-list">
+              <li data-i18n data-i18n-ko="PCCP C++ Lv.3 | Programmers | 2025.04.20 - 2027.04.20" data-i18n-en="PCCP C++ Lv.3 | Programmers | Apr 20, 2025 - Apr 20, 2027">PCCP C++ Lv.3 | Programmers | 2025.04.20 - 2027.04.20</li>
+              <li data-i18n data-i18n-ko="워드프로세서 2급 | 대한상공회의소 | 2011.01.28" data-i18n-en="Word Processor Level 2 | Korea Chamber of Commerce and Industry | Jan 28, 2011">워드프로세서 2급 | 대한상공회의소 | 2011.01.28</li>
+              <li data-i18n data-i18n-ko="자동차운전 1종 | 전남지방경찰청 | 2018.01.05" data-i18n-en="Driver's License Class 1 | Jeonnam Provincial Police Agency | Jan 5, 2018">자동차운전 1종 | 전남지방경찰청 | 2018.01.05</li>
+            </ul>
           </div>
         </section>
       </main>

@@ -31,8 +31,8 @@ test("project page renders static project cards", async ({ page }) => {
     localStorage.setItem("portfolio-theme", "light");
   });
   await page.goto(pageUrl("projects.html"));
-  await expect(page.getByRole("heading", { name: "프로젝트" })).toBeVisible();
-  await expect(page.getByText("SCADA Level2 Data Simulator")).toBeVisible();
-  await expect(page.getByText("3D SLAM Visualization Panel")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "프로젝트", exact: true })).toBeVisible();
+  await expect(page.getByText("2023 대학생 창작모빌리티 경진대회 무인모빌리티")).toBeVisible();
+  await expect(page.getByText("무인 경비 로봇 관제 시스템 ROBOCOP")).toBeVisible();
   await expect(page.getByRole("button", { name: "GM" })).toHaveCount(0);
 });
