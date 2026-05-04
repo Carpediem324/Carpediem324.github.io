@@ -18,8 +18,9 @@ body {
 }
 
 @media (min-width: 768px) {
-  body {
-    cursor: none;
+  body.custom-cursor,
+  body.custom-cursor * {
+    cursor: none !important;
   }
 }
 
@@ -47,6 +48,7 @@ body {
 }
 
 .cursor-ring {
+  display: block;
   position: fixed;
   top: 0;
   left: 0;
@@ -62,6 +64,7 @@ body {
 }
 
 :root.dark .cursor-ring {
+  display: block;
   border-color: rgba(226, 232, 240, 0.45);
   mix-blend-mode: screen;
 }
@@ -96,6 +99,7 @@ body {
   }
 
   .cursor-ring {
+  display: block;
     display: none !important;
   }
 
@@ -145,4 +149,12 @@ body {
     padding-right: 0.8rem !important;
     font-size: 0.8rem;
   }
+}
+
+
+.cursor-ring.is-active {
+  width: 20px;
+  height: 20px;
+  background-color: rgba(56, 189, 248, 0.28);
+  border-color: rgba(2, 132, 199, 0.75);
 }

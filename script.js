@@ -2,9 +2,23 @@
   const root = document.documentElement;
   const themeButton = document.getElementById('themeButton');
   const langButton = document.getElementById('langButton');
-  const cursorRing = document.getElementById('cursorRing');
   const themeStorageKey = 'theme';
   const languageStorageKey = 'language';
+
+  const ensureCursorRing = () => {
+    if (!window.matchMedia('(min-width: 768px)').matches) return null;
+    let ring = document.getElementById('cursorRing');
+    if (!ring) {
+      ring = document.createElement('div');
+      ring.id = 'cursorRing';
+      ring.className = 'cursor-ring';
+      document.body.appendChild(ring);
+    }
+    document.body.classList.add('custom-cursor');
+    return ring;
+  };
+
+  const cursorRing = ensureCursorRing();
 
   const getInitialTheme = () => {
     const savedTheme = localStorage.getItem(themeStorageKey);
@@ -73,37 +87,16 @@
     applyTheme(root.classList.contains('dark') ? 'dark' : 'light');
   };
 
-  const initReveal = () => {
-    const revealTargets = document.querySelectorAll('[data-reveal]');
-    if (!revealTargets.length) return;
-
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      revealTargets.forEach((el) => el.classList.add('is-visible'));
-      return;
-    }
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
-      });
-    }, { threshold: 0.12 });
-
-    revealTargets.forEach((el) => observer.observe(el));
-  };
-
   const initCursorRing = () => {
-    if (!cursorRing || !window.matchMedia('(min-width: 768px)').matches) return;
-    const interactiveItems = document.querySelectorAll('a, button, .interactive');
+    if (!cursorRing) return;
     let pointerX = window.innerWidth / 2;
     let pointerY = window.innerHeight / 2;
     let ringX = pointerX;
     let ringY = pointerY;
 
     const animateRing = () => {
-      ringX += (pointerX - ringX) * 0.15;
-      ringY += (pointerY - ringY) * 0.15;
+      ringX += (pointerX - ringX) * 0.16;
+      ringY += (pointerY - ringY) * 0.16;
       cursorRing.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
       requestAnimationFrame(animateRing);
     };
@@ -111,12 +104,12 @@
     window.addEventListener('pointermove', (event) => {
       pointerX = event.clientX;
       pointerY = event.clientY;
+      const interactive = event.target.closest('a, button, input, textarea, select, [role="button"], .interactive');
+      cursorRing.classList.toggle('is-hover', Boolean(interactive));
     });
 
-    interactiveItems.forEach((el) => {
-      el.addEventListener('pointerenter', () => cursorRing.classList.add('is-hover'));
-      el.addEventListener('pointerleave', () => cursorRing.classList.remove('is-hover'));
-    });
+    window.addEventListener('pointerdown', () => cursorRing.classList.add('is-active'));
+    window.addEventListener('pointerup', () => cursorRing.classList.remove('is-active'));
 
     animateRing();
   };
@@ -127,6 +120,5 @@
   themeButton?.addEventListener('click', () => applyTheme(root.classList.contains('dark') ? 'light' : 'dark'));
   langButton?.addEventListener('click', () => applyLanguage(root.lang === 'ko' ? 'en' : 'ko'));
 
-  initReveal();
   initCursorRing();
 })();

@@ -3,78 +3,46 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Carpediem Portfolio · Profile</title>
+    <title data-i18n-title data-i18n-ko="신현학 포트폴리오 · 자기소개" data-i18n-en="Hyeonhak Shin Portfolio · Profile">신현학 포트폴리오 · 자기소개</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = { darkMode: "class" };
-    </script>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body class="min-h-screen bg-slate-50 text-slate-800 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100">
     <div class="mx-auto max-w-6xl px-6 py-6 md:px-8">
       <header class="flex items-center justify-between">
-        <a href="/" class="text-sm font-semibold tracking-[0.2em] text-slate-500 dark:text-slate-400">CARPEDIEM</a>
+        <a href="/" class="interactive text-sm font-semibold tracking-[0.2em] text-slate-500 dark:text-slate-400">CARPEDIEM</a>
         <div class="flex gap-2">
-          <a href="/projects.html" class="rounded-full border border-slate-300 px-4 py-2 text-sm dark:border-slate-700">프로젝트</a>
-          <button id="langButton" class="control-btn rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold dark:border-slate-700">EN</button>
-          <button id="themeButton" data-theme-label-dark-ko="다크 모드" data-theme-label-light-ko="라이트 모드" data-theme-label-dark-en="Dark mode" data-theme-label-light-en="Light mode" class="control-btn rounded-full border border-slate-300 px-4 py-2 text-sm dark:border-slate-700">다크 모드</button>
+          <a href="/projects.html" class="interactive rounded-full border border-slate-300 px-4 py-2 text-sm dark:border-slate-700" data-i18n data-i18n-ko="프로젝트" data-i18n-en="Projects">프로젝트</a>
+          <button id="langButton" class="interactive control-btn rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold dark:border-slate-700">EN</button>
+          <button id="themeButton" data-theme-label-dark-ko="다크 모드" data-theme-label-light-ko="라이트 모드" data-theme-label-dark-en="Dark mode" data-theme-label-light-en="Light mode" class="interactive control-btn rounded-full border border-slate-300 px-4 py-2 text-sm dark:border-slate-700">다크 모드</button>
         </div>
       </header>
 
-      <main class="mt-12 space-y-10">
+      <main class="mt-12 space-y-8">
         <section class="rounded-3xl border border-slate-200 bg-white p-7 dark:border-slate-800 dark:bg-slate-900">
           <h1 class="text-3xl font-semibold md:text-5xl">Hyeonhak Shin</h1>
-          <p class="mt-3 text-lg text-slate-600 dark:text-slate-300"><span data-i18n data-i18n-ko="로봇 엔지니어로 성장 중인 P/C 엔지니어" data-i18n-en="P/C Engineer transitioning to Robot Engineer">로봇 엔지니어로 성장 중인 P/C 엔지니어</span></p>
-          <div class="mt-6 grid gap-2 text-sm text-slate-600 dark:text-slate-300">
-            <p><span class="font-semibold text-slate-800 dark:text-slate-100">Company:</span> POSCO DX</p>
-            <p><span class="font-semibold text-slate-800 dark:text-slate-100">Address:</span> 20, Taein 4-gil, Gwangyang-si, Jeollanam-do, South Korea</p>
-            <p><span class="font-semibold text-slate-800 dark:text-slate-100">Email:</span> imur.navigator@gmail.com</p>
-            <p><span class="font-semibold text-slate-800 dark:text-slate-100">Phone:</span> +82 10-5687-0661</p>
-            <p><span class="font-semibold text-slate-800 dark:text-slate-100">GitHub:</span> <a class="underline" href="https://github.com/Carpediem324" target="_blank" rel="noreferrer">https://github.com/Carpediem324</a></p>
-          </div>
+          <p class="mt-3 text-lg text-slate-600 dark:text-slate-300" data-i18n data-i18n-ko="로보틱스·자율주행 중심의 SCADA(Level2) 엔지니어" data-i18n-en="SCADA(Level2) engineer focused on robotics & autonomous driving">로보틱스·자율주행 중심의 SCADA(Level2) 엔지니어</p>
         </section>
 
         <section class="grid gap-6 md:grid-cols-2">
           <article class="rounded-3xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
-            <h2 class="text-xl font-semibold">Education</h2>
-            <ul class="mt-4 space-y-3 text-sm text-slate-600 dark:text-slate-300">
-              <li>
-                <p class="font-semibold text-slate-800 dark:text-slate-100">Korea University of Technology and Education</p>
-                <p>School of Computer Science and Engineering (Mar. 2018 – Aug. 2024), Cheonan, Korea</p>
-                <p>Thesis: Development of an AI-powered mock interview platform with Speech-to-Text (STT) capabilities</p>
-                <p>B.S. in Computer Science and Engineering / GPA: 3.5 / 4.5</p>
-              </li>
-            </ul>
+            <h2 class="text-xl font-semibold" data-i18n data-i18n-ko="학력" data-i18n-en="Education">학력</h2>
+            <p class="mt-4 text-sm text-slate-600 dark:text-slate-300" data-i18n data-i18n-ko="한국기술교육대학교 컴퓨터공학부 (2018.03 ~ 2024.08), 컴퓨터공학 학사" data-i18n-en="Korea University of Technology and Education, B.S. in Computer Science and Engineering (Mar 2018 - Aug 2024)">한국기술교육대학교 컴퓨터공학부 (2018.03 ~ 2024.08), 컴퓨터공학 학사</p>
           </article>
-
           <article class="rounded-3xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
-            <h2 class="text-xl font-semibold">Research Interests</h2>
+            <h2 class="text-xl font-semibold" data-i18n data-i18n-ko="연구 관심사" data-i18n-en="Research Interests">연구 관심사</h2>
             <ul class="mt-4 list-disc space-y-2 pl-5 text-sm text-slate-600 dark:text-slate-300">
-              <li>Physical AI</li>
-              <li>Robotics</li>
-              <li>Spatial Intelligence</li>
-              <li>Autonomous Driving</li>
+              <li data-i18n data-i18n-ko="로보틱스" data-i18n-en="Robotics">로보틱스</li><li data-i18n data-i18n-ko="자율주행" data-i18n-en="Autonomous Driving">자율주행</li><li data-i18n data-i18n-ko="3D SLAM / Spatial Intelligence" data-i18n-en="3D SLAM / Spatial Intelligence">3D SLAM / Spatial Intelligence</li>
             </ul>
           </article>
         </section>
 
         <section class="rounded-3xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
-          <h2 class="text-xl font-semibold">Experience</h2>
-          <ul class="mt-4 space-y-4 text-sm text-slate-600 dark:text-slate-300">
-            <li><span class="font-semibold text-slate-800 dark:text-slate-100">Research Student, Smart Unmanned Vehicle Lab (KIST)</span> (Jun. 2023 – Aug. 2023): Developed Gazebo camera module for UGV and ported EGO-Swarm code to ROS2.</li>
-            <li><span class="font-semibold text-slate-800 dark:text-slate-100">Research Intern, Robot Application Research Division (KAERI)</span> (Jan. 2024 – Jun. 2024): Robot web panel developer and SLAM performance test engineer.</li>
-            <li><span class="font-semibold text-slate-800 dark:text-slate-100">P/C Engineer, Iron Steel Making DX Section (POSCO DX)</span> (Aug. 2025 – Present): Process Computer (P/C) system design at Gwangyang Steelworks.</li>
-          </ul>
-        </section>
-
-        <section class="rounded-3xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
-          <h2 class="text-xl font-semibold">Awards & Honors</h2>
-          <ul class="mt-4 list-disc space-y-2 pl-5 text-sm text-slate-600 dark:text-slate-300">
-            <li>Grand Prize, Unmanned Mobility Category, 2023 University Creative Mobility Competition (Oct. 2023)</li>
-            <li>Excellence Award (2nd Place), Embedded Robotics Track, Samsung SW AI Academy for Youth (Nov. 2024)</li>
-            <li>Excellence Award (3rd Place), Samsung Electronics DA Division – SSAFY Joint Project (Apr. 2025)</li>
-            <li>Excellence Award (1st Place), Autonomous Project, Samsung SW AI Academy for Youth (May. 2025)</li>
-            <li>1st Place, Project Exhibition & Presentation Competition, Samsung SW AI Academy for Youth (Jun. 2025)</li>
+          <h2 class="text-xl font-semibold" data-i18n data-i18n-ko="경력 요약" data-i18n-en="Experience">경력 요약</h2>
+          <ul class="mt-4 space-y-3 text-sm text-slate-600 dark:text-slate-300">
+            <li data-i18n data-i18n-ko="POSCO DX (2025.08~현재): 광양제철소 제강공정 ISA-95 Level2(SCADA/P-C) 설계·운영, OPC 데이터 시뮬레이터 개발 및 인터페이스 협업" data-i18n-en="POSCO DX (Aug 2025 - Present): Designed and operated ISA-95 Level2 (SCADA/P-C) for steelmaking, built an OPC data simulator, and supported interface coordination">POSCO DX (2025.08~현재): 광양제철소 제강공정 ISA-95 Level2(SCADA/P-C) 설계·운영, OPC 데이터 시뮬레이터 개발 및 인터페이스 협업</li>
+            <li data-i18n data-i18n-ko="한국원자력연구원 인턴 (2024.01~2024.06): 4족보행 로봇 기반 3D SLAM 실험, LAPIS 데이터 시각화 패널 개발" data-i18n-en="KAERI Intern (Jan 2024 - Jun 2024): 3D SLAM experiments with quadruped robots and LAPIS data visualization panel development">한국원자력연구원 인턴 (2024.01~2024.06): 4족보행 로봇 기반 3D SLAM 실험, LAPIS 데이터 시각화 패널 개발</li>
+            <li data-i18n data-i18n-ko="여수시청 청년인턴 (2022.07): 민원 응대와 행정 지원으로 커뮤니케이션 역량 강화" data-i18n-en="Yeosu City Hall Intern (Jul 2022): Improved communication through civil service response and administrative support">여수시청 청년인턴 (2022.07): 민원 응대와 행정 지원으로 커뮤니케이션 역량 강화</li>
           </ul>
         </section>
       </main>
