@@ -28,7 +28,7 @@ body {
   position: absolute;
   width: min(40vw, 520px);
   aspect-ratio: 1;
-  border-radius: 9999px;
+  border-radius: 58% 42% 62% 38% / 45% 57% 43% 55%;
   filter: blur(70px);
   opacity: 0.42;
   animation: floatGlow 14s ease-in-out infinite;
@@ -55,11 +55,12 @@ body {
   width: 26px;
   height: 26px;
   border: 1px solid rgba(15, 23, 42, 0.38);
-  border-radius: 9999px;
+  border-radius: 58% 42% 62% 38% / 45% 57% 43% 55%;
   transform: translate3d(-50%, -50%, 0);
   pointer-events: none;
   z-index: 60;
-  transition: width 200ms ease, height 200ms ease, border-color 200ms ease, background-color 200ms ease;
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.08), 0 10px 26px -12px rgba(14, 116, 144, 0.45);
+  transition: width 200ms ease, height 200ms ease, border-color 200ms ease, background-color 200ms ease, border-radius 220ms ease;
   mix-blend-mode: multiply;
 }
 
@@ -70,8 +71,9 @@ body {
 }
 
 .cursor-ring.is-hover {
-  width: 46px;
-  height: 46px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   border-color: rgba(14, 116, 144, 0.6);
   background-color: rgba(125, 211, 252, 0.16);
 }
@@ -99,7 +101,6 @@ body {
   }
 
   .cursor-ring {
-  display: block;
     display: none !important;
   }
 
@@ -126,7 +127,7 @@ body {
   align-items: center;
   justify-content: center;
   white-space: nowrap;
-  border-radius: 9999px;
+  border-radius: 58% 42% 62% 38% / 45% 57% 43% 55%;
   font-weight: 600;
   letter-spacing: 0.01em;
   backdrop-filter: saturate(160%) blur(10px);
@@ -157,4 +158,9 @@ body {
   height: 20px;
   background-color: rgba(56, 189, 248, 0.28);
   border-color: rgba(2, 132, 199, 0.75);
+}
+
+:where(a, button, input, textarea, select):focus-visible {
+  outline: 2px solid rgb(14 165 233);
+  outline-offset: 2px;
 }
