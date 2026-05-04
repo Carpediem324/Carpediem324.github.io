@@ -200,8 +200,8 @@ const PROJECTS = [
     summaryEn:
       "A disaster exploration robot project focused on reinforcement learning for a hexapod robot in NVIDIA Isaac Sim and managing/publishing multi-sensor driver data.",
     stack: "NVIDIA Isaac Sim, Reinforcement Learning, Sensor Drivers",
-    outcomeKo: "진행 프로젝트",
-    outcomeEn: "In progress",
+    outcomeKo: "SSAFY 자율 프로젝트 전체 1등",
+    outcomeEn: "SSAFY Autonomous Project Grand Prize(1st Place)",
     images: ["assets/images/projects/gaemi-1.jpg", "assets/images/projects/gaemi-2.jpg", "assets/images/projects/gaemi-3.jpg"],
     links: [],
   },
