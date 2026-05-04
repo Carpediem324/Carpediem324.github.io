@@ -46,8 +46,22 @@ test("project page renders static project cards", async ({ page }) => {
   await page.goto(pageUrl("projects.html"));
   await expect(page.getByRole("heading", { name: "프로젝트", exact: true })).toBeVisible();
   await expect(page.locator(".project-card")).toHaveCount(10);
+  await expect(page.locator(".project-media-button")).toHaveCount(8);
+  await expect(page.locator(".project-image-fallback")).toHaveCount(2);
+  await expect(page.locator(".project-media-controls")).toHaveCount(4);
   await expect(page.getByText("2023 대학생 창작모빌리티 경진대회 무인모빌리티")).toBeVisible();
   await expect(page.getByText("무인 경비 로봇 관제 시스템 ROBOCOP")).toBeVisible();
   await expect(page.getByText("재난지역탐사로봇 GAEMI")).toBeVisible();
   await expect(page.getByRole("button", { name: "GM" })).toHaveCount(0);
+
+  const kaeriCard = page.locator(".project-card", { hasText: "KAERI" });
+  await expect(kaeriCard.locator(".project-media-count")).toHaveText("1 / 2");
+  await kaeriCard.getByRole("button", { name: "Next image" }).click();
+  await expect(kaeriCard.locator(".project-media-count")).toHaveText("2 / 2");
+
+  await kaeriCard.locator(".project-media-button").click();
+  await expect(page.locator(".image-modal.is-open")).toBeVisible();
+  await expect(page.locator(".image-modal__image")).toBeVisible();
+  await page.getByRole("button", { name: "Close image" }).click();
+  await expect(page.locator(".image-modal.is-open")).toHaveCount(0);
 });

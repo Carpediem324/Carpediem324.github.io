@@ -317,6 +317,16 @@ body > .mx-auto {
   position: relative;
 }
 
+.project-media-button {
+  background: transparent;
+  border: 0;
+  cursor: zoom-in;
+  display: block;
+  height: 100%;
+  padding: 0;
+  width: 100%;
+}
+
 .project-image {
   height: 100%;
   object-fit: cover;
@@ -325,6 +335,51 @@ body > .mx-auto {
   z-index: 1;
 }
 
+.project-media-controls {
+  align-items: center;
+  bottom: 0.75rem;
+  display: flex;
+  gap: 0.45rem;
+  left: 50%;
+  padding: 0.25rem;
+  position: absolute;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.project-media-nav,
+.image-modal__nav,
+.image-modal__close {
+  align-items: center;
+  backdrop-filter: blur(16px);
+  background: rgba(15, 23, 42, 0.64);
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  border-radius: 999px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 1.35rem;
+  font-weight: 800;
+  height: 2.35rem;
+  justify-content: center;
+  line-height: 1;
+  width: 2.35rem;
+}
+
+.project-media-count {
+  backdrop-filter: blur(16px);
+  background: rgba(15, 23, 42, 0.58);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  min-width: 3.2rem;
+  padding: 0.42rem 0.62rem;
+  text-align: center;
+}
+
+.project-image.is-missing,
 .project-image:not([src]),
 .project-image[src=""] {
   display: none;
@@ -358,6 +413,80 @@ body > .mx-auto {
   font-size: 0.82rem;
   font-weight: 900;
   max-width: 82%;
+}
+
+.modal-open {
+  overflow: hidden;
+}
+
+.image-modal {
+  align-items: center;
+  display: none;
+  inset: 0;
+  justify-content: center;
+  padding: clamp(1rem, 4vw, 2.5rem);
+  position: fixed;
+  z-index: 50;
+}
+
+.image-modal.is-open {
+  display: flex;
+}
+
+.image-modal__backdrop {
+  background: rgba(2, 6, 23, 0.78);
+  inset: 0;
+  position: absolute;
+}
+
+.image-modal__dialog {
+  display: grid;
+  max-height: 92vh;
+  max-width: min(1100px, 94vw);
+  place-items: center;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+}
+
+.image-modal__image {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 24px 80px -24px rgba(0, 0, 0, 0.7);
+  max-height: 84vh;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.image-modal__close {
+  position: absolute;
+  right: -0.75rem;
+  top: -0.75rem;
+  z-index: 2;
+}
+
+.image-modal__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.image-modal__nav--prev {
+  left: 0.75rem;
+}
+
+.image-modal__nav--next {
+  right: 0.75rem;
+}
+
+.image-modal__caption {
+  color: #fff;
+  font-size: 0.88rem;
+  font-weight: 700;
+  margin-top: 0.8rem;
+  text-align: center;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.6);
 }
 
 .project-card__body {

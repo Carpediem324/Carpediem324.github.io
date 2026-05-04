@@ -16,7 +16,7 @@ const PROJECTS = [
     stack: "RTK GPS, IMU, WGS-84, UTM, JOSM",
     outcomeKo: "대상 | 국토교통부 장관상",
     outcomeEn: "Grand Prize | MOLIT Minister Award",
-    image: "assets/images/projects/creative-mobility-2023.jpg",
+    images: ["assets/images/projects/creative-mobility-2023.jpg"],
     links: [
       { label: "Video", href: "https://www.youtube.com/live/g-u4luKR8nU?si=1tMJbcV1_7eGXlJx&t=16490" },
       { label: "Article", href: "https://www.yna.co.kr/view/AKR20231017031600003" },
@@ -39,7 +39,7 @@ const PROJECTS = [
     stack: "Jetson Nano, OpenCV, HSV, C++",
     outcomeKo: "라인 감지 및 주행 제어 구현",
     outcomeEn: "Line detection and vehicle control",
-    image: "assets/images/projects/nanosaur-line-tracing.jpg",
+    images: [],
     links: [{ label: "GitHub", href: "https://github.com/Carpediem324/nanosaur_robotprogramming" }],
   },
   {
@@ -59,7 +59,7 @@ const PROJECTS = [
     stack: "WebRTC, ROS, roslib.js, Ngrok",
     outcomeKo: "대한민국 과학축제 KAERI 부스 전시",
     outcomeEn: "Displayed at KAERI booth, Korea Science Festival",
-    image: "assets/images/projects/kaeri-rover-panel.jpg",
+    images: ["assets/images/projects/kaeri-rover-panel-1.jpg", "assets/images/projects/kaeri-rover-panel-2.jpg"],
     links: [],
   },
   {
@@ -79,7 +79,7 @@ const PROJECTS = [
     stack: "ROS1, ROS2, HDL Graph SLAM, Isaac Sim, Unitree Go1, PyQtGraph",
     outcomeKo: "실내 SLAM 평가 파이프라인 구축",
     outcomeEn: "Indoor SLAM evaluation pipeline",
-    image: "assets/images/projects/indoor-slam-evaluation.jpg",
+    images: ["assets/images/projects/indoor-slam-evaluation.jpg"],
     links: [],
   },
   {
@@ -99,7 +99,7 @@ const PROJECTS = [
     stack: "Firebase, JavaScript, STT, OpenAI API, Prompt Engineering",
     outcomeKo: "실시간 면접 연습 웹 서비스 구현",
     outcomeEn: "Real-time interview practice web service",
-    image: "assets/images/projects/mock-interview-stt.jpg",
+    images: ["assets/images/projects/mock-interview-stt.jpg"],
     links: [
       { label: "GitHub", href: "https://github.com/toodox/kut_stt" },
       { label: "Web", href: "https://koreatechsttmockinterview.web.app" },
@@ -122,7 +122,7 @@ const PROJECTS = [
     stack: "LangChain, Upstage, Solar, Chroma DB, RAG",
     outcomeKo: "뉴스 기반 질의응답 RAG 서비스",
     outcomeEn: "News-grounded RAG Q&A service",
-    image: "assets/images/projects/rag-chatbot.jpg",
+    images: ["assets/images/projects/rag-chatbot.jpg"],
     links: [{ label: "GitHub", href: "https://github.com/haerim-kweon/newchats" }],
   },
   {
@@ -142,7 +142,7 @@ const PROJECTS = [
     stack: "ROS, RoboDK, YOLOv8, Raspberry Pi, Socket",
     outcomeKo: "Sim-to-Real-to-Sim 제어 흐름 구현",
     outcomeEn: "Sim-to-Real-to-Sim control flow",
-    image: "assets/images/projects/dobot-magician.jpg",
+    images: [],
     links: [{ label: "GitHub", href: "https://github.com/Carpediem324/ssafy_project" }],
   },
   {
@@ -162,7 +162,7 @@ const PROJECTS = [
     stack: "ROS2, WebSocket, 3D LiDAR, A*, Pure Pursuit",
     outcomeKo: "무인 경비 로봇 관제/자율주행 시뮬레이션",
     outcomeEn: "Security robot control and autonomous driving simulation",
-    image: "assets/images/projects/robocop.jpg",
+    images: ["assets/images/projects/robocop-1.jpg", "assets/images/projects/robocop-2.jpg"],
     links: [{ label: "GitHub", href: "https://github.com/Carpediem324/robocop_pjt.git" }],
   },
   {
@@ -182,7 +182,7 @@ const PROJECTS = [
     stack: "Raspberry Pi 5, Docker, MQTT, PulseAudio, Keyword Spotting",
     outcomeKo: "SSAFY DA 연계 프로젝트 우수상",
     outcomeEn: "SSAFY DA-linked Project Excellence Award",
-    image: "assets/images/projects/voice-assistant.jpg",
+    images: ["assets/images/projects/voice-assistant-1.jpg", "assets/images/projects/voice-assistant-2.jpg"],
     links: [],
   },
   {
@@ -202,7 +202,7 @@ const PROJECTS = [
     stack: "NVIDIA Isaac Sim, Reinforcement Learning, Sensor Drivers",
     outcomeKo: "진행 프로젝트",
     outcomeEn: "In progress",
-    image: "assets/images/projects/gaemi.jpg",
+    images: ["assets/images/projects/gaemi-1.jpg", "assets/images/projects/gaemi-2.jpg", "assets/images/projects/gaemi-3.jpg"],
     links: [],
   },
 ];
@@ -450,11 +450,23 @@ class ProjectManager {
   constructor(root) {
     this.root = root;
     this.container = document.getElementById("projectsContainer");
+    this.modal = null;
+    this.modalImage = null;
+    this.modalCaption = null;
+    this.modalPrev = null;
+    this.modalNext = null;
+    this.activeImages = [];
+    this.activeImageIndex = 0;
   }
 
   getValue(project, key) {
     const suffix = this.root.lang === "en" ? "En" : "Ko";
     return project[`${key}${suffix}`] || project[`${key}Ko`] || "";
+  }
+
+  getImages(project) {
+    if (Array.isArray(project.images)) return project.images;
+    return project.image ? [project.image] : [];
   }
 
   projectCard(project) {
@@ -470,15 +482,30 @@ class ProjectManager {
       .map((part) => part[0])
       .join("")
       .toUpperCase();
+    const images = this.getImages(project);
     const imageText = this.root.lang === "en" ? "Visual reference" : "프로젝트 이미지";
     const visualText = project.visual || project.stack.split(",").slice(0, 2).join(" / ");
-    const imageHtml = `<div class="project-image-wrap">
+    const imageHtml = images.length
+      ? `<div class="project-image-wrap" data-project-id="${project.id}" data-image-index="0">
+      <button class="project-media-button" type="button" aria-label="${title} image open">
+        <img src="${images[0]}" alt="${title}" class="project-image" loading="lazy">
+      </button>
+      ${
+        images.length > 1
+          ? `<div class="project-media-controls" aria-label="${title} image controls">
+        <button class="project-media-nav" type="button" data-direction="-1" aria-label="Previous image">‹</button>
+        <span class="project-media-count">1 / ${images.length}</span>
+        <button class="project-media-nav" type="button" data-direction="1" aria-label="Next image">›</button>
+      </div>`
+          : ""
+      }
+    </div>`
+      : `<div class="project-image-wrap">
       <div class="project-image-fallback">
         <span>${initials}</span>
         <small>${imageText}</small>
         <strong>${visualText}</strong>
       </div>
-      <img src="${project.image}" alt="${title}" class="project-image" loading="lazy">
     </div>`;
     const links = (project.links || [])
       .map(
@@ -510,11 +537,106 @@ class ProjectManager {
   render() {
     if (!this.container) return;
     this.container.innerHTML = PROJECTS.map((project) => this.projectCard(project)).join("");
+    this.container.querySelectorAll(".project-image").forEach((image) => {
+      image.addEventListener("error", () => image.classList.add("is-missing"), { once: true });
+    });
+    this.container.querySelectorAll(".project-media-button").forEach((button) => {
+      button.addEventListener("click", () => this.openFromCard(button.closest(".project-image-wrap")));
+    });
+    this.container.querySelectorAll(".project-media-nav").forEach((button) => {
+      button.addEventListener("click", (event) => {
+        event.stopPropagation();
+        this.changeCardImage(button.closest(".project-image-wrap"), Number(button.dataset.direction));
+      });
+    });
   }
 
   init() {
     if (!this.container) return;
+    this.setupModal();
     this.render();
+  }
+
+  findProject(id) {
+    return PROJECTS.find((project) => project.id === id);
+  }
+
+  changeCardImage(wrap, direction) {
+    const project = this.findProject(wrap?.dataset.projectId);
+    if (!project) return;
+    const images = this.getImages(project);
+    if (images.length < 2) return;
+    const nextIndex = (Number(wrap.dataset.imageIndex || 0) + direction + images.length) % images.length;
+    const image = wrap.querySelector(".project-image");
+    const count = wrap.querySelector(".project-media-count");
+    wrap.dataset.imageIndex = String(nextIndex);
+    if (image) image.src = images[nextIndex];
+    if (count) count.textContent = `${nextIndex + 1} / ${images.length}`;
+  }
+
+  openFromCard(wrap) {
+    const project = this.findProject(wrap?.dataset.projectId);
+    if (!project) return;
+    this.activeImages = this.getImages(project);
+    this.activeImageIndex = Number(wrap.dataset.imageIndex || 0);
+    this.updateModal(this.getValue(project, "title"));
+    this.modal.classList.add("is-open");
+    document.body.classList.add("modal-open");
+  }
+
+  setupModal() {
+    if (this.modal) return;
+    this.modal = document.createElement("div");
+    this.modal.className = "image-modal";
+    this.modal.setAttribute("aria-hidden", "true");
+    this.modal.innerHTML = `<div class="image-modal__backdrop" data-close-modal></div>
+      <div class="image-modal__dialog" role="dialog" aria-modal="true" aria-label="Project image preview">
+        <button class="image-modal__close" type="button" data-close-modal aria-label="Close image">×</button>
+        <button class="image-modal__nav image-modal__nav--prev" type="button" data-modal-direction="-1" aria-label="Previous image">‹</button>
+        <img class="image-modal__image" alt="">
+        <button class="image-modal__nav image-modal__nav--next" type="button" data-modal-direction="1" aria-label="Next image">›</button>
+        <p class="image-modal__caption"></p>
+      </div>`;
+    document.body.appendChild(this.modal);
+    this.modalImage = this.modal.querySelector(".image-modal__image");
+    this.modalCaption = this.modal.querySelector(".image-modal__caption");
+    this.modalPrev = this.modal.querySelector(".image-modal__nav--prev");
+    this.modalNext = this.modal.querySelector(".image-modal__nav--next");
+    this.modal.querySelectorAll("[data-close-modal]").forEach((button) => {
+      button.addEventListener("click", () => this.closeModal());
+    });
+    this.modal.querySelectorAll("[data-modal-direction]").forEach((button) => {
+      button.addEventListener("click", () => this.changeModalImage(Number(button.dataset.modalDirection)));
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && this.modal.classList.contains("is-open")) this.closeModal();
+    });
+  }
+
+  updateModal(title) {
+    const image = this.activeImages[this.activeImageIndex];
+    if (!image) return;
+    this.modal.setAttribute("aria-hidden", "false");
+    this.modalImage.src = image;
+    this.modalImage.alt = title;
+    this.modalCaption.textContent =
+      this.activeImages.length > 1 ? `${title} · ${this.activeImageIndex + 1} / ${this.activeImages.length}` : title;
+    const hasMultiple = this.activeImages.length > 1;
+    this.modalPrev.hidden = !hasMultiple;
+    this.modalNext.hidden = !hasMultiple;
+  }
+
+  changeModalImage(direction) {
+    if (this.activeImages.length < 2) return;
+    this.activeImageIndex = (this.activeImageIndex + direction + this.activeImages.length) % this.activeImages.length;
+    this.updateModal(this.modalImage.alt);
+  }
+
+  closeModal() {
+    this.modal.classList.remove("is-open");
+    this.modal.setAttribute("aria-hidden", "true");
+    this.modalImage.removeAttribute("src");
+    document.body.classList.remove("modal-open");
   }
 }
 
