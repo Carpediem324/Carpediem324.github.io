@@ -14,6 +14,7 @@ test("home page toggles theme and language", async ({ page }) => {
   });
   await page.goto(pageUrl("index.html"));
   await expect(page.getByRole("heading", { name: "현장 문제를 데이터와 소프트웨어로 풀어내는 엔지니어" })).toBeVisible();
+  await expect(page.locator("[data-weather-label]")).toContainText("서울 기준");
 
   const initialTheme = await page.locator("html").evaluate((el) => el.classList.contains("dark"));
   await page.getByRole("button", { name: "Theme toggle" }).click();

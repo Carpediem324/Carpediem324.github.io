@@ -207,11 +207,11 @@ const PROJECTS = [
   },
 ];
 
-const WEATHER_FALLBACK = {
-  latitude: 35.1595,
-  longitude: 126.8526,
-  labelKo: "광주 기준",
-  labelEn: "Gwangju fallback",
+const WEATHER_LOCATION = {
+  latitude: 37.5665,
+  longitude: 126.978,
+  labelKo: "서울 기준",
+  labelEn: "Seoul",
 };
 
 class HeaderComponent {
@@ -348,8 +348,8 @@ class WeatherScene {
       type: "clear",
       code: 0,
       temperature: null,
-      locationKo: WEATHER_FALLBACK.labelKo,
-      locationEn: WEATHER_FALLBACK.labelEn,
+      locationKo: WEATHER_LOCATION.labelKo,
+      locationEn: WEATHER_LOCATION.labelEn,
     };
   }
 
@@ -381,33 +381,11 @@ class WeatherScene {
     return "clear";
   }
 
-  getCoords() {
-    return new Promise((resolve) => {
-      if (!navigator.geolocation) {
-        resolve(WEATHER_FALLBACK);
-        return;
-      }
-
-      navigator.geolocation.getCurrentPosition(
-        (position) =>
-          resolve({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            labelKo: "현재 위치 기준",
-            labelEn: "Current location",
-          }),
-        () => resolve(WEATHER_FALLBACK),
-        { enableHighAccuracy: false, timeout: 2200, maximumAge: 1000 * 60 * 30 },
-      );
-    });
-  }
-
   async load() {
     try {
-      const coords = await this.getCoords();
       const params = new URLSearchParams({
-        latitude: String(coords.latitude),
-        longitude: String(coords.longitude),
+        latitude: String(WEATHER_LOCATION.latitude),
+        longitude: String(WEATHER_LOCATION.longitude),
         current: "temperature_2m,weather_code,is_day,precipitation,rain,snowfall",
         timezone: "auto",
       });
@@ -421,8 +399,8 @@ class WeatherScene {
         type: this.getType(code),
         code,
         temperature: Number.isFinite(current.temperature_2m) ? Math.round(current.temperature_2m) : null,
-        locationKo: coords.labelKo,
-        locationEn: coords.labelEn,
+        locationKo: WEATHER_LOCATION.labelKo,
+        locationEn: WEATHER_LOCATION.labelEn,
       };
       this.apply();
     } catch {
