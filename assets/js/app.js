@@ -252,7 +252,7 @@ class HeaderComponent {
         ${links}
         <span class="utility-actions">
           <button id="langButton" type="button" aria-label="Language toggle" class="interactive utility-btn utility-btn--lang">EN</button>
-          <button id="themeButton" type="button" aria-label="Theme toggle" class="interactive utility-btn utility-btn--theme" data-theme-icon-dark="☾" data-theme-icon-light="☀">☾</button>
+          <button id="themeButton" type="button" aria-label="Theme toggle" class="interactive utility-btn utility-btn--theme" data-theme-icon-dark="☾" data-theme-icon-light="☼">☾</button>
         </span>
       </nav>
     </header>`;
@@ -470,11 +470,13 @@ class ProjectManager {
       .map((part) => part[0])
       .join("")
       .toUpperCase();
-    const imageText = this.root.lang === "en" ? "Add image file" : "이미지 준비 중";
+    const imageText = this.root.lang === "en" ? "Visual reference" : "프로젝트 이미지";
+    const visualText = project.visual || project.stack.split(",").slice(0, 2).join(" / ");
     const imageHtml = `<div class="project-image-wrap">
       <div class="project-image-fallback">
         <span>${initials}</span>
         <small>${imageText}</small>
+        <strong>${visualText}</strong>
       </div>
       <img src="${project.image}" alt="${title}" class="project-image" loading="lazy">
     </div>`;

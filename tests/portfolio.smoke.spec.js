@@ -32,7 +32,10 @@ test("profile page shows framed profile photo", async ({ page }) => {
   });
   await page.goto(pageUrl("profile.html"));
   await expect(page.getByRole("heading", { name: "신현학" })).toBeVisible();
+  await expect(page.getByText("대한민국, 여수시")).toBeVisible();
   await expect(page.getByAltText("Hyeonhak Shin profile photo")).toBeVisible();
+  await page.getByRole("button", { name: "Language toggle" }).click();
+  await expect(page.getByText("Yeosu, Republic of Korea")).toBeVisible();
 });
 
 test("project page renders static project cards", async ({ page }) => {
