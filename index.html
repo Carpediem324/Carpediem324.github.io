@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Carpediem Portfolio · Main</title>
+    <meta
+      name="description"
+      content="기획부터 구현, 개선까지 문제 해결 중심으로 정리한 Carpediem 포트폴리오 메인 페이지"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -23,7 +27,7 @@
               ],
             },
             boxShadow: {
-              soft: "0 24px 64px -24px rgba(15, 23, 42, 0.3)",
+              soft: "0 24px 64px -24px rgba(15, 23, 42, 0.28)",
             },
           },
         },
@@ -32,32 +36,40 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body class="min-h-screen bg-slate-50 text-slate-800 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100">
+    <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
+      <div class="hero-glow hero-glow--left"></div>
+      <div class="hero-glow hero-glow--right"></div>
+    </div>
+
+    <div id="cursorRing" class="cursor-ring hidden md:block"></div>
+
     <div class="mx-auto max-w-6xl px-6 py-6 md:px-8">
       <header class="flex items-center justify-between">
-        <a href="index.html" class="text-sm font-semibold tracking-[0.2em] text-slate-500 dark:text-slate-400">CARPEDIEM</a>
-        <button id="themeButton" class="rounded-full border border-slate-300 px-4 py-2 text-sm font-medium transition hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800">다크 모드</button>
+        <a href="index.html" class="interactive text-sm font-semibold tracking-[0.2em] text-slate-500 dark:text-slate-400">CARPEDIEM</a>
+        <button id="themeButton" class="interactive rounded-full border border-slate-300 px-4 py-2 text-sm font-medium transition hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800">다크 모드</button>
       </header>
 
       <main class="mt-16 grid items-center gap-10 lg:grid-cols-[1.2fr,1fr]">
-        <section>
-          <p class="inline-flex rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-600 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">고도화된 포트폴리오 웹사이트</p>
-          <h1 class="mt-5 text-4xl font-semibold leading-tight md:text-6xl">신뢰감을 주는
-            <span class="bg-gradient-to-r from-slate-900 via-slate-600 to-slate-900 bg-clip-text text-transparent dark:from-slate-100 dark:via-slate-300 dark:to-slate-100">현업형 포트폴리오</span>
+        <section class="reveal" data-reveal>
+          <p class="inline-flex rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-600 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">Frontend · Product Thinking · Performance</p>
+          <h1 class="mt-5 text-4xl font-semibold leading-tight md:text-6xl">
+            사용자 경험을 완성하는
+            <span class="bg-gradient-to-r from-slate-900 via-slate-600 to-slate-900 bg-clip-text text-transparent dark:from-slate-100 dark:via-slate-300 dark:to-slate-100">실무형 포트폴리오</span>
           </h1>
-          <p class="mt-6 max-w-xl text-base leading-relaxed text-slate-600 dark:text-slate-300">프로필과 프로젝트를 빠르게 탐색할 수 있도록 정보 구조를 단순화하고, 타이포그래피/여백/대비를 정교하게 다듬었습니다.</p>
+          <p class="mt-6 max-w-xl text-base leading-relaxed text-slate-600 dark:text-slate-300">문제를 정의하고, 데이터로 검증하며, 코드 품질까지 책임지는 개발자의 작업 방식을 담았습니다. 핵심 프로젝트와 성과를 한눈에 확인할 수 있도록 구조를 최적화했습니다.</p>
 
           <div class="mt-8 flex flex-wrap gap-3">
-            <a href="profile.html" class="rounded-full bg-slate-900 px-6 py-3 text-sm font-medium text-white transition hover:bg-slate-700 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200">개인정보 페이지</a>
-            <a href="projects.html" class="rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-medium text-slate-700 transition hover:border-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">프로젝트 페이지</a>
+            <a href="profile.html" class="interactive group rounded-full bg-slate-900 px-6 py-3 text-sm font-medium text-white transition duration-300 hover:-translate-y-0.5 hover:bg-slate-700 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200">개인 소개 보기<span class="ml-2 inline-block transition-transform duration-300 group-hover:translate-x-1">→</span></a>
+            <a href="projects.html" class="interactive rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-medium text-slate-700 transition duration-300 hover:-translate-y-0.5 hover:border-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">프로젝트 살펴보기</a>
           </div>
         </section>
 
-        <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-soft transition dark:border-slate-800 dark:bg-slate-900 md:p-8">
-          <h2 class="text-xl font-semibold">탐색 흐름</h2>
+        <section class="reveal rounded-3xl border border-slate-200 bg-white p-6 shadow-soft transition dark:border-slate-800 dark:bg-slate-900 md:p-8" data-reveal>
+          <h2 class="text-xl font-semibold">포트폴리오 탐색 가이드</h2>
           <ol class="mt-5 space-y-4 text-sm text-slate-600 dark:text-slate-300">
-            <li class="rounded-2xl bg-slate-100 p-4 dark:bg-slate-800/70"><span class="font-semibold">1.</span> 개인정보 페이지에서 강점과 경력을 확인합니다.</li>
-            <li class="rounded-2xl bg-slate-100 p-4 dark:bg-slate-800/70"><span class="font-semibold">2.</span> 프로젝트 페이지에서 대표 프로젝트를 선택합니다.</li>
-            <li class="rounded-2xl bg-slate-100 p-4 dark:bg-slate-800/70"><span class="font-semibold">3.</span> 상세 페이지에서 문제 해결 과정과 성과를 검토합니다.</li>
+            <li class="interactive rounded-2xl bg-slate-100 p-4 transition duration-300 hover:bg-slate-200 dark:bg-slate-800/70 dark:hover:bg-slate-800"><span class="font-semibold">1.</span> 프로필 페이지에서 핵심 역량과 업무 스타일을 확인하세요.</li>
+            <li class="interactive rounded-2xl bg-slate-100 p-4 transition duration-300 hover:bg-slate-200 dark:bg-slate-800/70 dark:hover:bg-slate-800"><span class="font-semibold">2.</span> 프로젝트 리스트에서 목적과 임팩트가 큰 작업을 선택하세요.</li>
+            <li class="interactive rounded-2xl bg-slate-100 p-4 transition duration-300 hover:bg-slate-200 dark:bg-slate-800/70 dark:hover:bg-slate-800"><span class="font-semibold">3.</span> 상세 페이지에서 설계 의사결정, 트러블슈팅, 결과 지표를 살펴보세요.</li>
           </ol>
         </section>
       </main>
