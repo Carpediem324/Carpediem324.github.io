@@ -16,3 +16,101 @@ body {
   -moz-osx-font-smoothing: grayscale;
   word-break: keep-all;
 }
+
+@media (min-width: 768px) {
+  body {
+    cursor: none;
+  }
+}
+
+.hero-glow {
+  position: absolute;
+  width: min(40vw, 520px);
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  filter: blur(70px);
+  opacity: 0.42;
+  animation: floatGlow 14s ease-in-out infinite;
+}
+
+.hero-glow--left {
+  top: 10%;
+  left: -8%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.3), rgba(99, 102, 241, 0));
+}
+
+.hero-glow--right {
+  right: -12%;
+  bottom: -10%;
+  animation-delay: -6s;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.26), rgba(14, 165, 233, 0));
+}
+
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 26px;
+  height: 26px;
+  border: 1px solid rgba(15, 23, 42, 0.38);
+  border-radius: 9999px;
+  transform: translate3d(-50%, -50%, 0);
+  pointer-events: none;
+  z-index: 60;
+  transition: width 200ms ease, height 200ms ease, border-color 200ms ease, background-color 200ms ease;
+  mix-blend-mode: multiply;
+}
+
+:root.dark .cursor-ring {
+  border-color: rgba(226, 232, 240, 0.45);
+  mix-blend-mode: screen;
+}
+
+.cursor-ring.is-hover {
+  width: 46px;
+  height: 46px;
+  border-color: rgba(14, 116, 144, 0.6);
+  background-color: rgba(125, 211, 252, 0.16);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 700ms cubic-bezier(0.22, 1, 0.36, 1), transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes floatGlow {
+  0%,
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(0, -18px, 0) scale(1.04); }
+}
+
+@media (max-width: 767px), (prefers-reduced-motion: reduce) {
+  body {
+    cursor: auto;
+  }
+
+  .cursor-ring {
+    display: none !important;
+  }
+
+  .hero-glow {
+    animation: none;
+    opacity: 0.3;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .interactive {
+    transform: none !important;
+  }
+}
