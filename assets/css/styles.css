@@ -335,6 +335,10 @@ body > .mx-auto {
   z-index: 1;
 }
 
+.project-media-button:has(.project-image.is-missing) {
+  display: none;
+}
+
 .project-media-controls {
   align-items: center;
   bottom: 0.75rem;
@@ -387,32 +391,34 @@ body > .mx-auto {
 
 .project-image-fallback {
   align-items: center;
-  color: var(--muted);
+  color: var(--text);
   display: flex;
   flex-direction: column;
-  font-size: 1.6rem;
   font-weight: 900;
-  gap: 0.35rem;
+  gap: 0.6rem;
   inset: 0;
   justify-content: center;
-  padding: 1rem;
+  padding: clamp(1rem, 4vw, 2rem);
   position: absolute;
   text-align: center;
   z-index: 0;
 }
 
 .project-image-fallback small {
-  color: var(--subtle);
-  font-size: 0.72rem;
+  color: var(--accent);
+  font-size: 0.76rem;
   font-weight: 700;
+  line-height: 1.5;
+  max-width: 82%;
   text-transform: uppercase;
 }
 
 .project-image-fallback strong {
   color: var(--text);
-  font-size: 0.82rem;
+  font-size: clamp(1.08rem, 1.8vw, 1.48rem);
   font-weight: 900;
-  max-width: 82%;
+  line-height: 1.25;
+  max-width: 86%;
 }
 
 .modal-open {

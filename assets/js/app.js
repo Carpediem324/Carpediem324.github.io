@@ -476,20 +476,18 @@ class ProjectManager {
     const period = this.getValue(project, "period");
     const team = this.getValue(project, "team");
     const outcome = this.getValue(project, "outcome");
-    const initials = project.id
-      .split("-")
-      .slice(0, 2)
-      .map((part) => part[0])
-      .join("")
-      .toUpperCase();
     const images = this.getImages(project);
-    const imageText = this.root.lang === "en" ? "Visual reference" : "프로젝트 이미지";
     const visualText = project.visual || project.stack.split(",").slice(0, 2).join(" / ");
+    const fallbackHtml = `<div class="project-image-fallback">
+        <strong>${title}</strong>
+        <small>${visualText}</small>
+      </div>`;
     const imageHtml = images.length
       ? `<div class="project-image-wrap" data-project-id="${project.id}" data-image-index="0">
       <button class="project-media-button" type="button" aria-label="${title} image open">
-        <img src="${images[0]}" alt="${title}" class="project-image" loading="lazy">
+        <img src="${images[0]}" alt="${title}" class="project-image" loading="eager">
       </button>
+      ${fallbackHtml}
       ${
         images.length > 1
           ? `<div class="project-media-controls" aria-label="${title} image controls">
@@ -501,11 +499,7 @@ class ProjectManager {
       }
     </div>`
       : `<div class="project-image-wrap">
-      <div class="project-image-fallback">
-        <span>${initials}</span>
-        <small>${imageText}</small>
-        <strong>${visualText}</strong>
-      </div>
+      ${fallbackHtml}
     </div>`;
     const links = (project.links || [])
       .map(

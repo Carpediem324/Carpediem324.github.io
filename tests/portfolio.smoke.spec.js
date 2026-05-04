@@ -47,12 +47,18 @@ test("project page renders static project cards", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "프로젝트", exact: true })).toBeVisible();
   await expect(page.locator(".project-card")).toHaveCount(10);
   await expect(page.locator(".project-media-button")).toHaveCount(8);
-  await expect(page.locator(".project-image-fallback")).toHaveCount(2);
+  await expect(page.locator(".project-image-fallback")).toHaveCount(10);
   await expect(page.locator(".project-media-controls")).toHaveCount(4);
-  await expect(page.getByText("2023 대학생 창작모빌리티 경진대회 무인모빌리티")).toBeVisible();
-  await expect(page.getByText("무인 경비 로봇 관제 시스템 ROBOCOP")).toBeVisible();
-  await expect(page.getByText("재난지역탐사로봇 GAEMI")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "2023 대학생 창작모빌리티 경진대회 무인모빌리티" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "무인 경비 로봇 관제 시스템 ROBOCOP" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "재난지역탐사로봇 GAEMI" })).toBeVisible();
+  await expect(page.getByText("프로젝트 이미지")).toHaveCount(0);
   await expect(page.getByRole("button", { name: "GM" })).toHaveCount(0);
+
+  const loadedImages = await page.locator(".project-image").evaluateAll((images) =>
+    images.map((image) => ({ src: image.getAttribute("src"), width: image.naturalWidth })),
+  );
+  expect(loadedImages.every((image) => image.width > 0)).toBeTruthy();
 
   const kaeriCard = page.locator(".project-card", { hasText: "KAERI" });
   await expect(kaeriCard.locator(".project-media-count")).toHaveText("1 / 2");
