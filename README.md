@@ -1,27 +1,17 @@
 # Carpediem324.github.io
-Carpediem324's Pages
 
-## Supabase 설정 (프로젝트 관리)
-`projects.html`의 프로젝트 추가/삭제는 Supabase DB를 사용합니다.
+Personal portfolio site for GitHub Pages.
 
-1. `assets/js/config.js`에서 `SUPABASE_URL`, `SUPABASE_ANON_KEY`를 입력
-2. Supabase SQL Editor에서 아래 실행
+## Project Data
 
-```sql
-create table if not exists public.projects (
-  id uuid primary key default gen_random_uuid(),
-  created_at timestamptz not null default now(),
-  title text not null,
-  description text not null,
-  image1 text,
-  image2 text,
-  image3 text,
-  image4 text
-);
+This site is fully static. Project cards are defined in `assets/js/app.js` and rendered on `projects.html`.
 
-alter table public.projects enable row level security;
+GitHub Pages does not provide a shared database or server runtime. To add, edit, or remove projects, update the `SAMPLE_PROJECTS` array in `assets/js/app.js` and deploy the commit.
 
-create policy "Allow read" on public.projects for select using (true);
-create policy "Allow insert" on public.projects for insert with check (true);
-create policy "Allow delete" on public.projects for delete using (true);
+## Checks
+
+```bash
+npm test
 ```
+
+The test suite checks JavaScript syntax, theme switching, language switching, and project-card rendering in Chrome through Playwright.

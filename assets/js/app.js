@@ -1,174 +1,254 @@
+const SAMPLE_PROJECTS = [
+  {
+    id: "steel-scada",
+    title: "SCADA Level2 Data Simulator",
+    description:
+      "OPC 기반 공정 데이터를 모사하고 인터페이스 검증을 자동화해 현장 테스트 시간을 줄인 프로젝트입니다.",
+    stack: "C#, OPC, ISA-95, SCADA",
+    outcome: "Interface test coverage improved",
+    image1:
+      "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    id: "slam-panel",
+    title: "3D SLAM Visualization Panel",
+    description:
+      "4족 보행 로봇의 공간 인식 데이터를 시각화해 실험 상태를 빠르게 파악할 수 있도록 만든 패널입니다.",
+    stack: "Python, ROS, 3D SLAM, Visualization",
+    outcome: "Faster experiment review",
+    image1:
+      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=900&q=80",
+  },
+];
+
 class HeaderComponent {
-  constructor(root) { this.root = root; }
+  constructor(root) {
+    this.root = root;
+  }
 
   render(page) {
     const pages = {
-      index: { leftHref: '/', links: [] },
-      profile: { leftHref: '/', links: [{ href: '/projects.html', ko: '프로젝트', en: 'Projects' }] },
-      projects: { leftHref: '/', links: [{ href: '/profile.html', ko: '개인정보', en: 'Profile' }] },
-      'project-default': { leftHref: '/index.html', links: [{ href: '/projects.html', ko: '프로젝트 목록', en: 'Project list' }] }
+      index: {
+        leftHref: "index.html",
+        links: [
+          { href: "profile.html", ko: "프로필", en: "Profile" },
+          { href: "projects.html", ko: "프로젝트", en: "Projects" },
+        ],
+      },
+      profile: {
+        leftHref: "index.html",
+        links: [{ href: "projects.html", ko: "프로젝트", en: "Projects" }],
+      },
+      projects: {
+        leftHref: "index.html",
+        links: [{ href: "profile.html", ko: "프로필", en: "Profile" }],
+      },
     };
 
     const cfg = pages[page] || pages.index;
-    const links = cfg.links.map((l) => `<a href="${l.href}" class="interactive rounded-full border border-slate-300 px-4 py-2 text-sm dark:border-slate-700" data-i18n data-i18n-ko="${l.ko}" data-i18n-en="${l.en}">${l.ko}</a>`).join('');
+    const links = cfg.links
+      .map(
+        (link) =>
+          `<a href="${link.href}" class="interactive nav-link" data-i18n data-i18n-ko="${link.ko}" data-i18n-en="${link.en}">${link.ko}</a>`,
+      )
+      .join("");
 
-    return `<header class="flex items-center justify-between">
-      <a href="${cfg.leftHref}" class="interactive text-sm font-semibold tracking-[0.2em] text-slate-500 dark:text-slate-400" aria-label="Home">CARPEDIEM</a>
-      <div class="flex gap-2">${links}
-        <button id="langButton" aria-label="Language toggle" class="interactive control-btn rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold dark:border-slate-700">EN</button>
-        <button id="themeButton" aria-label="Theme toggle" data-theme-label-dark-ko="다크 모드" data-theme-label-light-ko="라이트 모드" data-theme-label-dark-en="Dark mode" data-theme-label-light-en="Light mode" class="interactive control-btn rounded-full border border-slate-300 px-4 py-2 text-sm dark:border-slate-700">다크 모드</button>
-      </div>
+    return `<header class="site-header">
+      <a href="${cfg.leftHref}" class="interactive brand" aria-label="Home">CARPEDIEM</a>
+      <nav class="header-actions" aria-label="Primary navigation">
+        ${links}
+        <button id="langButton" type="button" aria-label="Language toggle" class="interactive control-btn">EN</button>
+        <button id="themeButton" type="button" aria-label="Theme toggle" class="interactive control-btn" data-theme-label-dark-ko="다크 모드" data-theme-label-light-ko="라이트 모드" data-theme-label-dark-en="Dark mode" data-theme-label-light-en="Light mode">다크 모드</button>
+      </nav>
     </header>`;
   }
 
   init() {
-    const target = document.querySelector('[data-site-header]');
+    const target = document.querySelector("[data-site-header]");
     if (!target) return;
-    target.innerHTML = this.render(target.dataset.page || 'index');
+    target.innerHTML = this.render(target.dataset.page || "index");
   }
 }
 
 class ThemeManager {
-  constructor(root, button) { this.root = root; this.button = button; this.storageKey = 'theme'; }
-  getInitialTheme() { const s = localStorage.getItem(this.storageKey); if (s === 'light' || s === 'dark') return s; return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
-  getLabel(language, isDark) { if (!this.button) return ''; const d = language === 'en' ? this.button.dataset.themeLabelDarkEn : this.button.dataset.themeLabelDarkKo; const l = language === 'en' ? this.button.dataset.themeLabelLightEn : this.button.dataset.themeLabelLightKo; return isDark ? (l || 'Light mode') : (d || 'Dark mode'); }
-  apply(theme, language = 'ko') { const isDark = theme === 'dark'; this.root.classList.toggle('dark', isDark); this.root.style.colorScheme = isDark ? 'dark' : 'light'; localStorage.setItem(this.storageKey, theme); if (this.button) this.button.textContent = this.getLabel(language, isDark); }
-  toggle(language) { this.apply(this.root.classList.contains('dark') ? 'light' : 'dark', language); }
+  constructor(root, button) {
+    this.root = root;
+    this.button = button;
+    this.storageKey = "portfolio-theme";
+  }
+
+  getInitialTheme() {
+    const saved = localStorage.getItem(this.storageKey);
+    if (saved === "light" || saved === "dark") return saved;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+
+  getLabel(language, isDark) {
+    if (!this.button) return "";
+    const darkLabel =
+      language === "en" ? this.button.dataset.themeLabelDarkEn : this.button.dataset.themeLabelDarkKo;
+    const lightLabel =
+      language === "en" ? this.button.dataset.themeLabelLightEn : this.button.dataset.themeLabelLightKo;
+    return isDark ? lightLabel : darkLabel;
+  }
+
+  apply(theme, language = "ko") {
+    const isDark = theme === "dark";
+    this.root.classList.toggle("dark", isDark);
+    this.root.style.colorScheme = isDark ? "dark" : "light";
+    localStorage.setItem(this.storageKey, theme);
+    if (this.button) {
+      this.button.textContent = this.getLabel(language, isDark);
+      this.button.setAttribute("aria-pressed", String(isDark));
+    }
+  }
+
+  toggle(language) {
+    this.apply(this.root.classList.contains("dark") ? "light" : "dark", language);
+  }
 }
 
 class LanguageManager {
-  constructor(root, button) { this.root = root; this.button = button; this.storageKey = 'language'; }
-  getInitialLanguage() { const s = localStorage.getItem(this.storageKey); if (s === 'ko' || s === 'en') return s; return (navigator.language || 'ko').toLowerCase().startsWith('ko') ? 'ko' : 'en'; }
-  getValue(el, lang, prefix) { return el.dataset[lang === 'en' ? `${prefix}En` : `${prefix}Ko`]; }
+  constructor(root, button) {
+    this.root = root;
+    this.button = button;
+    this.storageKey = "portfolio-language";
+  }
+
+  getInitialLanguage() {
+    const saved = localStorage.getItem(this.storageKey);
+    if (saved === "ko" || saved === "en") return saved;
+    return (navigator.language || "ko").toLowerCase().startsWith("ko") ? "ko" : "en";
+  }
+
+  getValue(el, language, prefix) {
+    return el.dataset[language === "en" ? `${prefix}En` : `${prefix}Ko`];
+  }
+
   apply(language) {
     this.root.lang = language;
-    ['i18n', 'i18nTitle', 'i18nContent'].forEach((prefix) => {
-      document.querySelectorAll(`[data-${prefix.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`)}]`).forEach((el) => {
-        const v = this.getValue(el, language, prefix);
-        if (!v) return;
-        if (prefix === 'i18n') el.textContent = v;
-        if (prefix === 'i18nTitle') el.setAttribute('title', v);
-        if (prefix === 'i18nContent') el.setAttribute('content', v);
+
+    [
+      ["i18n", "textContent"],
+      ["i18nTitle", "title"],
+      ["i18nContent", "content"],
+      ["i18nPlaceholder", "placeholder"],
+    ].forEach(([prefix, target]) => {
+      const attr = prefix.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
+      document.querySelectorAll(`[data-${attr}]`).forEach((el) => {
+        const value = this.getValue(el, language, prefix);
+        if (!value) return;
+        if (target === "textContent") el.textContent = value;
+        else el.setAttribute(target, value);
       });
     });
-    if (this.button) this.button.textContent = language === 'ko' ? 'EN' : '한';
+
+    if (this.button) this.button.textContent = language === "ko" ? "EN" : "KO";
     localStorage.setItem(this.storageKey, language);
   }
-  toggle() { this.apply(this.root.lang === 'ko' ? 'en' : 'ko'); }
+
+  toggle() {
+    this.apply(this.root.lang === "ko" ? "en" : "ko");
+  }
 }
 
 class ProjectManager {
   constructor() {
-    this.password = window.APP_CONFIG?.GM_PASSWORD || '1234';
-    this.container = document.getElementById('projectsContainer');
-    this.form = document.getElementById('projectForm');
-    this.gmButton = document.getElementById('gmButton');
-    this.status = document.getElementById('projectStatus');
-    this.admin = false;
-    this.client = null;
+    this.container = document.getElementById("projectsContainer");
   }
-  setStatus(message) { if (this.status) this.status.textContent = message; }
-  setupClient() {
-    const url = window.APP_CONFIG?.SUPABASE_URL;
-    const key = window.APP_CONFIG?.SUPABASE_ANON_KEY;
-    if (!url || !key || url.includes('YOUR_PROJECT') || key.includes('YOUR_SUPABASE')) {
-      this.setStatus('DB 설정이 필요합니다. assets/js/config.js에서 Supabase 값을 입력하세요.');
-      return false;
-    }
-    if (!window.supabase?.createClient) {
-      this.setStatus('Supabase 라이브러리를 불러오지 못했습니다.');
-      return false;
-    }
-    this.client = window.supabase.createClient(url, key);
-    return true;
+
+  projectCard(project) {
+    const image = project.image1 || project.image2 || project.image3 || project.image4;
+    const imageHtml = image
+      ? `<img src="${image}" alt="${project.title}" class="project-image" loading="lazy">`
+      : `<div class="project-image project-image--empty">No image</div>`;
+    return `<article class="project-card">
+      ${imageHtml}
+      <div class="project-card__body">
+        <div>
+          <p class="project-meta">${project.stack || "Portfolio Project"}</p>
+          <h2 class="project-title">${project.title}</h2>
+          <p class="project-description">${project.description}</p>
+        </div>
+        <div class="project-card__footer">
+          <span class="project-outcome">${project.outcome || "Case study"}</span>
+        </div>
+      </div>
+    </article>`;
   }
-  async getProjects() {
-    const { data, error } = await this.client.from('projects').select('*').order('created_at', { ascending: false });
-    if (error) throw error;
-    return data || [];
-  }
-  async render() {
-    if (!this.container || !this.client) return;
-    try {
-      const projects = await this.getProjects();
-      this.container.innerHTML = projects.map((p) => {
-        const imgs = [p.image1, p.image2, p.image3, p.image4].filter(Boolean).map((img) => `<img src="${img}" alt="${p.title}" class="h-32 w-full rounded-xl object-cover">`).join('');
-        return `<article class="rounded-3xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 dark:border-slate-800 dark:bg-slate-900">
-          <h2 class="mt-2 text-2xl font-semibold">${p.title}</h2>
-          <p class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">${p.description}</p>
-          <div class="mt-4 grid gap-3 sm:grid-cols-2">${imgs || '<p class="text-xs text-slate-400">이미지 없음</p>'}</div>
-          ${this.admin ? `<button data-delete-id="${p.id}" class="interactive mt-5 rounded-full border border-rose-300 px-4 py-2 text-xs font-semibold text-rose-600">Delete</button>` : ''}
-        </article>`;
-      }).join('');
-      this.container.querySelectorAll('[data-delete-id]').forEach((btn) => {
-        btn.addEventListener('click', async () => {
-          const id = btn.getAttribute('data-delete-id');
-          const { error } = await this.client.from('projects').delete().eq('id', id);
-          if (error) return this.setStatus(`삭제 실패: ${error.message}`);
-          await this.render();
-        });
-      });
-      this.form?.classList.toggle('hidden', !this.admin);
-      this.setStatus('');
-    } catch (e) { this.setStatus(`프로젝트 조회 실패: ${e.message}`); }
-  }
-  initForm() {
-    if (!this.form || !this.client) return;
-    this.form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const formData = new FormData(this.form);
-      const payload = {
-        title: String(formData.get('title') || '').trim(),
-        description: String(formData.get('description') || '').trim(),
-        image1: String(formData.get('image1') || '').trim(),
-        image2: String(formData.get('image2') || '').trim(),
-        image3: String(formData.get('image3') || '').trim(),
-        image4: String(formData.get('image4') || '').trim()
-      };
-      const { error } = await this.client.from('projects').insert(payload);
-      if (error) return this.setStatus(`추가 실패: ${error.message}`);
-      this.form.reset();
-      await this.render();
-    });
-  }
-  initGM() {
-    if (!this.gmButton) return;
-    this.gmButton.addEventListener('click', async () => {
-      if (this.admin) { this.admin = false; await this.render(); return; }
-      const input = prompt('관리자 암호를 입력하세요');
-      if (input === this.password) { this.admin = true; await this.render(); }
-      else if (input !== null) alert('암호가 일치하지 않습니다.');
-    });
-  }
-  async init() {
+
+  render() {
     if (!this.container) return;
-    if (!this.setupClient()) return;
-    this.initForm();
-    this.initGM();
-    await this.render();
+    this.container.innerHTML = SAMPLE_PROJECTS.map((project) => this.projectCard(project)).join("");
+  }
+
+  init() {
+    if (!this.container) return;
+    this.render();
   }
 }
 
-class CursorEffect { constructor() { this.ring = null; this.pointerX = innerWidth / 2; this.pointerY = innerHeight / 2; this.ringX = this.pointerX; this.ringY = this.pointerY; }
-  setup() { if (!matchMedia('(min-width: 768px)').matches) return; this.ring = document.getElementById('cursorRing') || document.createElement('div'); this.ring.id='cursorRing'; this.ring.className='cursor-ring'; if (!document.getElementById('cursorRing')) document.body.appendChild(this.ring); document.body.classList.add('custom-cursor'); addEventListener('pointermove',(e)=>{ this.pointerX=e.clientX; this.pointerY=e.clientY; const t=e.target instanceof Element?e.target:null; this.ring.classList.toggle('is-hover', Boolean(t?.closest('a, button, input, textarea, select, [role="button"], .interactive'))); }); addEventListener('pointerdown',()=>this.ring.classList.add('is-active')); addEventListener('pointerup',()=>this.ring.classList.remove('is-active')); requestAnimationFrame(()=>this.animate()); }
-  animate(){ if(!this.ring) return; this.ringX += (this.pointerX-this.ringX)*0.16; this.ringY += (this.pointerY-this.ringY)*0.16; this.ring.style.transform=`translate3d(${this.ringX}px, ${this.ringY}px, 0) translate(-50%, -50%)`; requestAnimationFrame(()=>this.animate()); }}
+class CursorEffect {
+  constructor() {
+    this.ring = null;
+    this.pointerX = innerWidth / 2;
+    this.pointerY = innerHeight / 2;
+    this.ringX = this.pointerX;
+    this.ringY = this.pointerY;
+  }
+
+  setup() {
+    if (!matchMedia("(min-width: 768px)").matches) return;
+    this.ring = document.getElementById("cursorRing") || document.createElement("div");
+    this.ring.id = "cursorRing";
+    this.ring.className = "cursor-ring";
+    if (!document.getElementById("cursorRing")) document.body.appendChild(this.ring);
+    document.body.classList.add("custom-cursor");
+    addEventListener("pointermove", (event) => {
+      this.pointerX = event.clientX;
+      this.pointerY = event.clientY;
+      const target = event.target instanceof Element ? event.target : null;
+      this.ring.classList.toggle(
+        "is-hover",
+        Boolean(target?.closest("a, button, input, textarea, select, [role='button'], .interactive")),
+      );
+    });
+    addEventListener("pointerdown", () => this.ring.classList.add("is-active"));
+    addEventListener("pointerup", () => this.ring.classList.remove("is-active"));
+    requestAnimationFrame(() => this.animate());
+  }
+
+  animate() {
+    if (!this.ring) return;
+    this.ringX += (this.pointerX - this.ringX) * 0.16;
+    this.ringY += (this.pointerY - this.ringY) * 0.16;
+    this.ring.style.transform = `translate3d(${this.ringX}px, ${this.ringY}px, 0) translate(-50%, -50%)`;
+    requestAnimationFrame(() => this.animate());
+  }
+}
 
 class PortfolioApp {
   init() {
     new HeaderComponent(document.documentElement).init();
+
     const root = document.documentElement;
-    const langButton = document.getElementById('langButton');
-    const themeButton = document.getElementById('themeButton');
+    const langButton = document.getElementById("langButton");
+    const themeButton = document.getElementById("themeButton");
     const language = new LanguageManager(root, langButton);
     const theme = new ThemeManager(root, themeButton);
     const initialLanguage = language.getInitialLanguage();
+
     language.apply(initialLanguage);
     theme.apply(theme.getInitialTheme(), initialLanguage);
-    langButton?.addEventListener('click', () => { language.toggle(); theme.apply(root.classList.contains('dark') ? 'dark' : 'light', root.lang); });
-    themeButton?.addEventListener('click', () => theme.toggle(root.lang));
+    langButton?.addEventListener("click", () => {
+      language.toggle();
+      theme.apply(root.classList.contains("dark") ? "dark" : "light", root.lang);
+    });
+    themeButton?.addEventListener("click", () => theme.toggle(root.lang));
+
     new CursorEffect().setup();
     new ProjectManager().init();
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => new PortfolioApp().init());
+document.addEventListener("DOMContentLoaded", () => new PortfolioApp().init());

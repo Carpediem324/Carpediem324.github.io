@@ -3,46 +3,72 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title data-i18n-title data-i18n-ko="신현학 포트폴리오 · 자기소개" data-i18n-en="Hyeonhak Shin Portfolio · Profile">신현학 포트폴리오 · 자기소개</title>
+    <title data-i18n-title data-i18n-ko="신현학 포트폴리오 | 프로필" data-i18n-en="Hyeonhak Shin Portfolio | Profile">
+      신현학 포트폴리오 | 프로필
+    </title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = { darkMode: "class" };
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
-  <body class="min-h-screen bg-slate-50 text-slate-800 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100">
+  <body class="min-h-screen bg-slate-50 text-slate-900 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-50">
     <div class="mx-auto max-w-6xl px-6 py-6 md:px-8">
       <div id="siteHeader" data-site-header data-page="profile"></div>
 
-      <main class="mt-12 space-y-8">
-        <section class="rounded-3xl border border-slate-200 bg-white p-7 dark:border-slate-800 dark:bg-slate-900">
-          <h1 class="text-3xl font-semibold md:text-5xl">Hyeonhak Shin</h1>
-          <p class="mt-3 text-lg text-slate-600 dark:text-slate-300" data-i18n data-i18n-ko="로보틱스·자율주행 중심의 SCADA(Level2) 엔지니어" data-i18n-en="SCADA(Level2) engineer focused on robotics & autonomous driving">로보틱스·자율주행 중심의 SCADA(Level2) 엔지니어</p>
+      <main class="mt-12 space-y-7 pb-20">
+        <section class="content-panel p-7 md:p-9">
+          <p class="text-sm font-bold text-teal-700 dark:text-teal-200">Hyeonhak Shin</p>
+          <h1 class="mt-3 text-3xl font-bold md:text-5xl" data-i18n data-i18n-ko="신현학" data-i18n-en="Hyeonhak Shin">신현학</h1>
+          <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-300" data-i18n data-i18n-ko="로보틱스와 자율주행을 기반으로 시스템을 이해하고, SCADA Level2 현장 경험으로 실무 문제를 해결하는 엔지니어입니다." data-i18n-en="An engineer who understands systems through robotics and autonomous driving, and solves practical problems through SCADA Level2 field experience.">
+            로보틱스와 자율주행을 기반으로 시스템을 이해하고, SCADA Level2 현장 경험으로 실무 문제를 해결하는 엔지니어입니다.
+          </p>
         </section>
 
         <section class="grid gap-6 md:grid-cols-2">
-          <article class="rounded-3xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
-            <h2 class="text-xl font-semibold" data-i18n data-i18n-ko="학력" data-i18n-en="Education">학력</h2>
-            <p class="mt-4 text-sm text-slate-600 dark:text-slate-300" data-i18n data-i18n-ko="한국기술교육대학교 컴퓨터공학부 (2018.03 ~ 2024.08), 컴퓨터공학 학사" data-i18n-en="Korea University of Technology and Education, B.S. in Computer Science and Engineering (Mar 2018 - Aug 2024)">한국기술교육대학교 컴퓨터공학부 (2018.03 ~ 2024.08), 컴퓨터공학 학사</p>
+          <article class="content-panel p-6">
+            <h2 class="text-xl font-bold" data-i18n data-i18n-ko="학력" data-i18n-en="Education">학력</h2>
+            <p class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300" data-i18n data-i18n-ko="한국기술교육대학교 컴퓨터공학부 컴퓨터공학전공 학사 (2018.03 - 2024.08)" data-i18n-en="Korea University of Technology and Education, B.S. in Computer Science and Engineering (Mar 2018 - Aug 2024)">
+              한국기술교육대학교 컴퓨터공학부 컴퓨터공학전공 학사 (2018.03 - 2024.08)
+            </p>
           </article>
-          <article class="rounded-3xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
-            <h2 class="text-xl font-semibold" data-i18n data-i18n-ko="연구 관심사" data-i18n-en="Research Interests">연구 관심사</h2>
-            <ul class="mt-4 list-disc space-y-2 pl-5 text-sm text-slate-600 dark:text-slate-300">
-              <li data-i18n data-i18n-ko="로보틱스" data-i18n-en="Robotics">로보틱스</li><li data-i18n data-i18n-ko="자율주행" data-i18n-en="Autonomous Driving">자율주행</li><li data-i18n data-i18n-ko="3D SLAM / Spatial Intelligence" data-i18n-en="3D SLAM / Spatial Intelligence">3D SLAM / Spatial Intelligence</li>
+          <article class="content-panel p-6">
+            <h2 class="text-xl font-bold" data-i18n data-i18n-ko="관심 분야" data-i18n-en="Research Interests">관심 분야</h2>
+            <ul class="mt-4 list-disc space-y-2 pl-5 text-sm leading-7 text-slate-600 dark:text-slate-300">
+              <li data-i18n data-i18n-ko="로보틱스" data-i18n-en="Robotics">로보틱스</li>
+              <li data-i18n data-i18n-ko="자율주행" data-i18n-en="Autonomous Driving">자율주행</li>
+              <li>3D SLAM / Spatial Intelligence</li>
+              <li data-i18n data-i18n-ko="산업 자동화 및 SCADA" data-i18n-en="Industrial automation and SCADA">산업 자동화 및 SCADA</li>
             </ul>
           </article>
         </section>
 
-        <section class="rounded-3xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
-          <h2 class="text-xl font-semibold" data-i18n data-i18n-ko="경력 요약" data-i18n-en="Experience">경력 요약</h2>
-          <ul class="mt-4 space-y-3 text-sm text-slate-600 dark:text-slate-300">
-            <li data-i18n data-i18n-ko="POSCO DX (2025.08~현재): 광양제철소 제강공정 ISA-95 Level2(SCADA/P-C) 설계·운영, OPC 데이터 시뮬레이터 개발 및 인터페이스 협업" data-i18n-en="POSCO DX (Aug 2025 - Present): Designed and operated ISA-95 Level2 (SCADA/P-C) for steelmaking, built an OPC data simulator, and supported interface coordination">POSCO DX (2025.08~현재): 광양제철소 제강공정 ISA-95 Level2(SCADA/P-C) 설계·운영, OPC 데이터 시뮬레이터 개발 및 인터페이스 협업</li>
-            <li data-i18n data-i18n-ko="한국원자력연구원 인턴 (2024.01~2024.06): 4족보행 로봇 기반 3D SLAM 실험, LAPIS 데이터 시각화 패널 개발" data-i18n-en="KAERI Intern (Jan 2024 - Jun 2024): 3D SLAM experiments with quadruped robots and LAPIS data visualization panel development">한국원자력연구원 인턴 (2024.01~2024.06): 4족보행 로봇 기반 3D SLAM 실험, LAPIS 데이터 시각화 패널 개발</li>
-            <li data-i18n data-i18n-ko="여수시청 청년인턴 (2022.07): 민원 응대와 행정 지원으로 커뮤니케이션 역량 강화" data-i18n-en="Yeosu City Hall Intern (Jul 2022): Improved communication through civil service response and administrative support">여수시청 청년인턴 (2022.07): 민원 응대와 행정 지원으로 커뮤니케이션 역량 강화</li>
-          </ul>
+        <section class="content-panel p-6">
+          <h2 class="text-xl font-bold" data-i18n data-i18n-ko="경험" data-i18n-en="Experience">경험</h2>
+          <div class="mt-5 space-y-5 text-sm leading-7 text-slate-600 dark:text-slate-300">
+            <article>
+              <p class="font-bold text-slate-900 dark:text-slate-100">POSCO DX</p>
+              <p data-i18n data-i18n-ko="2025.08 - 현재 | 제강 공정 ISA-95 Level2(SCADA/P-C) 설계 및 운영, OPC 데이터 시뮬레이터 개발, 인터페이스 작업 지원" data-i18n-en="Aug 2025 - Present | Designed and operated ISA-95 Level2 (SCADA/P-C) for steelmaking, built an OPC data simulator, and supported interface coordination">
+                2025.08 - 현재 | 제강 공정 ISA-95 Level2(SCADA/P-C) 설계 및 운영, OPC 데이터 시뮬레이터 개발, 인터페이스 작업 지원
+              </p>
+            </article>
+            <article>
+              <p class="font-bold text-slate-900 dark:text-slate-100" data-i18n data-i18n-ko="한국원자력연구원 인턴" data-i18n-en="KAERI Intern">한국원자력연구원 인턴</p>
+              <p data-i18n data-i18n-ko="2024.01 - 2024.06 | 4족 보행 로봇 기반 3D SLAM 실험, LAPIS 데이터 시각화 패널 개발" data-i18n-en="Jan 2024 - Jun 2024 | 3D SLAM experiments with quadruped robots and LAPIS data visualization panel development">
+                2024.01 - 2024.06 | 4족 보행 로봇 기반 3D SLAM 실험, LAPIS 데이터 시각화 패널 개발
+              </p>
+            </article>
+            <article>
+              <p class="font-bold text-slate-900 dark:text-slate-100" data-i18n data-i18n-ko="여수시청 청년인턴" data-i18n-en="Yeosu City Hall Intern">여수시청 청년인턴</p>
+              <p data-i18n data-i18n-ko="2022.07 | 민원 응대와 행정 지원을 통해 커뮤니케이션 역량 강화" data-i18n-en="Jul 2022 | Improved communication through civil service response and administrative support">
+                2022.07 | 민원 응대와 행정 지원을 통해 커뮤니케이션 역량 강화
+              </p>
+            </article>
+          </div>
         </section>
       </main>
     </div>
-    <script src="assets/js/app.js"></script>
+
+    <script src="assets/js/app.js" charset="UTF-8"></script>
   </body>
 </html>

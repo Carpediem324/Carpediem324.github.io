@@ -1,0 +1,13 @@
+{
+  "name": "carpediem324-portfolio",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "check:js": "node --check assets/js/app.js",
+    "test:smoke": "playwright test",
+    "test": "npm run check:js && npm run test:smoke"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0"
+  }
+}

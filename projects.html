@@ -3,43 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Carpediem Portfolio · 프로젝트</title>
+    <title data-i18n-title data-i18n-ko="신현학 포트폴리오 | 프로젝트" data-i18n-en="Hyeonhak Shin Portfolio | Projects">
+      신현학 포트폴리오 | 프로젝트
+    </title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = { darkMode: "class" };
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
-  <body class="min-h-screen bg-slate-50 text-slate-800 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100">
+  <body class="min-h-screen bg-slate-50 text-slate-900 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-50">
     <div class="mx-auto max-w-6xl px-6 py-6 md:px-8">
       <div id="siteHeader" data-site-header data-page="projects"></div>
 
       <main class="mt-12 pb-24">
-        <h1 class="text-3xl font-semibold md:text-5xl"><span data-i18n data-i18n-ko="프로젝트" data-i18n-en="Projects">프로젝트</span></h1>
-        <p class="mt-4 max-w-2xl text-slate-600 dark:text-slate-300"><span data-i18n data-i18n-ko="실무형 프로젝트를 중심으로 문제 정의, 해결 전략, 성과를 명확하게 전달하도록 구성했습니다." data-i18n-en="Built to clearly communicate problem framing, solution strategy, and measurable outcomes through real-world projects.">실무형 프로젝트를 중심으로 문제 정의, 해결 전략, 성과를 명확하게 전달하도록 구성했습니다.</span></p>
+        <section class="max-w-3xl">
+          <p class="text-sm font-bold text-teal-700 dark:text-teal-200">Selected Work</p>
+          <h1 class="mt-3 text-3xl font-bold md:text-5xl">
+            <span data-i18n data-i18n-ko="프로젝트" data-i18n-en="Projects">프로젝트</span>
+          </h1>
+          <p class="mt-4 text-base leading-8 text-slate-600 dark:text-slate-300" data-i18n data-i18n-ko="문제 정의, 해결 전략, 결과가 보이도록 구성했습니다. GitHub Pages에 맞게 정적 프로젝트 목록으로 안정적으로 표시합니다." data-i18n-en="Organized around problem framing, solution strategy, and outcomes. Projects are rendered as a stable static list for GitHub Pages.">
+            문제 정의, 해결 전략, 결과가 보이도록 구성했습니다. GitHub Pages에 맞게 정적 프로젝트 목록으로 안정적으로 표시합니다.
+          </p>
+        </section>
 
-        <form id="projectForm" class="mt-8 hidden rounded-3xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
-          <h2 class="text-xl font-semibold">프로젝트 추가 (GM 모드)</h2>
-          <div class="mt-4 grid gap-3">
-            <input name="title" required placeholder="프로젝트 제목" class="rounded-xl border border-slate-300 bg-transparent px-4 py-2 dark:border-slate-700" />
-            <textarea name="description" required placeholder="프로젝트 설명" class="rounded-xl border border-slate-300 bg-transparent px-4 py-2 dark:border-slate-700"></textarea>
-            <input name="image1" placeholder="이미지 URL 1" class="rounded-xl border border-slate-300 bg-transparent px-4 py-2 dark:border-slate-700" />
-            <input name="image2" placeholder="이미지 URL 2" class="rounded-xl border border-slate-300 bg-transparent px-4 py-2 dark:border-slate-700" />
-            <input name="image3" placeholder="이미지 URL 3" class="rounded-xl border border-slate-300 bg-transparent px-4 py-2 dark:border-slate-700" />
-            <input name="image4" placeholder="이미지 URL 4" class="rounded-xl border border-slate-300 bg-transparent px-4 py-2 dark:border-slate-700" />
-            <button type="submit" class="interactive rounded-full bg-slate-900 px-5 py-2 text-sm font-medium text-white dark:bg-white dark:text-slate-900">추가</button>
-          </div>
-        </form>
-
-        <p id="projectStatus" class="mt-6 text-sm text-rose-500"></p>
-        <section id="projectsContainer" class="mt-4 grid gap-6 md:grid-cols-2"></section>
+        <section id="projectsContainer" class="mt-5 grid gap-6 md:grid-cols-2"></section>
       </main>
     </div>
 
-    <button id="gmButton" class="interactive fixed bottom-5 left-5 rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-lg dark:bg-white dark:text-slate-900">GM</button>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="assets/js/config.js"></script>
-    <script src="assets/js/app.js"></script>
+    <script src="assets/js/app.js" charset="UTF-8"></script>
   </body>
 </html>

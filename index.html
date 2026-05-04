@@ -3,33 +3,68 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title data-i18n-title data-i18n-ko="신현학 포트폴리오 · 메인" data-i18n-en="Hyeonhak Shin Portfolio · Main">신현학 포트폴리오 · 메인</title>
-    <meta name="description" content="로보틱스와 자율주행 중심의 신현학 포트폴리오 메인 페이지" data-i18n-content data-i18n-ko="로보틱스와 자율주행 중심의 신현학 포트폴리오 메인 페이지" data-i18n-en="Main page of Hyeonhak Shin's portfolio focused on robotics and autonomous driving"/>
+    <title data-i18n-title data-i18n-ko="신현학 포트폴리오 | 메인" data-i18n-en="Hyeonhak Shin Portfolio | Main">
+      신현학 포트폴리오 | 메인
+    </title>
+    <meta
+      name="description"
+      content="로보틱스, 자율주행, SCADA Level2 경험을 담은 신현학 포트폴리오"
+      data-i18n-content
+      data-i18n-ko="로보틱스, 자율주행, SCADA Level2 경험을 담은 신현학 포트폴리오"
+      data-i18n-en="Hyeonhak Shin's portfolio for robotics, autonomous driving, and SCADA Level2 engineering"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = { darkMode: "class" };
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
-  <body class="min-h-screen bg-slate-50 text-slate-800 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100">
-    <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden" aria-hidden="true"><div class="hero-glow hero-glow--left"></div><div class="hero-glow hero-glow--right"></div></div>
+  <body class="min-h-screen bg-slate-50 text-slate-900 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-50">
+    <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
+      <div class="hero-glow hero-glow--left"></div>
+      <div class="hero-glow hero-glow--right"></div>
+    </div>
+
     <div class="mx-auto max-w-6xl px-6 py-6 md:px-8">
       <div id="siteHeader" data-site-header data-page="index"></div>
-      <main class="mt-16 grid items-center gap-10 lg:grid-cols-[1.2fr,1fr]">
-        <section>
-          <p class="inline-flex rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-600 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">Robotics · Autonomous Driving · SCADA(Level2)</p>
-          <h1 class="mt-5 text-4xl font-semibold leading-tight md:text-6xl">
-            <span data-i18n data-i18n-ko="신현학의 포트폴리오" data-i18n-en="Hyeonhak Shin's Portfolio">신현학의 포트폴리오</span>
-          </h1>
-          <p class="mt-5 text-xl text-slate-600 dark:text-slate-300" data-i18n data-i18n-ko="부제: 로보틱스와 자율주행자동차" data-i18n-en="Subtitle: Robotics and Autonomous Driving">부제: 로보틱스와 자율주행자동차</p>
-          <p class="mt-6 max-w-xl text-base leading-relaxed text-slate-600 dark:text-slate-300" data-i18n data-i18n-ko="로봇·자율주행 연구 경험과 스마트팩토리 ISA-95 Level2(SCADA/P-C) 엔지니어링 경험을 연결해, 현장 문제를 데이터와 소프트웨어로 해결해 온 과정을 담았습니다." data-i18n-en="This portfolio connects robotics/autonomous driving R&D with ISA-95 Level2 (SCADA/P-C) engineering experience, showing how I solve field problems through data and software.">로봇·자율주행 연구 경험과 스마트팩토리 ISA-95 Level2(SCADA/P-C) 엔지니어링 경험을 연결해, 현장 문제를 데이터와 소프트웨어로 해결해 온 과정을 담았습니다.</p>
-          <div class="mt-8 flex flex-wrap gap-3">
-            <a href="/profile.html" class="interactive rounded-full bg-slate-900 px-6 py-3 text-sm font-medium text-white" data-i18n data-i18n-ko="자기소개 보기" data-i18n-en="View profile">자기소개 보기</a>
-            <a href="/projects.html" class="interactive rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-medium text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200" data-i18n data-i18n-ko="프로젝트 보기" data-i18n-en="Explore projects">프로젝트 보기</a>
+
+      <main class="mt-14 pb-20">
+        <section class="grid items-center gap-10 lg:grid-cols-[1.12fr,0.88fr]">
+          <div>
+            <p class="inline-flex rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-teal-700 shadow-sm dark:border-slate-800 dark:bg-slate-900 dark:text-teal-200">
+              Robotics | Autonomous Driving | SCADA Level2
+            </p>
+            <h1 class="mt-5 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">
+              <span data-i18n data-i18n-ko="현장 문제를 데이터와 소프트웨어로 풀어내는 엔지니어" data-i18n-en="An engineer turning field problems into data-driven software">
+                현장 문제를 데이터와 소프트웨어로 풀어내는 엔지니어
+              </span>
+            </h1>
+            <p
+              class="mt-6 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300"
+              data-i18n
+              data-i18n-ko="로보틱스와 자율주행 연구 경험, 그리고 ISA-95 Level2(SCADA/P-C) 엔지니어링 경험을 연결해 실제 시스템이 안정적으로 움직이도록 만드는 일을 좋아합니다."
+              data-i18n-en="I connect robotics and autonomous driving research with ISA-95 Level2 (SCADA/P-C) engineering to build reliable real-world systems."
+            >
+              로보틱스와 자율주행 연구 경험, 그리고 ISA-95 Level2(SCADA/P-C) 엔지니어링 경험을 연결해 실제 시스템이 안정적으로 움직이도록 만드는 일을 좋아합니다.
+            </p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <a href="profile.html" class="interactive rounded-full bg-slate-900 px-6 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 dark:bg-white dark:text-slate-950" data-i18n data-i18n-ko="프로필 보기" data-i18n-en="View profile">프로필 보기</a>
+              <a href="projects.html" class="interactive rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-bold text-slate-800 transition hover:-translate-y-0.5 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100" data-i18n data-i18n-ko="프로젝트 보기" data-i18n-en="Explore projects">프로젝트 보기</a>
+            </div>
           </div>
+
+          <aside class="feature-panel p-6">
+            <p class="text-sm font-bold text-teal-700 dark:text-teal-200" data-i18n data-i18n-ko="현재 초점" data-i18n-en="Current focus">현재 초점</p>
+            <ul class="mt-5 space-y-4 text-sm leading-7 text-slate-600 dark:text-slate-300">
+              <li data-i18n data-i18n-ko="공정 데이터 흐름을 이해하고 안정적인 인터페이스를 설계합니다." data-i18n-en="Designing reliable interfaces from a clear view of process data flows.">공정 데이터 흐름을 이해하고 안정적인 인터페이스를 설계합니다.</li>
+              <li data-i18n data-i18n-ko="로봇 센서 데이터와 3D SLAM 결과를 분석 가능한 형태로 시각화합니다." data-i18n-en="Visualizing robot sensor data and 3D SLAM results in an analyzable form.">로봇 센서 데이터와 3D SLAM 결과를 분석 가능한 형태로 시각화합니다.</li>
+              <li data-i18n data-i18n-ko="현장 운영자가 빠르게 판단할 수 있는 화면과 도구를 만듭니다." data-i18n-en="Building screens and tools that help operators make decisions quickly.">현장 운영자가 빠르게 판단할 수 있는 화면과 도구를 만듭니다.</li>
+            </ul>
+          </aside>
         </section>
       </main>
     </div>
-    <script src="assets/js/app.js"></script>
+
+    <script src="assets/js/app.js" charset="UTF-8"></script>
   </body>
 </html>
