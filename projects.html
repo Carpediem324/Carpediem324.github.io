@@ -4,22 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Carpediem Portfolio · 프로젝트</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = { darkMode: "class" };
     </script>
-    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
   <body class="min-h-screen bg-slate-50 text-slate-800 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100">
     <div class="mx-auto max-w-6xl px-6 py-6 md:px-8">
-      <header class="flex items-center justify-between">
-        <a href="/" class="text-sm font-semibold tracking-[0.2em] text-slate-500 dark:text-slate-400">CARPEDIEM</a>
-        <div class="flex gap-2">
-          <a href="/profile.html" class="rounded-full border border-slate-300 px-4 py-2 text-sm dark:border-slate-700"><span data-i18n data-i18n-ko="개인정보" data-i18n-en="Profile">개인정보</span></a>
-          <button id="langButton" class="control-btn rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold dark:border-slate-700">EN</button>
-          <button id="themeButton" data-theme-label-dark-ko="다크 모드" data-theme-label-light-ko="라이트 모드" data-theme-label-dark-en="Dark mode" data-theme-label-light-en="Light mode" class="control-btn rounded-full border border-slate-300 px-4 py-2 text-sm dark:border-slate-700">다크 모드</button>
-        </div>
-      </header>
+      <div id="siteHeader" data-site-header data-page="projects"></div>
 
       <main class="mt-12">
         <h1 class="text-3xl font-semibold md:text-5xl"><span data-i18n data-i18n-ko="프로젝트" data-i18n-en="Projects">프로젝트</span></h1>
@@ -35,6 +28,6 @@
         </section>
       </main>
     </div>
-    <script src="script.js"></script>
+    <script src="assets/js/app.js"></script>
   </body>
 </html>
