@@ -188,8 +188,7 @@ body > .mx-auto {
   text-decoration: none;
 }
 
-.nav-link,
-.control-btn {
+.nav-link {
   align-items: center;
   background: color-mix(in srgb, var(--panel-bg) 84%, transparent);
   border: 1px solid var(--border);
@@ -207,8 +206,41 @@ body > .mx-auto {
   white-space: nowrap;
 }
 
-.control-btn:hover,
 .nav-link:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.utility-actions {
+  display: inline-flex;
+  gap: 0.42rem;
+  margin-left: 0.18rem;
+}
+
+.utility-btn {
+  align-items: center;
+  aspect-ratio: 1;
+  background: color-mix(in srgb, var(--panel-bg) 86%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text);
+  display: inline-flex;
+  font-size: 0.78rem;
+  font-weight: 900;
+  height: 2.5rem;
+  justify-content: center;
+  line-height: 1;
+  padding: 0;
+  transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease, color 180ms ease;
+  width: 2.5rem;
+}
+
+.utility-btn--theme {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.15rem;
+}
+
+.utility-btn:hover {
   border-color: var(--accent);
   transform: translateY(-1px);
 }
@@ -271,7 +303,10 @@ body > .mx-auto {
 
 .project-image-wrap {
   aspect-ratio: 16 / 9;
-  background: var(--panel-soft);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 18%, transparent), transparent),
+    radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.58), transparent 9rem),
+    var(--panel-soft);
   overflow: hidden;
   position: relative;
 }
@@ -279,37 +314,36 @@ body > .mx-auto {
 .project-image {
   height: 100%;
   object-fit: cover;
+  position: relative;
   width: 100%;
+  z-index: 1;
 }
 
-.project-image.is-missing {
+.project-image:not([src]),
+.project-image[src=""] {
   display: none;
 }
 
 .project-image-fallback {
   align-items: center;
-  background:
-    linear-gradient(135deg, color-mix(in srgb, var(--accent) 18%, transparent), transparent),
-    radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.58), transparent 9rem),
-    var(--panel-soft);
   color: var(--muted);
   display: flex;
   flex-direction: column;
-  font-size: 0.86rem;
-  font-weight: 800;
+  font-size: 1.6rem;
+  font-weight: 900;
   gap: 0.35rem;
-  height: 100%;
+  inset: 0;
   justify-content: center;
   padding: 1rem;
+  position: absolute;
   text-align: center;
-  width: 100%;
+  z-index: 0;
 }
 
 .project-image-fallback small {
   color: var(--subtle);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  word-break: break-all;
 }
 
 .project-card__body {
@@ -405,7 +439,7 @@ body > .mx-auto {
   align-items: center;
   display: grid;
   gap: 2rem;
-  grid-template-columns: minmax(0, 1fr) minmax(11rem, 15rem);
+  grid-template-columns: minmax(0, 1fr) clamp(13.5rem, 24vw, 18rem);
 }
 
 .profile-copy {
@@ -413,7 +447,8 @@ body > .mx-auto {
 }
 
 .profile-photo-card {
-  aspect-ratio: 4 / 5;
+  align-self: center;
+  aspect-ratio: 3 / 4;
   background:
     radial-gradient(circle at 34% 18%, rgba(255, 255, 255, 0.82), transparent 7rem),
     linear-gradient(145deg, color-mix(in srgb, var(--accent) 18%, transparent), rgba(255, 255, 255, 0.14));
@@ -421,9 +456,8 @@ body > .mx-auto {
   border-radius: 1.2rem;
   box-shadow: 0 22px 50px -32px rgba(15, 23, 42, 0.62);
   justify-self: end;
-  max-width: 15rem;
   overflow: hidden;
-  padding: 0.45rem;
+  padding: 0.55rem;
   width: 100%;
 }
 
@@ -432,7 +466,7 @@ body > .mx-auto {
   display: block;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center 18%;
   width: 100%;
 }
 
@@ -537,11 +571,15 @@ body > .mx-auto {
     padding-top: 0.75rem;
   }
 
-  .nav-link,
-  .control-btn {
+  .nav-link {
     font-size: 0.78rem;
     min-width: 4.2rem;
     padding: 0 0.76rem;
+  }
+
+  .utility-btn {
+    height: 2.2rem;
+    width: 2.2rem;
   }
 
   .profile-hero {
@@ -550,7 +588,7 @@ body > .mx-auto {
 
   .profile-photo-card {
     justify-self: start;
-    max-width: 12rem;
+    max-width: 13rem;
   }
 }
 

@@ -250,8 +250,10 @@ class HeaderComponent {
       <a href="${cfg.leftHref}" class="interactive brand" aria-label="Home">CARPEDIEM</a>
       <nav class="header-actions" aria-label="Primary navigation">
         ${links}
-        <button id="langButton" type="button" aria-label="Language toggle" class="interactive control-btn">EN</button>
-        <button id="themeButton" type="button" aria-label="Theme toggle" class="interactive control-btn" data-theme-label-dark-ko="다크 모드" data-theme-label-light-ko="라이트 모드" data-theme-label-dark-en="Dark mode" data-theme-label-light-en="Light mode">다크 모드</button>
+        <span class="utility-actions">
+          <button id="langButton" type="button" aria-label="Language toggle" class="interactive utility-btn utility-btn--lang">EN</button>
+          <button id="themeButton" type="button" aria-label="Theme toggle" class="interactive utility-btn utility-btn--theme" data-theme-icon-dark="☾" data-theme-icon-light="☀">☾</button>
+        </span>
       </nav>
     </header>`;
   }
@@ -276,22 +278,14 @@ class ThemeManager {
     return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   }
 
-  getLabel(language, isDark) {
-    if (!this.button) return "";
-    const darkLabel =
-      language === "en" ? this.button.dataset.themeLabelDarkEn : this.button.dataset.themeLabelDarkKo;
-    const lightLabel =
-      language === "en" ? this.button.dataset.themeLabelLightEn : this.button.dataset.themeLabelLightKo;
-    return isDark ? lightLabel : darkLabel;
-  }
-
   apply(theme, language = "ko") {
     const isDark = theme === "dark";
     this.root.classList.toggle("dark", isDark);
     this.root.style.colorScheme = isDark ? "dark" : "light";
     localStorage.setItem(this.storageKey, theme);
     if (this.button) {
-      this.button.textContent = this.getLabel(language, isDark);
+      this.button.textContent = isDark ? this.button.dataset.themeIconLight : this.button.dataset.themeIconDark;
+      this.button.setAttribute("title", isDark ? "Light mode" : "Dark mode");
       this.button.setAttribute("aria-pressed", String(isDark));
     }
   }
@@ -470,13 +464,19 @@ class ProjectManager {
     const period = this.getValue(project, "period");
     const team = this.getValue(project, "team");
     const outcome = this.getValue(project, "outcome");
-    const imageText = this.root.lang === "en" ? "Image ready when file is added" : "이미지 파일을 넣으면 표시됩니다";
+    const initials = project.id
+      .split("-")
+      .slice(0, 2)
+      .map((part) => part[0])
+      .join("")
+      .toUpperCase();
+    const imageText = this.root.lang === "en" ? "Add image file" : "이미지 준비 중";
     const imageHtml = `<div class="project-image-wrap">
-      <img src="${project.image}" alt="${title}" class="project-image" loading="lazy" onerror="this.classList.add('is-missing'); this.nextElementSibling.hidden = false;">
-      <div class="project-image-fallback" hidden>
-        <span>${imageText}</span>
-        <small>${project.image}</small>
+      <div class="project-image-fallback">
+        <span>${initials}</span>
+        <small>${imageText}</small>
       </div>
+      <img src="${project.image}" alt="${title}" class="project-image" loading="lazy">
     </div>`;
     const links = (project.links || [])
       .map(
