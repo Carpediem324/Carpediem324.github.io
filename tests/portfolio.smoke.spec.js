@@ -53,6 +53,8 @@ test("project page renders static project cards", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "무인 경비 로봇 관제 시스템 ROBOCOP" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "재난지역탐사로봇 GAEMI" })).toBeVisible();
   await expect(page.getByText("프로젝트 이미지")).toHaveCount(0);
+  await expect(page.getByText("DM", { exact: true })).toHaveCount(0);
+  await expect(page.getByText("NL", { exact: true })).toHaveCount(0);
   await expect(page.getByRole("button", { name: "GM" })).toHaveCount(0);
 
   const loadedImages = await page.locator(".project-image").evaluateAll((images) =>
