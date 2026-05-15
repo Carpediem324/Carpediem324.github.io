@@ -220,16 +220,19 @@ main {
     linear-gradient(90deg, rgba(15, 23, 42, 0.76), rgba(15, 23, 42, 0.38) 48%, rgba(15, 23, 42, 0.7)),
     linear-gradient(180deg, rgba(15, 23, 42, 0.1), rgba(15, 23, 42, 0.62)),
     url("/assets/images/hero/road-day.jpg") center / cover;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  box-shadow: var(--shadow);
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
   display: grid;
   gap: 18px;
   grid-template-columns: minmax(0, 1.12fr) minmax(340px, 0.88fr);
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
   min-height: clamp(560px, 78vh, 760px);
   overflow: hidden;
-  padding: clamp(18px, 3vw, 34px);
+  padding: clamp(18px, 3vw, 34px) max(22px, calc((100vw - 1180px) / 2 + 22px));
   position: relative;
+  width: 100vw;
 }
 
 :root.dark .hero-section {

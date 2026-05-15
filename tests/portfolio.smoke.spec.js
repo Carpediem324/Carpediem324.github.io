@@ -19,6 +19,18 @@ test("home page toggles theme and language", async ({ page }) => {
   const initialTheme = await page.locator("html").evaluate((el) => el.classList.contains("dark"));
   await expect(page.locator(".hero-section")).toBeVisible();
   await expect(page.locator(".hero-section")).toHaveCSS("background-image", initialTheme ? /road-night\.jpg/ : /road-day\.jpg/);
+  await expect
+    .poll(async () =>
+      page.locator(".hero-section").evaluate((hero) => {
+        const rect = hero.getBoundingClientRect();
+        return {
+          left: Math.round(rect.left),
+          width: Math.round(rect.width),
+          viewport: Math.round(window.innerWidth),
+        };
+      }),
+    )
+    .toEqual({ left: 0, width: 1280, viewport: 1280 });
   await page.mouse.click(640, 360);
   await expect(page.locator(".ripple-pop")).toHaveCount(0);
   await page.mouse.click(12, 360);
