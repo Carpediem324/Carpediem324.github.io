@@ -487,25 +487,32 @@ function AutonomyField({ dark }) {
     let frameId = 0;
     let width = 0;
     let height = 0;
-    let mapPoints = [];
+    let slamPoints = [];
     let lastScrollY = window.scrollY;
     let scrollVelocity = 0;
-    let gutters = { left: 0, right: 0 };
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const palette = dark
-      ? { lane: "125, 211, 199", point: "52, 211, 153", object: "248, 250, 252", grid: "148, 163, 184" }
-      : { lane: "0, 95, 72", point: "0, 138, 91", object: "15, 23, 42", grid: "71, 85, 105" };
+      ? { lane: "125, 211, 199", point: "52, 211, 153", wall: "226, 232, 240", grid: "148, 163, 184", scan: "110, 231, 183" }
+      : { lane: "0, 95, 72", point: "0, 138, 91", wall: "15, 23, 42", grid: "71, 85, 105", scan: "3, 199, 90" };
 
-    const createMapPoints = () =>
-      Array.from({ length: Math.max(120, Math.floor(height / 4.6)) }, (_, index) => ({
-        side: index % 2,
-        lateral: (Math.random() - 0.5) * 1.85,
-        depth: Math.random(),
-        height: Math.random() ** 2,
-        size: 0.6 + Math.random() * 1.8,
-        flicker: 0.55 + Math.random() * 0.45,
-        kind: Math.random() > 0.82 ? "object" : "ground",
-      }));
+    const createSlamPoints = () => {
+      const count = Math.max(420, Math.floor((width * height) / 3800));
+      return Array.from({ length: count }, (_, index) => {
+        const laneSide = Math.random() > 0.5 ? 1 : -1;
+        const isWall = Math.random() > 0.58;
+        const isObject = Math.random() > 0.88;
+        return {
+          lateral: isWall ? laneSide * (0.9 + Math.random() * 1.25) : (Math.random() - 0.5) * 1.35,
+          depth: Math.random(),
+          lift: isObject ? 0.35 + Math.random() * 1.7 : isWall ? Math.random() * 1.5 : Math.random() * 0.18,
+          size: 0.5 + Math.random() * (isObject ? 2.4 : 1.45),
+          flicker: 0.55 + Math.random() * 0.45,
+          phase: Math.random() * Math.PI * 2,
+          kind: isObject ? "object" : isWall ? "wall" : "ground",
+          cluster: index % 9,
+        };
+      });
+    };
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -516,106 +523,120 @@ function AutonomyField({ dark }) {
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const shell = document.querySelector(".app-shell")?.getBoundingClientRect();
-      gutters = shell ? { left: shell.left, right: width - shell.right } : { left: 0, right: 0 };
-      mapPoints = createMapPoints();
+      slamPoints = createSlamPoints();
     };
 
-    const sideBand = (side) => {
-      const gutter = side === 0 ? gutters.left : gutters.right;
-      const margin = gutter >= 112 ? 18 : 8;
-      const compactWidth = Math.min(138, Math.max(92, width * 0.1));
-      const band = gutter >= 112 ? Math.max(88, gutter - margin * 2) : compactWidth;
-      const x = side === 0 ? margin : width - band - margin;
-      return {
-        x,
-        w: band,
-        horizon: height * 0.18,
-        bottom: height + 80,
-        center: side === 0 ? x + band * 0.58 : x + band * 0.42,
-        yaw: side === 0 ? -0.22 : 0.22,
-      };
+    const scene = () => ({
+      cx: width * 0.5,
+      horizon: height * 0.13,
+      bottom: height + 120,
+      roadWidth: Math.min(width * 0.82, 980),
+      vanishingShift: Math.sin(window.scrollY * 0.001) * width * 0.018,
+    });
+
+    const project = (view, lateral, depth, lift = 0) => {
+      const curve = Math.sin(depth * Math.PI * 1.45 + window.scrollY * 0.0011) * width * 0.035 * depth;
+      const scale = 0.06 + depth * depth * 1.08;
+      const roadWidth = view.roadWidth * (0.07 + depth * 0.94);
+      const x = view.cx + view.vanishingShift + curve + lateral * roadWidth * 0.5;
+      const y = view.horizon + (view.bottom - view.horizon) * depth - lift * height * 0.105 * scale;
+      return { x, y, scale, roadWidth };
     };
 
-    const project = (band, lateral, depth, lift = 0) => {
-      const perspective = 0.15 + depth * depth * 0.88;
-      const y = band.horizon + (band.bottom - band.horizon) * depth - lift * 42 * perspective;
-      const roadWidth = band.w * (0.12 + depth * 0.72);
-      const bend = Math.sin(depth * Math.PI * 1.25 + band.yaw) * band.w * 0.12 * depth;
-      const x = band.center + bend + lateral * roadWidth * 0.5;
-      return { x, y, scale: perspective };
-    };
-
-    const drawPerspectiveGrid = (band, travel) => {
+    const drawRoadMesh = (view, travel) => {
       ctx.lineCap = "round";
-      [-0.85, -0.42, 0, 0.42, 0.85].forEach((lane) => {
+      [-1.05, -0.62, -0.22, 0.22, 0.62, 1.05].forEach((lane) => {
         ctx.beginPath();
-        for (let step = 0; step <= 28; step += 1) {
-          const depth = step / 28;
-          const point = project(band, lane, depth);
+        for (let step = 0; step <= 36; step += 1) {
+          const depth = step / 36;
+          const point = project(view, lane, depth);
           if (step === 0) ctx.moveTo(point.x, point.y);
           else ctx.lineTo(point.x, point.y);
         }
-        ctx.strokeStyle = `rgba(${palette.lane}, ${dark ? 0.18 : 0.13})`;
-        ctx.lineWidth = lane === 0 ? 1.4 : 0.9;
+        ctx.strokeStyle = `rgba(${palette.lane}, ${dark ? 0.24 : 0.14})`;
+        ctx.lineWidth = Math.abs(lane) === 1.05 ? 1.5 : 0.85;
         ctx.stroke();
       });
 
-      for (let step = 0; step < 18; step += 1) {
-        const depth = (step / 18 + travel) % 1;
-        const left = project(band, -0.95, depth);
-        const right = project(band, 0.95, depth);
+      for (let step = 0; step < 30; step += 1) {
+        const depth = (step / 30 + travel) % 1;
+        const left = project(view, -1.08, depth);
+        const right = project(view, 1.08, depth);
         ctx.beginPath();
         ctx.moveTo(left.x, left.y);
         ctx.lineTo(right.x, right.y);
-        ctx.strokeStyle = `rgba(${palette.grid}, ${dark ? 0.09 + depth * 0.08 : 0.06 + depth * 0.05})`;
-        ctx.lineWidth = 0.7 + depth * 0.9;
+        ctx.strokeStyle = `rgba(${palette.grid}, ${dark ? 0.08 + depth * 0.1 : 0.045 + depth * 0.055})`;
+        ctx.lineWidth = 0.45 + depth * 1.2;
         ctx.stroke();
       }
     };
 
-    const drawVehicle = (band, time) => {
-      const pulse = 0.7 + Math.sin(time * 0.004) * 0.12;
-      const rear = project(band, 0, 0.86);
-      const nose = project(band, 0, 0.68);
-      const half = band.w * 0.12;
+    const drawTrajectory = (view, travel) => {
+      ctx.beginPath();
+      for (let step = 0; step <= 48; step += 1) {
+        const depth = step / 48;
+        const lateral = Math.sin(depth * Math.PI * 2.1 + travel * Math.PI * 2) * 0.12;
+        const point = project(view, lateral, depth, 0.03);
+        if (step === 0) ctx.moveTo(point.x, point.y);
+        else ctx.lineTo(point.x, point.y);
+      }
+      ctx.strokeStyle = `rgba(${palette.scan}, ${dark ? 0.42 : 0.24})`;
+      ctx.lineWidth = 2;
+      ctx.setLineDash([12, 16]);
+      ctx.lineDashOffset = -travel * 90;
+      ctx.stroke();
+      ctx.setLineDash([]);
+    };
+
+    const drawVehicle = (view, time) => {
+      const rear = project(view, 0, 0.91);
+      const nose = project(view, 0, 0.74);
+      const half = Math.min(80, width * 0.045);
+      const scan = 0.86 + Math.sin(time * 0.004) * 0.08;
 
       ctx.beginPath();
       ctx.moveTo(nose.x, nose.y);
-      ctx.lineTo(rear.x - half, rear.y + 18);
-      ctx.lineTo(rear.x + half, rear.y + 18);
+      ctx.lineTo(rear.x - half, rear.y + 22);
+      ctx.lineTo(rear.x + half, rear.y + 22);
       ctx.closePath();
-      ctx.fillStyle = `rgba(${palette.object}, ${dark ? 0.06 : 0.045})`;
-      ctx.strokeStyle = `rgba(${palette.lane}, ${dark ? 0.24 : 0.17})`;
-      ctx.lineWidth = 1;
+      ctx.fillStyle = `rgba(${palette.wall}, ${dark ? 0.055 : 0.04})`;
+      ctx.strokeStyle = `rgba(${palette.lane}, ${dark ? 0.3 : 0.18})`;
+      ctx.lineWidth = 1.2;
       ctx.fill();
       ctx.stroke();
 
       ctx.beginPath();
-      ctx.ellipse(nose.x, nose.y + 4, band.w * 0.18 * pulse, 16 * pulse, 0, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(${palette.point}, ${dark ? 0.34 : 0.22})`;
+      ctx.ellipse(nose.x, nose.y + 8, width * 0.09 * scan, 22 * scan, 0, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(${palette.scan}, ${dark ? 0.32 : 0.2})`;
       ctx.lineWidth = 1;
       ctx.stroke();
     };
 
-    const drawPoints = (band, side, travel, time) => {
-      mapPoints
-        .filter((point) => point.side === side)
-        .forEach((point) => {
-          const drift = reducedMotion ? 0 : time * 0.00006;
-          const depth = (point.depth + travel + drift) % 1;
-          const lift = point.kind === "object" ? 0.2 + point.height * 0.8 : point.height * 0.12;
-          const projected = project(band, point.lateral, depth, lift);
-          if (projected.y < -10 || projected.y > height + 20) return;
+    const drawSlamPoints = (view, travel, time) => {
+      slamPoints.forEach((point) => {
+        const drift = reducedMotion ? 0 : time * 0.000055;
+        const depth = (point.depth + travel + drift + point.cluster * 0.002) % 1;
+        const shimmer = 0.75 + Math.sin(time * 0.002 + point.phase) * 0.25;
+        const projected = project(view, point.lateral, depth, point.lift);
+        if (projected.y < -20 || projected.y > height + 30 || projected.x < -30 || projected.x > width + 30) return;
 
-          const alphaBase = point.kind === "object" ? 0.36 : 0.22;
-          const alpha = (dark ? alphaBase + 0.08 : alphaBase) * point.flicker * (0.45 + depth * 0.8);
-          const radius = point.size * (0.5 + projected.scale * 1.8);
+        const alphaBase = point.kind === "object" ? 0.32 : point.kind === "wall" ? 0.22 : 0.18;
+        const alpha = (dark ? alphaBase + 0.07 : alphaBase) * point.flicker * shimmer * (0.35 + depth * 0.9);
+        const radius = point.size * (0.45 + projected.scale * 1.9);
+        ctx.beginPath();
+        ctx.arc(projected.x, projected.y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${point.kind === "wall" ? palette.wall : palette.point}, ${alpha})`;
+        ctx.fill();
+
+        if (point.kind === "object" && depth > 0.38) {
           ctx.beginPath();
-          ctx.arc(projected.x, projected.y, radius, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${point.kind === "object" ? palette.object : palette.point}, ${alpha})`;
-          ctx.fill();
-        });
+          ctx.moveTo(projected.x, projected.y);
+          ctx.lineTo(projected.x, projected.y + 18 * projected.scale);
+          ctx.strokeStyle = `rgba(${palette.scan}, ${alpha * 0.45})`;
+          ctx.lineWidth = 0.7;
+          ctx.stroke();
+        }
+      });
     };
 
     const draw = (time = 0) => {
@@ -624,27 +645,19 @@ function AutonomyField({ dark }) {
       scrollVelocity += (currentScrollY - lastScrollY - scrollVelocity) * 0.08;
       lastScrollY = currentScrollY;
       const travel = ((currentScrollY * 0.0016 + time * 0.000035 + scrollVelocity * 0.001) % 1 + 1) % 1;
+      const view = scene();
 
-      [0, 1].forEach((side) => {
-        const band = sideBand(side);
-        ctx.save();
-        ctx.beginPath();
-        ctx.rect(band.x, 0, band.w, height);
-        ctx.clip();
+      const glow = ctx.createRadialGradient(view.cx, height * 0.62, width * 0.08, view.cx, height * 0.62, width * 0.58);
+      glow.addColorStop(0, `rgba(${palette.scan}, ${dark ? 0.055 : 0.035})`);
+      glow.addColorStop(0.55, `rgba(${palette.scan}, ${dark ? 0.022 : 0.014})`);
+      glow.addColorStop(1, `rgba(${palette.scan}, 0)`);
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, width, height);
 
-        const fade = ctx.createLinearGradient(0, 0, 0, height);
-        fade.addColorStop(0, `rgba(${palette.point}, 0)`);
-        fade.addColorStop(0.22, `rgba(${palette.point}, ${dark ? 0.03 : 0.022})`);
-        fade.addColorStop(0.78, `rgba(${palette.point}, ${dark ? 0.045 : 0.026})`);
-        fade.addColorStop(1, `rgba(${palette.point}, 0)`);
-        ctx.fillStyle = fade;
-        ctx.fillRect(band.x, 0, band.w, height);
-
-        drawPerspectiveGrid(band, travel);
-        drawPoints(band, side, travel, time);
-        drawVehicle(band, time);
-        ctx.restore();
-      });
+      drawRoadMesh(view, travel);
+      drawTrajectory(view, travel);
+      drawSlamPoints(view, travel, time);
+      drawVehicle(view, time);
 
       if (!reducedMotion) frameId = window.requestAnimationFrame(draw);
     };
