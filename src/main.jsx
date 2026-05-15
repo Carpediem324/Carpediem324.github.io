@@ -236,12 +236,12 @@ function Home({ projects, setPage }) {
       <section className="hero-section">
         <div className="hero-copy">
           <p className="eyebrow">
-            <Radar size={16} /> Robotics | Autonomous Driving | SLAM
+            <Radar size={16} /> ROBOTICS SOFTWARE PORTFOLIO
           </p>
-          <h1>로봇이 스스로 판단하고 움직이게 만드는 SW 엔지니어</h1>
+          <h1>센서 데이터에서 주행 제어까지, 움직이는 로봇을 만듭니다.</h1>
           <p>
-            RTK GPS/IMU 위치 추정, ROS 기반 로봇 제어, SLAM 평가, 경로 계획과 주행 제어를 직접 구현하며
-            로봇과 자율주행 시스템 개발자로 성장하고 있습니다.
+            자율주행과 로보틱스 프로젝트에서 위치 추정, SLAM 평가, 경로 계획, ROS 기반 제어를 직접 구현해 왔습니다.
+            화면보다 로봇의 판단과 움직임을 만드는 일에 더 가까운 개발자가 되고 싶습니다.
           </p>
           <div className="hero-actions">
             <button className="primary-btn" onClick={() => setPage("projects")} type="button">
@@ -251,8 +251,14 @@ function Home({ projects, setPage }) {
               프로필 보기
             </button>
           </div>
+          <div className="hero-signal-row">
+            <span>RTK GPS / IMU</span>
+            <span>3D LiDAR</span>
+            <span>ROS2</span>
+            <span>A* / Pure Pursuit</span>
+          </div>
         </div>
-        <div className="hero-card">
+        <div className="hero-card" aria-label="Robotics capability summary">
           <div className="profile-strip">
             <img src="/assets/images/profile/hyeonhak-shin.jpg" alt="Hyeonhak Shin profile" />
             <div>
@@ -260,10 +266,22 @@ function Home({ projects, setPage }) {
               <span>{profile.headline}</span>
             </div>
           </div>
+          <div className="pipeline-card">
+            <div>
+              <small>Autonomy Pipeline</small>
+              <strong>Sense {">"} Localize {">"} Plan {">"} Control</strong>
+            </div>
+            <div className="pipeline-track" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
           <div className="focus-list">
-            <FocusItem icon={<Navigation />} title="Localization" text="RTK GPS, IMU, LiDAR 기반 위치와 상태 추정" />
-            <FocusItem icon={<Route />} title="Planning & Control" text="A*, Pure Pursuit, ROS2 상태 제어" />
-            <FocusItem icon={<BrainCircuit />} title="Simulation" text="Isaac Sim, Unitree Go1, HDL Graph SLAM 실험" />
+            <FocusItem icon={<Navigation />} title="Localization" text="RTK GPS, IMU, LiDAR로 로봇의 현재 위치를 추정합니다." />
+            <FocusItem icon={<Route />} title="Planning & Control" text="A*, Pure Pursuit, ROS2 토픽/서비스로 주행 흐름을 구현합니다." />
+            <FocusItem icon={<BrainCircuit />} title="Simulation & SLAM" text="Isaac Sim, Unitree Go1, HDL Graph SLAM으로 실험을 검증합니다." />
           </div>
         </div>
       </section>

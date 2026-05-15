@@ -2,7 +2,7 @@ const { test, expect } = require("@playwright/test");
 
 test("home page toggles theme and language", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("heading", { name: "로봇이 스스로 판단하고 움직이게 만드는 SW 엔지니어" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "센서 데이터에서 주행 제어까지, 움직이는 로봇을 만듭니다." })).toBeVisible();
 
   const initialTheme = await page.locator("html").evaluate((el) => el.classList.contains("dark"));
   await page.getByRole("button", { name: "Theme toggle" }).click();
@@ -32,4 +32,9 @@ test("project page renders static project cards", async ({ page }) => {
     images.map((image) => ({ src: image.getAttribute("src"), width: image.naturalWidth })),
   );
   expect(loadedImages.every((image) => image.width > 0)).toBeTruthy();
+
+  const mediaHeights = await page.locator(".project-card .project-media").evaluateAll((media) =>
+    media.map((item) => Math.round(item.getBoundingClientRect().height)),
+  );
+  expect(new Set(mediaHeights).size).toBe(1);
 });
