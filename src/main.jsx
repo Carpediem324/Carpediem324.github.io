@@ -123,7 +123,7 @@ const projects = [
     summary:
       "Raspberry Pi 5 Docker 환경, Wakeup 키워드 인식, MQTT 음성 데이터 전송, PulseAudio 마이크 다중 접근을 구현했습니다.",
     stack: ["Raspberry Pi", "Docker", "MQTT"],
-    outcome: "SSAFY DA 연계 프로젝트 우수상",
+    outcome: "SSAFY 삼성전자 DA사업부 연계 프로젝트 우수상 | 3등",
     image: "/assets/images/projects/voice-assistant-1.jpg",
     links: [],
   },
@@ -176,6 +176,7 @@ const profile = {
   awards: [
     "2023 대학생 창작모빌리티 경진대회 무인모빌리티 부문 대상",
     "SSAFY 자율 프로젝트 우수상 | 1등",
+    "SSAFY 삼성전자 DA사업부 연계 프로젝트 우수상 | 3등",
     "SSAFY 프로젝트 전시발표회 발표부문 | 1등",
     "PCCP C++ Lv.3",
   ],
@@ -280,7 +281,7 @@ const projectEn = {
     team: "6 members",
     summary:
       "Built Raspberry Pi 5 Docker runtime, wake-word recognition, MQTT audio transfer, and PulseAudio microphone access handling.",
-    outcome: "SSAFY DA-linked Project Excellence Award",
+    outcome: "SSAFY Samsung Electronics DA-linked Project Excellence Award | 3rd place",
   },
   "mock-interview-stt": {
     title: "Mock Interview Website with STT",
@@ -362,6 +363,7 @@ const profileEn = {
   awards: [
     "Grand Prize, Student Creative Mobility Competition 2023, Unmanned Mobility",
     "SSAFY Autonomous Project Excellence Award | 1st place",
+    "SSAFY Samsung Electronics DA-linked Project Excellence Award | 3rd place",
     "SSAFY Project Exhibition Presentation Award | 1st place",
     "PCCP C++ Lv.3",
   ],

@@ -30,6 +30,7 @@ test("profile page shows framed profile photo", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "신현학", exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "연락처" })).toBeVisible();
   await expect(page.getByText("대한민국, 여수시")).toBeVisible();
+  await expect(page.getByText("SSAFY 삼성전자 DA사업부 연계 프로젝트 우수상 | 3등")).toBeVisible();
   await expect(page.getByRole("link", { name: "imur.navigator@gmail.com" })).toHaveAttribute("href", "mailto:imur.navigator@gmail.com");
   await expect(page.getByRole("link", { name: /github\.com\/Carpediem324/ })).toHaveAttribute("href", "https://github.com/Carpediem324");
   await expect(page.getByAltText("Hyeonhak Shin profile photo")).toBeVisible();
@@ -43,6 +44,7 @@ test("project page renders static project cards", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "2023 대학생 창작모빌리티 경진대회 무인모빌리티" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "무인 경비 로봇 관제 시스템 ROBOCOP" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "재난지역탐사로봇 GAEMI" })).toBeVisible();
+  await expect(page.getByText("SSAFY 삼성전자 DA사업부 연계 프로젝트 우수상 | 3등")).toBeVisible();
 
   const loadedImages = await page.locator(".project-media img").evaluateAll((images) =>
     images.map((image) => ({ src: image.getAttribute("src"), width: image.naturalWidth })),
