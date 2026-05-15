@@ -409,6 +409,7 @@ function App() {
   const [page, setPage] = React.useState("home");
   const [dark, setDark] = React.useState(false);
   const [lang, setLang] = React.useState("ko");
+  const [ripples, setRipples] = React.useState([]);
   const featuredProjects = projects.slice(0, 5);
   const text = copy[lang];
 
@@ -420,12 +421,76 @@ function App() {
     document.documentElement.lang = lang;
   }, [lang]);
 
+  React.useEffect(() => {
+    const onClick = (event) => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (event.target.closest("a, button, input, textarea, select, [role='button']")) return;
+
+      const shell = document.querySelector(".app-shell");
+      const rect = shell?.getBoundingClientRect();
+      const clickedGutter = rect && (event.clientX < rect.left || event.clientX > rect.right);
+      if (!clickedGutter) return;
+
+      const id = `${Date.now()}-${Math.random()}`;
+      const drops = Array.from({ length: 8 }, (_, index) => ({
+        angle: index * 45 + Math.random() * 18,
+        distance: 28 + Math.random() * 34,
+        size: 5 + Math.random() * 5,
+      }));
+
+      setRipples((items) => [...items.slice(-4), { id, x: event.clientX, y: event.clientY, drops }]);
+      window.setTimeout(() => {
+        setRipples((items) => items.filter((item) => item.id !== id));
+      }, 900);
+    };
+
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
+  }, []);
+
   return (
-    <div className="app-shell">
-      <Header page={page} setPage={setPage} dark={dark} setDark={setDark} lang={lang} setLang={setLang} text={text} />
-      {page === "home" && <Home projects={featuredProjects} setPage={setPage} lang={lang} text={text} />}
-      {page === "profile" && <Profile lang={lang} text={text} />}
-      {page === "projects" && <Projects projects={projects} lang={lang} text={text} />}
+    <>
+      <AmbientBackground />
+      <RippleLayer ripples={ripples} />
+      <div className="app-shell">
+        <Header page={page} setPage={setPage} dark={dark} setDark={setDark} lang={lang} setLang={setLang} text={text} />
+        {page === "home" && <Home projects={featuredProjects} setPage={setPage} lang={lang} text={text} />}
+        {page === "profile" && <Profile lang={lang} text={text} />}
+        {page === "projects" && <Projects projects={projects} lang={lang} text={text} />}
+      </div>
+    </>
+  );
+}
+
+function AmbientBackground() {
+  return (
+    <div className="ambient-layer" aria-hidden="true">
+      <span className="ambient-line ambient-line--left"></span>
+      <span className="ambient-line ambient-line--right"></span>
+      <span className="ambient-dot ambient-dot--one"></span>
+      <span className="ambient-dot ambient-dot--two"></span>
+      <span className="ambient-dot ambient-dot--three"></span>
+    </div>
+  );
+}
+
+function RippleLayer({ ripples }) {
+  return (
+    <div className="ripple-layer" aria-hidden="true">
+      {ripples.map((ripple) => (
+        <span className="ripple-pop" key={ripple.id} style={{ left: ripple.x, top: ripple.y }}>
+          {ripple.drops.map((drop, index) => (
+            <i
+              key={index}
+              style={{
+                "--angle": `${drop.angle}deg`,
+                "--distance": `${drop.distance}px`,
+                "--drop-size": `${drop.size}px`,
+              }}
+            ></i>
+          ))}
+        </span>
+      ))}
     </div>
   );
 }

@@ -15,6 +15,11 @@ test("home page toggles theme and language", async ({ page }) => {
   await expect(page.getByText("Autonomy Pipeline")).toHaveCount(0);
   await expect(page.locator(".career-card")).toHaveCSS("background-color", "rgb(248, 250, 252)");
   await expect(page.locator(".primary-btn")).toHaveCSS("background-color", "rgb(17, 24, 39)");
+  await expect(page.locator(".ambient-layer")).toBeVisible();
+  await page.mouse.click(640, 360);
+  await expect(page.locator(".ripple-pop")).toHaveCount(0);
+  await page.mouse.click(12, 360);
+  await expect(page.locator(".ripple-pop")).toHaveCount(1);
   await page.getByRole("button", { name: "Language toggle" }).click();
   await expect(page.getByRole("heading", { name: "Building robot software from sensor data to motion control." })).toBeVisible();
   await expect(page.getByText("Autonomous Vehicle Research Group")).toBeVisible();
