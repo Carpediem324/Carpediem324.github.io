@@ -6,6 +6,7 @@ test("home page toggles theme and language", async ({ page }) => {
   await expect(page.getByText("자율주행자동차 연구회")).toBeVisible();
   await expect(page.getByText("POSCO DX P/C 엔지니어")).toBeVisible();
   await expect(page.getByText("Autonomy Pipeline")).toHaveCount(0);
+  await expect(page.locator(".career-card")).toHaveCSS("background-color", "rgb(248, 250, 252)");
 
   const initialTheme = await page.locator("html").evaluate((el) => el.classList.contains("dark"));
   await page.getByRole("button", { name: "Theme toggle" }).click();

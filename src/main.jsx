@@ -259,10 +259,7 @@ function Home({ projects, setPage }) {
             <Radar size={16} /> ROBOTICS SOFTWARE PORTFOLIO
           </p>
           <h1>센서 데이터에서 주행 제어까지, 움직이는 로봇을 만듭니다.</h1>
-          <p>
-            자율주행과 로보틱스 프로젝트에서 위치 추정, SLAM 평가, 경로 계획, ROS 기반 제어를 직접 구현해 왔습니다.
-            화면보다 로봇의 판단과 움직임을 만드는 일에 더 가까운 개발자가 되고 싶습니다.
-          </p>
+          <p>자율주행 수상 경험과 로봇 실험, 그리고 현업 제어 시스템 경험을 연결해 성장하고 있습니다.</p>
           <div className="hero-actions">
             <button className="primary-btn" onClick={() => setPage("projects")} type="button">
               프로젝트 보기 <ChevronRight size={18} />

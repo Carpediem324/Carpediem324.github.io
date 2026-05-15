@@ -320,20 +320,20 @@ p {
 }
 
 .career-card {
-  background: #101828;
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
   border-radius: 8px;
-  color: #fff;
+  color: var(--text);
   overflow: hidden;
   padding: 18px;
 }
 
 :root.dark .career-card {
-  background: #0f172a;
-  border: 1px solid var(--line);
+  background: var(--surface-soft);
 }
 
 .career-card__label {
-  color: #86efac;
+  color: var(--green);
   font-size: 0.76rem;
   font-weight: 800;
   margin: 0;
@@ -361,11 +361,11 @@ p {
 }
 
 .career-item + .career-item {
-  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  border-top: 1px solid var(--line);
 }
 
 .career-item span {
-  color: #93c5fd;
+  color: var(--blue);
   font-size: 0.76rem;
   font-weight: 800;
   line-height: 1.45;
@@ -378,7 +378,7 @@ p {
 }
 
 .career-item p {
-  color: #d0d5dd;
+  color: var(--muted);
   font-size: 0.82rem;
   line-height: 1.65;
   margin-top: 5px;
