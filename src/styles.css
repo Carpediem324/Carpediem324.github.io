@@ -11,6 +11,8 @@
   --blue: #1877f2;
   --green: #03c75a;
   --navy: #172554;
+  --cta: #111827;
+  --cta-hover: #1f2937;
   --shadow: 0 18px 50px rgba(16, 24, 40, 0.08);
 }
 
@@ -25,6 +27,8 @@
   --blue: #60a5fa;
   --green: #34d399;
   --navy: #dbeafe;
+  --cta: #e5e7eb;
+  --cta-hover: #f8fafc;
   --shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
 }
 
@@ -262,21 +266,37 @@ p {
 .primary-btn,
 .secondary-btn {
   border-radius: 8px;
+  box-shadow: 0 10px 22px rgba(16, 24, 40, 0.08);
   font-weight: 800;
   gap: 8px;
   min-height: 46px;
   padding: 0 18px;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
 }
 
 .primary-btn {
-  background: var(--blue);
-  color: #fff;
+  background: var(--cta);
+  color: var(--surface);
 }
 
 .secondary-btn {
-  background: var(--surface-soft);
-  border: 1px solid var(--line);
-  color: var(--text);
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  border: 1px solid color-mix(in srgb, var(--navy) 20%, var(--line));
+  color: var(--navy);
+}
+
+.primary-btn:hover,
+.secondary-btn:hover {
+  transform: translateY(-1px);
+}
+
+.primary-btn:hover {
+  background: var(--cta-hover);
+}
+
+.secondary-btn:hover {
+  background: var(--surface);
+  border-color: color-mix(in srgb, var(--navy) 42%, var(--line));
 }
 
 .hero-card {

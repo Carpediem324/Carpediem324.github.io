@@ -262,10 +262,10 @@ function Home({ projects, setPage }) {
           <p>자율주행 수상 경험과 로봇 실험, 그리고 현업 제어 시스템 경험을 연결해 성장하고 있습니다.</p>
           <div className="hero-actions">
             <button className="primary-btn" onClick={() => setPage("projects")} type="button">
-              프로젝트 보기 <ChevronRight size={18} />
+              대표 작업 살펴보기 <ChevronRight size={18} />
             </button>
             <button className="secondary-btn" onClick={() => setPage("profile")} type="button">
-              프로필 보기
+              이력 한눈에 보기
             </button>
           </div>
           <div className="hero-signal-row">
@@ -310,7 +310,7 @@ function Home({ projects, setPage }) {
         ))}
       </section>
 
-      <SectionHeader title="Featured Work" action="전체 보기" onAction={() => setPage("projects")} />
+      <SectionHeader title="Featured Work" action="작업 전체 보기" onAction={() => setPage("projects")} />
       <div className="project-grid featured">
         {projects.map((project) => (
           <ProjectCard key={project.id} project={project} />
