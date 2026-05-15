@@ -37,8 +37,8 @@ test("profile page shows framed profile photo", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "교육 및 활동" })).toBeVisible();
   await expect(page.getByText("대한민국, 여수시")).toBeVisible();
   await expect(page.locator(".info-card", { hasText: "학력" })).toContainText("한국기술교육대학교");
-  await expect(page.locator(".info-card", { hasText: "학력" })).not.toContainText("삼성청년SW아카데미");
-  await expect(page.locator(".info-card", { hasText: "교육 및 활동" })).toContainText("삼성청년SW아카데미");
+  await expect(page.locator(".info-card", { hasText: "학력" })).not.toContainText("삼성청년SWAI아카데미");
+  await expect(page.locator(".info-card", { hasText: "교육 및 활동" })).toContainText("삼성청년SWAI아카데미");
   await expect(page.locator(".info-card", { hasText: "교육 및 활동" })).toContainText("멀티캠퍼스");
   await expect(page.locator(".info-card", { hasText: "교육 및 활동" })).toContainText(
     "H-모빌리티 클래스 | 현대NGV | 카인사이드아웃 자율주행 - 인지",
