@@ -677,6 +677,21 @@ p {
   padding-top: 11px;
 }
 
+.profile-link {
+  align-items: center;
+  color: var(--navy);
+  display: inline-flex;
+  font-weight: 800;
+  gap: 6px;
+  text-decoration: none;
+  text-underline-offset: 3px;
+}
+
+.profile-link:hover {
+  color: var(--blue);
+  text-decoration: underline;
+}
+
 @media (max-width: 900px) {
   .hero-section,
   .project-grid,

@@ -163,7 +163,12 @@ const profile = {
   headline: "Robotics & Autonomous Driving Software Engineer",
   intro:
     "C++, Python, ROS/ROS2, SLAM, 경로 계획 경험을 바탕으로 로봇이 환경을 인식하고 안정적으로 주행하는 소프트웨어를 만들고 싶습니다.",
-  contact: ["대한민국, 여수시", "imur.navigator@gmail.com", "github.com/Carpediem324", "한국어 Native | 영어 Business Level"],
+  contact: [
+    "대한민국, 여수시",
+    { label: "imur.navigator@gmail.com", href: "mailto:imur.navigator@gmail.com" },
+    { label: "github.com/Carpediem324", href: "https://github.com/Carpediem324" },
+    "한국어 Native | 영어 Business Level",
+  ],
   education: [
     "한국기술교육대학교 컴퓨터공학부 스마트IoT 트랙 공학사 | 2018 - 2024",
     "삼성청년SW아카데미 임베디드 로봇 트랙 | 2024.07 - 2025.06",
@@ -176,11 +181,18 @@ const profile = {
   ],
 };
 
-const stats = [
-  { label: "Robotics Projects", value: "7+" },
-  { label: "Autonomy Awards", value: "3" },
-  { label: "Core Stack", value: "ROS2" },
-];
+const stats = {
+  ko: [
+    { label: "로봇/자율주행 프로젝트", value: "7+" },
+    { label: "자율주행·로봇 수상", value: "3" },
+    { label: "주요 개발 스택", value: "ROS2" },
+  ],
+  en: [
+    { label: "Robotics Projects", value: "7+" },
+    { label: "Autonomy Awards", value: "3" },
+    { label: "Core Stack", value: "ROS2" },
+  ],
+};
 
 const careerHighlights = [
   {
@@ -296,15 +308,15 @@ const copy = {
     heroLead: "자율주행 수상 경험과 로봇 실험, 그리고 현업 제어 시스템 경험을 연결해 성장하고 있습니다.",
     primaryCta: "대표 작업 살펴보기",
     secondaryCta: "이력 한눈에 보기",
-    careerLabel: "Career Track",
+    careerLabel: "이력 흐름",
     careerTitle: "자율주행 연구회 수상부터 현업 전산설계까지",
-    featuredTitle: "Featured Work",
+    featuredTitle: "대표 작업",
     featuredAction: "작업 전체 보기",
     profileEyebrow: "Hyeonhak Shin",
-    contact: "Contact",
-    experience: "Experience",
-    education: "Education",
-    awards: "Awards & Certifications",
+    contact: "연락처",
+    experience: "경험",
+    education: "학력",
+    awards: "수상 및 인증",
     projectsEyebrow: "Selected Work",
     projectsTitle: "프로젝트",
     projectsLead: "자율주행 위치 추정, ROS 기반 로봇 제어, SLAM 평가, 시뮬레이션과 임베디드 로봇 프로젝트를 중심으로 정리했습니다.",
@@ -337,7 +349,12 @@ const profileEn = {
   name: "Hyeonhak Shin",
   intro:
     "I want to build software that helps robots perceive their environment and navigate reliably, grounded in C++, Python, ROS/ROS2, SLAM, and path planning experience.",
-  contact: ["Yeosu, Republic of Korea", "imur.navigator@gmail.com", "github.com/Carpediem324", "Korean Native | English Business Level"],
+  contact: [
+    "Yeosu, Republic of Korea",
+    { label: "imur.navigator@gmail.com", href: "mailto:imur.navigator@gmail.com" },
+    { label: "github.com/Carpediem324", href: "https://github.com/Carpediem324" },
+    "Korean Native | English Business Level",
+  ],
   education: [
     "KOREATECH, B.S. in Computer Science, Smart IoT Track | 2018 - 2024",
     "Samsung Software AI Academy for Youth, Embedded Robot Track | 2024.07 - 2025.06",
@@ -488,7 +505,7 @@ function Home({ projects, setPage, lang, text }) {
       </section>
 
       <section className="stats-grid">
-        {stats.map((item) => (
+        {stats[lang].map((item) => (
           <article className="stat-card" key={item.label}>
             <strong>{item.value}</strong>
             <span>{item.label}</span>
@@ -605,9 +622,21 @@ function InfoCard({ icon, title, items }) {
         {React.cloneElement(icon, { size: 19 })} {title}
       </h2>
       <ul>
-        {items.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
+        {items.map((item) => {
+          const key = typeof item === "string" ? item : item.href;
+          return (
+            <li key={key}>
+              {typeof item === "string" ? (
+                item
+              ) : (
+                <a className="profile-link" href={item.href} target={item.href.startsWith("mailto:") ? undefined : "_blank"} rel={item.href.startsWith("mailto:") ? undefined : "noreferrer"}>
+                  {item.label}
+                  {!item.href.startsWith("mailto:") && <ExternalLink size={14} />}
+                </a>
+              )}
+            </li>
+          );
+        })}
       </ul>
     </article>
   );

@@ -5,6 +5,8 @@ test("home page toggles theme and language", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "센서 데이터에서 주행 제어까지, 움직이는 로봇을 만듭니다." })).toBeVisible();
   await expect(page.getByText("자율주행자동차 연구회")).toBeVisible();
   await expect(page.getByText("POSCO DX P/C 엔지니어")).toBeVisible();
+  await expect(page.getByText("로봇/자율주행 프로젝트")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "대표 작업" })).toBeVisible();
   await expect(page.getByRole("button", { name: "대표 작업 살펴보기" })).toBeVisible();
   await expect(page.getByRole("button", { name: "이력 한눈에 보기" })).toBeVisible();
   await expect(page.getByText("Autonomy Pipeline")).toHaveCount(0);
@@ -26,7 +28,10 @@ test("profile page shows framed profile photo", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "프로필", exact: true }).click();
   await expect(page.getByRole("heading", { name: "신현학", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "연락처" })).toBeVisible();
   await expect(page.getByText("대한민국, 여수시")).toBeVisible();
+  await expect(page.getByRole("link", { name: "imur.navigator@gmail.com" })).toHaveAttribute("href", "mailto:imur.navigator@gmail.com");
+  await expect(page.getByRole("link", { name: /github\.com\/Carpediem324/ })).toHaveAttribute("href", "https://github.com/Carpediem324");
   await expect(page.getByAltText("Hyeonhak Shin profile photo")).toBeVisible();
 });
 
