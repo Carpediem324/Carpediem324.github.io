@@ -39,6 +39,8 @@ test("profile page shows framed profile photo", async ({ page }) => {
   await expect(page.locator(".info-card", { hasText: "학력" })).toContainText("한국기술교육대학교");
   await expect(page.locator(".info-card", { hasText: "학력" })).not.toContainText("삼성청년SW아카데미");
   await expect(page.locator(".info-card", { hasText: "교육 및 활동" })).toContainText("삼성청년SW아카데미");
+  await expect(page.locator(".info-card", { hasText: "교육 및 활동" })).toContainText("H-모빌리티 클래스 자율주행 - 인지");
+  await expect(page.locator(".info-card", { hasText: "교육 및 활동" })).toContainText("카인사이드아웃 자율주행 - 인지");
   await expect(page.getByText("SSAFY 삼성전자 DA사업부 연계 프로젝트 우수상 | 3등")).toBeVisible();
   await expect(page.getByRole("link", { name: "imur.navigator@gmail.com" })).toHaveAttribute("href", "mailto:imur.navigator@gmail.com");
   await expect(page.getByRole("link", { name: /github\.com\/Carpediem324/ })).toHaveAttribute("href", "https://github.com/Carpediem324");
