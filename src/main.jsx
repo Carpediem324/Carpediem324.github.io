@@ -464,7 +464,6 @@ function App() {
 
   return (
     <>
-      <AutonomyField dark={dark} />
       <RippleLayer ripples={ripples} />
       <div className="app-shell">
         <Header page={page} setPage={setPage} dark={dark} setDark={setDark} lang={lang} setLang={setLang} text={text} />
@@ -473,21 +472,6 @@ function App() {
         {page === "projects" && <Projects projects={projects} lang={lang} text={text} />}
       </div>
     </>
-  );
-}
-
-function AutonomyField() {
-  return (
-    <div className="autonomy-scene" aria-hidden="true">
-      <div className="autonomy-photo"></div>
-      <div className="autonomy-grade"></div>
-      <div className="autonomy-perception">
-        <span className="perception-line perception-line--left"></span>
-        <span className="perception-line perception-line--right"></span>
-        <span className="perception-box perception-box--vehicle"></span>
-        <span className="perception-box perception-box--far"></span>
-      </div>
-    </div>
   );
 }
 
@@ -548,6 +532,7 @@ function Home({ projects, setPage, lang, text }) {
 
   return (
     <main>
+      <RoadHero />
       <section className="hero-section">
         <div className="hero-copy">
           <p className="eyebrow">
@@ -612,6 +597,15 @@ function Home({ projects, setPage, lang, text }) {
         ))}
       </div>
     </main>
+  );
+}
+
+function RoadHero() {
+  return (
+    <section className="road-hero" aria-label="Autonomous driving road scene">
+      <div className="road-hero__image"></div>
+      <div className="road-hero__shade"></div>
+    </section>
   );
 }
 
