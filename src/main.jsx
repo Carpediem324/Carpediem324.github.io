@@ -529,11 +529,11 @@ function AutonomyField({ dark }) {
     };
 
     const scene = () => ({
-      cx: width * 0.5,
-      horizon: height * 0.17,
-      bottom: height + 150,
-      roadWidth: Math.min(width * 0.78, 1120),
-      vanishingShift: Math.sin(window.scrollY * 0.001) * width * 0.014,
+      cx: width * 0.52,
+      horizon: height * 0.55,
+      bottom: height + 90,
+      roadWidth: Math.min(width * 0.98, 1360),
+      vanishingShift: Math.sin(window.scrollY * 0.001) * width * 0.01,
     });
 
     const project = (view, lateral, depth, lift = 0) => {
@@ -558,7 +558,7 @@ function AutonomyField({ dark }) {
       ctx.lineTo(nearRight.x, nearRight.y);
       ctx.lineTo(nearLeft.x, nearLeft.y);
       ctx.closePath();
-      ctx.fillStyle = `rgba(${palette.road}, ${dark ? 0.18 : 0.16})`;
+      ctx.fillStyle = `rgba(${palette.road}, ${dark ? 0.08 : 0.06})`;
       ctx.fill();
 
       [-1.05, -0.34, 0.34, 1.05].forEach((lane) => {
@@ -569,8 +569,8 @@ function AutonomyField({ dark }) {
           if (step === 0) ctx.moveTo(point.x, point.y);
           else ctx.lineTo(point.x, point.y);
         }
-        ctx.strokeStyle = `rgba(${palette.lane}, ${dark ? 0.2 : 0.13})`;
-        ctx.lineWidth = Math.abs(lane) === 1.05 ? 1.3 : 0.75;
+        ctx.strokeStyle = `rgba(${palette.lane}, ${dark ? 0.28 : 0.2})`;
+        ctx.lineWidth = Math.abs(lane) === 1.05 ? 1.5 : 0.9;
         ctx.stroke();
       });
 
@@ -581,7 +581,7 @@ function AutonomyField({ dark }) {
         ctx.beginPath();
         ctx.moveTo(left.x, left.y);
         ctx.lineTo(right.x, right.y);
-        ctx.strokeStyle = `rgba(${palette.grid}, ${dark ? 0.045 + depth * 0.06 : 0.035 + depth * 0.04})`;
+        ctx.strokeStyle = `rgba(${palette.grid}, ${dark ? 0.04 + depth * 0.045 : 0.03 + depth * 0.035})`;
         ctx.lineWidth = 0.4 + depth * 0.8;
         ctx.stroke();
       }
@@ -614,6 +614,26 @@ function AutonomyField({ dark }) {
       ctx.lineDashOffset = -travel * 90;
       ctx.stroke();
       ctx.setLineDash([]);
+    };
+
+    const drawDetectionBoxes = () => {
+      const boxes = [
+        { x: 0.16, y: 0.51, w: 0.28, h: 0.18, alpha: 0.34 },
+        { x: 0.5, y: 0.54, w: 0.035, h: 0.025, alpha: 0.28 },
+        { x: 0.56, y: 0.535, w: 0.026, h: 0.021, alpha: 0.22 },
+      ];
+
+      boxes.forEach((box) => {
+        const x = width * box.x;
+        const y = height * box.y;
+        const w = width * box.w;
+        const h = height * box.h;
+        ctx.strokeStyle = `rgba(${palette.point}, ${box.alpha})`;
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x, y, w, h);
+        ctx.fillStyle = `rgba(${palette.point}, ${box.alpha * 0.08})`;
+        ctx.fillRect(x, y, w, h);
+      });
     };
 
     const drawVehicle = (view, time) => {
@@ -685,6 +705,7 @@ function AutonomyField({ dark }) {
       drawRoadMesh(view, travel);
       drawTrajectory(view, travel);
       drawSlamPoints(view, travel, time);
+      drawDetectionBoxes();
       drawVehicle(view, time);
 
       if (!reducedMotion) frameId = window.requestAnimationFrame(draw);
@@ -699,7 +720,12 @@ function AutonomyField({ dark }) {
     };
   }, [dark]);
 
-  return <canvas className="autonomy-field" ref={canvasRef} aria-hidden="true"></canvas>;
+  return (
+    <>
+      <div className="autonomy-photo" aria-hidden="true"></div>
+      <canvas className="autonomy-field" ref={canvasRef} aria-hidden="true"></canvas>
+    </>
+  );
 }
 
 function RippleLayer({ ripples }) {
