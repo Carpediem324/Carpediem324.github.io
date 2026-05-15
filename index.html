@@ -1,70 +1,16 @@
 <!doctype html>
-<html lang="ko" class="scroll-smooth">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title data-i18n-title data-i18n-ko="Hyeonhak Shin | Home" data-i18n-en="Hyeonhak Shin | Home">
-      Hyeonhak Shin | Home
-    </title>
     <meta
       name="description"
-      content="로봇 소프트웨어, 자율주행, SLAM 경험을 담은 Hyeonhak Shin의 작업 기록"
-      data-i18n-content
-      data-i18n-ko="로봇 소프트웨어, 자율주행, SLAM 경험을 담은 Hyeonhak Shin의 작업 기록"
-      data-i18n-en="Hyeonhak Shin's work archive for robot software, autonomous driving, and SLAM"
+      content="로봇 소프트웨어, 자율주행, SLAM 경험을 담은 Hyeonhak Shin의 포트폴리오"
     />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = { darkMode: "class" };
-    </script>
-    <link rel="stylesheet" href="assets/css/styles.css" />
+    <title>Hyeonhak Shin | Robotics Portfolio</title>
   </head>
-  <body class="min-h-screen bg-slate-50 text-slate-900 antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-50">
-    <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
-      <div class="hero-glow hero-glow--left"></div>
-      <div class="hero-glow hero-glow--right"></div>
-    </div>
-
-    <div class="mx-auto max-w-6xl px-6 py-6 md:px-8">
-      <div id="siteHeader" data-site-header data-page="index"></div>
-
-      <main class="mt-14 pb-20">
-        <section class="grid items-center gap-10 lg:grid-cols-[1.12fr,0.88fr]">
-          <div>
-            <p class="hero-chip">
-              Robotics | Autonomous Driving | SLAM
-            </p>
-            <h1 class="mt-5 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">
-              <span data-i18n data-i18n-ko="로봇이 스스로 판단하고 움직이게 만드는 SW 엔지니어" data-i18n-en="A software engineer building robots that perceive, decide, and move">
-                로봇이 스스로 판단하고 움직이게 만드는 SW 엔지니어
-              </span>
-            </h1>
-            <p
-              class="mt-6 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300"
-              data-i18n
-              data-i18n-ko="RTK GPS/IMU 위치 추정, ROS 기반 로봇 제어, SLAM 평가, 경로 계획과 주행 제어를 직접 구현해 온 경험을 바탕으로 로봇과 자율주행 시스템 개발자로 성장하고 있습니다."
-              data-i18n-en="I am growing as a robotics and autonomous driving engineer through hands-on work in RTK GPS/IMU localization, ROS robot control, SLAM evaluation, path planning, and motion control."
-            >
-              RTK GPS/IMU 위치 추정, ROS 기반 로봇 제어, SLAM 평가, 경로 계획과 주행 제어를 직접 구현해 온 경험을 바탕으로 로봇과 자율주행 시스템 개발자로 성장하고 있습니다.
-            </p>
-            <div class="mt-8 flex flex-wrap gap-3">
-              <a href="profile.html" class="interactive cta-link cta-link--primary" data-i18n data-i18n-ko="프로필 보기" data-i18n-en="View profile">프로필 보기</a>
-              <a href="projects.html" class="interactive cta-link cta-link--secondary" data-i18n data-i18n-ko="프로젝트 보기" data-i18n-en="Explore projects">프로젝트 보기</a>
-            </div>
-          </div>
-
-          <aside class="feature-panel p-6">
-            <p class="text-sm font-bold text-teal-700 dark:text-teal-200" data-i18n data-i18n-ko="현재 초점" data-i18n-en="Current focus">현재 초점</p>
-            <ul class="mt-5 space-y-4 text-sm leading-7 text-slate-600 dark:text-slate-300">
-              <li data-i18n data-i18n-ko="RTK GPS, IMU, LiDAR 데이터를 활용해 로봇의 위치와 상태를 추정합니다." data-i18n-en="Estimating robot pose and state from RTK GPS, IMU, and LiDAR data.">RTK GPS, IMU, LiDAR 데이터를 활용해 로봇의 위치와 상태를 추정합니다.</li>
-              <li data-i18n data-i18n-ko="A*, Pure Pursuit, ROS 토픽/서비스로 자율주행 흐름을 구현합니다." data-i18n-en="Implementing autonomous navigation with A*, Pure Pursuit, and ROS topics/services.">A*, Pure Pursuit, ROS 토픽/서비스로 자율주행 흐름을 구현합니다.</li>
-              <li data-i18n data-i18n-ko="Isaac Sim, Unitree Go1, HDL Graph SLAM으로 실제 로봇 실험과 시뮬레이션을 연결합니다." data-i18n-en="Connecting simulation and robot experiments with Isaac Sim, Unitree Go1, and HDL Graph SLAM.">Isaac Sim, Unitree Go1, HDL Graph SLAM으로 실제 로봇 실험과 시뮬레이션을 연결합니다.</li>
-            </ul>
-          </aside>
-        </section>
-      </main>
-    </div>
-
-    <script src="assets/js/app.js" charset="UTF-8"></script>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

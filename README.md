@@ -2,24 +2,37 @@
 
 Personal portfolio site for GitHub Pages.
 
-## Project Data
-
-This site is fully static. Project cards are defined in `assets/js/app.js` and rendered on `projects.html`.
-
-GitHub Pages does not provide a shared database or server runtime. To add, edit, or remove projects, update the `PROJECTS` array in `assets/js/app.js` and deploy the commit.
-
-Project images use fixed file paths in `assets/js/app.js`. Add matching files under `assets/images/projects/`, for example:
+## Directory Structure
 
 ```txt
-assets/images/projects/robocop.jpg
-assets/images/projects/creative-mobility-2023.jpg
+src/
+  main.jsx
+  styles.css
+public/
+  assets/
+    images/
+tests/
+package.json
+vite.config.js
+playwright.config.js
+```
+
+`src/` contains the React application. `public/` contains static assets that Vite copies into the final build. GitHub Pages deploys the generated `dist/` directory through GitHub Actions.
+
+## Project Data
+
+This site is a React single-page portfolio. Project cards are defined in `src/main.jsx` and rendered by React components.
+
+GitHub Pages does not provide a shared database or server runtime. To add, edit, or remove projects, update the `projects` array in `src/main.jsx` and deploy the commit.
+
+Project images use fixed file paths in `src/main.jsx`. Add matching files under `public/assets/images/projects/`, for example:
+
+```txt
+public/assets/images/projects/robocop.jpg
+public/assets/images/projects/creative-mobility-2023.jpg
 ```
 
 If an image file is missing, the site shows a polished placeholder instead of a broken image.
-
-## Weather Background
-
-The site uses the browser location API when available and falls back to Gwangju coordinates. Weather is fetched from Open-Meteo without an API key and mapped to clear, rain, snow, or cloudy visual states.
 
 ## Checks
 
@@ -27,4 +40,4 @@ The site uses the browser location API when available and falls back to Gwangju 
 npm test
 ```
 
-The test suite checks JavaScript syntax, theme switching, language switching, and project-card rendering in Chrome through Playwright.
+The test suite builds the Vite app and checks theme switching, profile rendering, and project-card rendering in Chrome through Playwright.
