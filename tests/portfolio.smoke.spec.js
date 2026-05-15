@@ -18,6 +18,13 @@ test("home page toggles theme and language", async ({ page }) => {
   await expect(page.locator(".ambient-layer")).toBeVisible();
   await page.mouse.click(640, 360);
   await expect(page.locator(".ripple-pop")).toHaveCount(0);
+  await page.mouse.move(10, 300);
+  await page.mouse.down();
+  await page.mouse.move(10, 340);
+  await page.mouse.move(18, 382);
+  await page.mouse.up();
+  await expect(page.locator(".sketch-stroke").first()).toBeVisible();
+  await page.waitForTimeout(950);
   await page.mouse.click(12, 360);
   await expect(page.locator(".ripple-pop")).toHaveCount(1);
   await page.getByRole("button", { name: "Language toggle" }).click();

@@ -410,6 +410,8 @@ function App() {
   const [dark, setDark] = React.useState(false);
   const [lang, setLang] = React.useState("ko");
   const [ripples, setRipples] = React.useState([]);
+  const [sketches, setSketches] = React.useState([]);
+  const lastSketchPoint = React.useRef(null);
   const featuredProjects = projects.slice(0, 5);
   const text = copy[lang];
 
@@ -422,14 +424,18 @@ function App() {
   }, [lang]);
 
   React.useEffect(() => {
-    const onClick = (event) => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      if (event.target.closest("a, button, input, textarea, select, [role='button']")) return;
-
+    const isReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isInteractiveTarget = (target) => target.closest("a, button, input, textarea, select, [role='button']");
+    const isGutterPoint = (x) => {
       const shell = document.querySelector(".app-shell");
       const rect = shell?.getBoundingClientRect();
-      const clickedGutter = rect && (event.clientX < rect.left || event.clientX > rect.right);
-      if (!clickedGutter) return;
+      return Boolean(rect && (x < rect.left || x > rect.right));
+    };
+
+    const onClick = (event) => {
+      if (isReducedMotion()) return;
+      if (isInteractiveTarget(event.target)) return;
+      if (!isGutterPoint(event.clientX)) return;
 
       const id = `${Date.now()}-${Math.random()}`;
       const drops = Array.from({ length: 8 }, (_, index) => ({
@@ -445,12 +451,67 @@ function App() {
     };
 
     document.addEventListener("click", onClick);
-    return () => document.removeEventListener("click", onClick);
+
+    const onPointerDown = (event) => {
+      if (isReducedMotion()) return;
+      if (isInteractiveTarget(event.target)) return;
+      if (!isGutterPoint(event.clientX)) return;
+      lastSketchPoint.current = { x: event.clientX, y: event.clientY };
+    };
+
+    const onPointerMove = (event) => {
+      const previous = lastSketchPoint.current;
+      if (!previous) return;
+      if (!isGutterPoint(event.clientX)) {
+        lastSketchPoint.current = null;
+        return;
+      }
+
+      const dx = event.clientX - previous.x;
+      const dy = event.clientY - previous.y;
+      const length = Math.hypot(dx, dy);
+      if (length < 8) return;
+
+      const id = `${Date.now()}-${Math.random()}`;
+      const angle = (Math.atan2(dy, dx) * 180) / Math.PI;
+      const stroke = {
+        id,
+        x: previous.x,
+        y: previous.y,
+        length: Math.min(length, 52),
+        angle,
+        width: 3 + Math.random() * 3,
+      };
+
+      setSketches((items) => [...items.slice(-42), stroke]);
+      window.setTimeout(() => {
+        setSketches((items) => items.filter((item) => item.id !== id));
+      }, 3600);
+      lastSketchPoint.current = { x: event.clientX, y: event.clientY };
+    };
+
+    const onPointerUp = () => {
+      lastSketchPoint.current = null;
+    };
+
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("pointermove", onPointerMove);
+    document.addEventListener("pointerup", onPointerUp);
+    document.addEventListener("pointercancel", onPointerUp);
+
+    return () => {
+      document.removeEventListener("click", onClick);
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("pointermove", onPointerMove);
+      document.removeEventListener("pointerup", onPointerUp);
+      document.removeEventListener("pointercancel", onPointerUp);
+    };
   }, []);
 
   return (
     <>
       <AmbientBackground />
+      <SketchLayer sketches={sketches} />
       <RippleLayer ripples={ripples} />
       <div className="app-shell">
         <Header page={page} setPage={setPage} dark={dark} setDark={setDark} lang={lang} setLang={setLang} text={text} />
@@ -459,6 +520,26 @@ function App() {
         {page === "projects" && <Projects projects={projects} lang={lang} text={text} />}
       </div>
     </>
+  );
+}
+
+function SketchLayer({ sketches }) {
+  return (
+    <div className="sketch-layer" aria-hidden="true">
+      {sketches.map((stroke) => (
+        <span
+          className="sketch-stroke"
+          key={stroke.id}
+          style={{
+            left: stroke.x,
+            top: stroke.y,
+            width: stroke.length,
+            height: stroke.width,
+            transform: `rotate(${stroke.angle}deg)`,
+          }}
+        ></span>
+      ))}
+    </div>
   );
 }
 
