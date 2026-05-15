@@ -317,7 +317,7 @@ const copy = {
     featuredAction: "작업 전체 보기",
     profileEyebrow: "Hyeonhak Shin",
     contact: "연락처",
-    experience: "경험",
+    experience: "경력",
     education: "학력",
     training: "교육 및 활동",
     awards: "수상 및 인증",
