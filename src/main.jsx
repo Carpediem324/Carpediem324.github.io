@@ -173,8 +173,8 @@ const profile = {
     "한국기술교육대학교 컴퓨터공학부 스마트IoT 트랙 공학사 | 2018 - 2024",
   ],
   training: [
-    "삼성청년SW아카데미 임베디드 로봇 트랙 | 2024.07 - 2025.06",
-    "H-모빌리티 클래스 | 카인사이드아웃 자율주행 - 인지 | 2026.04.20 - 2026.06.26 | 이수 중",
+    "삼성청년SW아카데미 임베디드 로봇 트랙 | 멀티캠퍼스 | 2024.07 - 2025.06",
+    "H-모빌리티 클래스 | 현대NGV | 카인사이드아웃 자율주행 - 인지 | 2026.04.20 - 2026.06.26 | 이수 중",
   ],
   awards: [
     "2023 대학생 창작모빌리티 경진대회 무인모빌리티 부문 대상",
@@ -365,8 +365,8 @@ const profileEn = {
     "KOREATECH, B.S. in Computer Science, Smart IoT Track | 2018 - 2024",
   ],
   training: [
-    "Samsung Software AI Academy for Youth, Embedded Robot Track | 2024.07 - 2025.06",
-    "H-Mobility Class | Car Inside Out, Autonomous Driving - Perception | 2026.04.20 - 2026.06.26 | In progress",
+    "Samsung Software AI Academy for Youth, Embedded Robot Track | Multicampus | 2024.07 - 2025.06",
+    "H-Mobility Class | Hyundai NGV | Car Inside Out, Autonomous Driving - Perception | 2026.04.20 - 2026.06.26 | In progress",
   ],
   awards: [
     "Grand Prize, Student Creative Mobility Competition 2023, Unmanned Mobility",
