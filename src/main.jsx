@@ -492,24 +492,26 @@ function AutonomyField({ dark }) {
     let scrollVelocity = 0;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const palette = dark
-      ? { lane: "125, 211, 199", point: "52, 211, 153", wall: "226, 232, 240", grid: "148, 163, 184", scan: "110, 231, 183" }
-      : { lane: "0, 95, 72", point: "0, 138, 91", wall: "15, 23, 42", grid: "71, 85, 105", scan: "3, 199, 90" };
+      ? { road: "15, 23, 42", lane: "203, 213, 225", point: "255, 65, 54", object: "255, 143, 96", grid: "148, 163, 184" }
+      : { road: "241, 245, 249", lane: "71, 85, 105", point: "220, 38, 38", object: "185, 28, 28", grid: "100, 116, 139" };
 
     const createSlamPoints = () => {
-      const count = Math.max(420, Math.floor((width * height) / 3800));
+      const count = Math.max(760, Math.floor((width * height) / 2200));
       return Array.from({ length: count }, (_, index) => {
-        const laneSide = Math.random() > 0.5 ? 1 : -1;
-        const isWall = Math.random() > 0.58;
-        const isObject = Math.random() > 0.88;
+        const laneSide = index % 2 === 0 ? 1 : -1;
+        const roll = Math.random();
+        const isWall = roll > 0.54;
+        const isObject = roll > 0.9;
+        const laneStripe = index % 29 === 0;
         return {
-          lateral: isWall ? laneSide * (0.9 + Math.random() * 1.25) : (Math.random() - 0.5) * 1.35,
+          lateral: laneStripe ? laneSide * (0.28 + Math.random() * 0.04) : isWall ? laneSide * (1.05 + Math.random() * 1.45) : (Math.random() - 0.5) * 1.55,
           depth: Math.random(),
-          lift: isObject ? 0.35 + Math.random() * 1.7 : isWall ? Math.random() * 1.5 : Math.random() * 0.18,
-          size: 0.5 + Math.random() * (isObject ? 2.4 : 1.45),
+          lift: laneStripe ? 0.02 : isObject ? 0.45 + Math.random() * 1.55 : isWall ? Math.random() * 1.2 : Math.random() * 0.08,
+          size: laneStripe ? 1.4 + Math.random() * 1.1 : 0.55 + Math.random() * (isObject ? 2.7 : 1.35),
           flicker: 0.55 + Math.random() * 0.45,
           phase: Math.random() * Math.PI * 2,
-          kind: isObject ? "object" : isWall ? "wall" : "ground",
-          cluster: index % 9,
+          kind: laneStripe ? "stripe" : isObject ? "object" : isWall ? "wall" : "ground",
+          cluster: index % 13,
         };
       });
     };
@@ -528,15 +530,15 @@ function AutonomyField({ dark }) {
 
     const scene = () => ({
       cx: width * 0.5,
-      horizon: height * 0.13,
-      bottom: height + 120,
-      roadWidth: Math.min(width * 0.82, 980),
-      vanishingShift: Math.sin(window.scrollY * 0.001) * width * 0.018,
+      horizon: height * 0.17,
+      bottom: height + 150,
+      roadWidth: Math.min(width * 0.78, 1120),
+      vanishingShift: Math.sin(window.scrollY * 0.001) * width * 0.014,
     });
 
     const project = (view, lateral, depth, lift = 0) => {
-      const curve = Math.sin(depth * Math.PI * 1.45 + window.scrollY * 0.0011) * width * 0.035 * depth;
-      const scale = 0.06 + depth * depth * 1.08;
+      const curve = Math.sin(depth * Math.PI * 1.25 + window.scrollY * 0.0011) * width * 0.028 * depth;
+      const scale = 0.05 + depth * depth * 1.14;
       const roadWidth = view.roadWidth * (0.07 + depth * 0.94);
       const x = view.cx + view.vanishingShift + curve + lateral * roadWidth * 0.5;
       const y = view.horizon + (view.bottom - view.horizon) * depth - lift * height * 0.105 * scale;
@@ -545,7 +547,21 @@ function AutonomyField({ dark }) {
 
     const drawRoadMesh = (view, travel) => {
       ctx.lineCap = "round";
-      [-1.05, -0.62, -0.22, 0.22, 0.62, 1.05].forEach((lane) => {
+
+      const farLeft = project(view, -1.08, 0.02);
+      const farRight = project(view, 1.08, 0.02);
+      const nearLeft = project(view, -1.08, 1);
+      const nearRight = project(view, 1.08, 1);
+      ctx.beginPath();
+      ctx.moveTo(farLeft.x, farLeft.y);
+      ctx.lineTo(farRight.x, farRight.y);
+      ctx.lineTo(nearRight.x, nearRight.y);
+      ctx.lineTo(nearLeft.x, nearLeft.y);
+      ctx.closePath();
+      ctx.fillStyle = `rgba(${palette.road}, ${dark ? 0.18 : 0.16})`;
+      ctx.fill();
+
+      [-1.05, -0.34, 0.34, 1.05].forEach((lane) => {
         ctx.beginPath();
         for (let step = 0; step <= 36; step += 1) {
           const depth = step / 36;
@@ -553,36 +569,48 @@ function AutonomyField({ dark }) {
           if (step === 0) ctx.moveTo(point.x, point.y);
           else ctx.lineTo(point.x, point.y);
         }
-        ctx.strokeStyle = `rgba(${palette.lane}, ${dark ? 0.24 : 0.14})`;
-        ctx.lineWidth = Math.abs(lane) === 1.05 ? 1.5 : 0.85;
+        ctx.strokeStyle = `rgba(${palette.lane}, ${dark ? 0.2 : 0.13})`;
+        ctx.lineWidth = Math.abs(lane) === 1.05 ? 1.3 : 0.75;
         ctx.stroke();
       });
 
-      for (let step = 0; step < 30; step += 1) {
-        const depth = (step / 30 + travel) % 1;
+      for (let step = 0; step < 26; step += 1) {
+        const depth = (step / 26 + travel) % 1;
         const left = project(view, -1.08, depth);
         const right = project(view, 1.08, depth);
         ctx.beginPath();
         ctx.moveTo(left.x, left.y);
         ctx.lineTo(right.x, right.y);
-        ctx.strokeStyle = `rgba(${palette.grid}, ${dark ? 0.08 + depth * 0.1 : 0.045 + depth * 0.055})`;
-        ctx.lineWidth = 0.45 + depth * 1.2;
+        ctx.strokeStyle = `rgba(${palette.grid}, ${dark ? 0.045 + depth * 0.06 : 0.035 + depth * 0.04})`;
+        ctx.lineWidth = 0.4 + depth * 0.8;
         ctx.stroke();
       }
     };
 
     const drawTrajectory = (view, travel) => {
+      for (let mark = 0; mark < 12; mark += 1) {
+        const depth = (mark / 12 + travel * 1.6) % 1;
+        const start = project(view, -0.03, depth, 0.01);
+        const end = project(view, 0.03, Math.min(1, depth + 0.035), 0.01);
+        ctx.beginPath();
+        ctx.moveTo(start.x, start.y);
+        ctx.lineTo(end.x, end.y);
+        ctx.strokeStyle = `rgba(${palette.lane}, ${dark ? 0.28 + depth * 0.2 : 0.18 + depth * 0.12})`;
+        ctx.lineWidth = 1.4 + depth * 2;
+        ctx.stroke();
+      }
+
       ctx.beginPath();
       for (let step = 0; step <= 48; step += 1) {
         const depth = step / 48;
-        const lateral = Math.sin(depth * Math.PI * 2.1 + travel * Math.PI * 2) * 0.12;
+        const lateral = Math.sin(depth * Math.PI * 1.7 + travel * Math.PI * 2) * 0.06;
         const point = project(view, lateral, depth, 0.03);
         if (step === 0) ctx.moveTo(point.x, point.y);
         else ctx.lineTo(point.x, point.y);
       }
-      ctx.strokeStyle = `rgba(${palette.scan}, ${dark ? 0.42 : 0.24})`;
-      ctx.lineWidth = 2;
-      ctx.setLineDash([12, 16]);
+      ctx.strokeStyle = `rgba(${palette.point}, ${dark ? 0.5 : 0.34})`;
+      ctx.lineWidth = 1.4;
+      ctx.setLineDash([8, 14]);
       ctx.lineDashOffset = -travel * 90;
       ctx.stroke();
       ctx.setLineDash([]);
@@ -592,27 +620,28 @@ function AutonomyField({ dark }) {
       const rear = project(view, 0, 0.91);
       const nose = project(view, 0, 0.74);
       const half = Math.min(80, width * 0.045);
-      const scan = 0.86 + Math.sin(time * 0.004) * 0.08;
 
       ctx.beginPath();
       ctx.moveTo(nose.x, nose.y);
       ctx.lineTo(rear.x - half, rear.y + 22);
       ctx.lineTo(rear.x + half, rear.y + 22);
       ctx.closePath();
-      ctx.fillStyle = `rgba(${palette.wall}, ${dark ? 0.055 : 0.04})`;
-      ctx.strokeStyle = `rgba(${palette.lane}, ${dark ? 0.3 : 0.18})`;
+      ctx.fillStyle = `rgba(${palette.road}, ${dark ? 0.2 : 0.18})`;
+      ctx.strokeStyle = `rgba(${palette.point}, ${dark ? 0.38 : 0.3})`;
       ctx.lineWidth = 1.2;
       ctx.fill();
       ctx.stroke();
 
+      const lidar = project(view, 0, 0.74, 0.18);
       ctx.beginPath();
-      ctx.ellipse(nose.x, nose.y + 8, width * 0.09 * scan, 22 * scan, 0, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(${palette.scan}, ${dark ? 0.32 : 0.2})`;
-      ctx.lineWidth = 1;
-      ctx.stroke();
+      ctx.arc(lidar.x, lidar.y, 3, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${palette.point}, ${dark ? 0.72 : 0.56})`;
+      ctx.fill();
     };
 
     const drawSlamPoints = (view, travel, time) => {
+      ctx.save();
+      ctx.globalCompositeOperation = dark ? "lighter" : "source-over";
       slamPoints.forEach((point) => {
         const drift = reducedMotion ? 0 : time * 0.000055;
         const depth = (point.depth + travel + drift + point.cluster * 0.002) % 1;
@@ -620,23 +649,22 @@ function AutonomyField({ dark }) {
         const projected = project(view, point.lateral, depth, point.lift);
         if (projected.y < -20 || projected.y > height + 30 || projected.x < -30 || projected.x > width + 30) return;
 
-        const alphaBase = point.kind === "object" ? 0.32 : point.kind === "wall" ? 0.22 : 0.18;
+        const alphaBase = point.kind === "stripe" ? 0.46 : point.kind === "object" ? 0.42 : point.kind === "wall" ? 0.3 : 0.24;
         const alpha = (dark ? alphaBase + 0.07 : alphaBase) * point.flicker * shimmer * (0.35 + depth * 0.9);
-        const radius = point.size * (0.45 + projected.scale * 1.9);
-        ctx.beginPath();
-        ctx.arc(projected.x, projected.y, radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${point.kind === "wall" ? palette.wall : palette.point}, ${alpha})`;
-        ctx.fill();
+        const size = point.size * (0.5 + projected.scale * 2.2);
+        ctx.fillStyle = `rgba(${point.kind === "object" ? palette.object : palette.point}, ${alpha})`;
+        ctx.fillRect(projected.x - size * 0.5, projected.y - size * 0.5, size, size);
 
         if (point.kind === "object" && depth > 0.38) {
-          ctx.beginPath();
-          ctx.moveTo(projected.x, projected.y);
-          ctx.lineTo(projected.x, projected.y + 18 * projected.scale);
-          ctx.strokeStyle = `rgba(${palette.scan}, ${alpha * 0.45})`;
-          ctx.lineWidth = 0.7;
-          ctx.stroke();
+          for (let pillar = 1; pillar <= 5; pillar += 1) {
+            const stacked = project(view, point.lateral + Math.sin(point.phase + pillar) * 0.02, depth, point.lift + pillar * 0.22);
+            const dot = size * (0.7 + pillar * 0.08);
+            ctx.fillStyle = `rgba(${palette.object}, ${alpha * (1 - pillar * 0.11)})`;
+            ctx.fillRect(stacked.x - dot * 0.5, stacked.y - dot * 0.5, dot, dot);
+          }
         }
       });
+      ctx.restore();
     };
 
     const draw = (time = 0) => {
@@ -647,10 +675,10 @@ function AutonomyField({ dark }) {
       const travel = ((currentScrollY * 0.0016 + time * 0.000035 + scrollVelocity * 0.001) % 1 + 1) % 1;
       const view = scene();
 
-      const glow = ctx.createRadialGradient(view.cx, height * 0.62, width * 0.08, view.cx, height * 0.62, width * 0.58);
-      glow.addColorStop(0, `rgba(${palette.scan}, ${dark ? 0.055 : 0.035})`);
-      glow.addColorStop(0.55, `rgba(${palette.scan}, ${dark ? 0.022 : 0.014})`);
-      glow.addColorStop(1, `rgba(${palette.scan}, 0)`);
+      const glow = ctx.createRadialGradient(view.cx, height * 0.72, width * 0.08, view.cx, height * 0.72, width * 0.62);
+      glow.addColorStop(0, `rgba(${palette.point}, ${dark ? 0.08 : 0.045})`);
+      glow.addColorStop(0.5, `rgba(${palette.point}, ${dark ? 0.028 : 0.018})`);
+      glow.addColorStop(1, `rgba(${palette.point}, 0)`);
       ctx.fillStyle = glow;
       ctx.fillRect(0, 0, width, height);
 
