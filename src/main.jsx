@@ -3,7 +3,6 @@ import { createRoot } from "react-dom/client";
 import {
   Award,
   Bot,
-  BrainCircuit,
   CalendarDays,
   ChevronRight,
   Code2,
@@ -13,9 +12,7 @@ import {
   GraduationCap,
   Mail,
   Moon,
-  Navigation,
   Radar,
-  Route,
   Sun,
   UserRound,
 } from "lucide-react";
@@ -184,6 +181,29 @@ const stats = [
   { label: "Core Stack", value: "ROS2" },
 ];
 
+const careerHighlights = [
+  {
+    period: "2023",
+    title: "자율주행자동차 연구회",
+    text: "K-City 무인모빌리티 경진대회에서 RTK GPS/IMU 위치 추정과 글로벌 경로 생성을 맡아 국토교통부 장관상을 수상했습니다.",
+  },
+  {
+    period: "2024.01 - 2024.06",
+    title: "한국원자력연구원 인턴연구원",
+    text: "Isaac Sim 기반 3D SLAM 테스트, Unitree Go1 실험, ROS 로봇 데이터 연동을 수행했습니다.",
+  },
+  {
+    period: "2024.07 - 2025.06",
+    title: "SSAFY 임베디드 로봇 트랙",
+    text: "ROBOCOP, GAEMI 등 ROS2 자율주행/보행 로봇 프로젝트를 진행했고 자율 프로젝트 전체 1등을 수상했습니다.",
+  },
+  {
+    period: "현재",
+    title: "POSCO DX P/C 엔지니어",
+    text: "제철소 Level2/P-C 전산설계 업무를 수행하며 산업 현장의 데이터 흐름, 제어 인터페이스, 안정적인 운영 시스템을 익히고 있습니다.",
+  },
+];
+
 function App() {
   const [page, setPage] = React.useState("home");
   const [dark, setDark] = React.useState(false);
@@ -258,7 +278,7 @@ function Home({ projects, setPage }) {
             <span>A* / Pure Pursuit</span>
           </div>
         </div>
-        <div className="hero-card" aria-label="Robotics capability summary">
+        <div className="hero-card" aria-label="Career highlights">
           <div className="profile-strip">
             <img src="/assets/images/profile/hyeonhak-shin.jpg" alt="Hyeonhak Shin profile" />
             <div>
@@ -266,22 +286,20 @@ function Home({ projects, setPage }) {
               <span>{profile.headline}</span>
             </div>
           </div>
-          <div className="pipeline-card">
-            <div>
-              <small>Autonomy Pipeline</small>
-              <strong>Sense {">"} Localize {">"} Plan {">"} Control</strong>
+          <div className="career-card">
+            <p className="career-card__label">Career Track</p>
+            <h2>자율주행 연구회 수상부터 현업 전산설계까지</h2>
+            <div className="career-timeline">
+              {careerHighlights.map((item) => (
+                <article className="career-item" key={`${item.period}-${item.title}`}>
+                  <span>{item.period}</span>
+                  <div>
+                    <strong>{item.title}</strong>
+                    <p>{item.text}</p>
+                  </div>
+                </article>
+              ))}
             </div>
-            <div className="pipeline-track" aria-hidden="true">
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-          </div>
-          <div className="focus-list">
-            <FocusItem icon={<Navigation />} title="Localization" text="RTK GPS, IMU, LiDAR로 로봇의 현재 위치를 추정합니다." />
-            <FocusItem icon={<Route />} title="Planning & Control" text="A*, Pure Pursuit, ROS2 토픽/서비스로 주행 흐름을 구현합니다." />
-            <FocusItem icon={<BrainCircuit />} title="Simulation & SLAM" text="Isaac Sim, Unitree Go1, HDL Graph SLAM으로 실험을 검증합니다." />
           </div>
         </div>
       </section>
@@ -302,18 +320,6 @@ function Home({ projects, setPage }) {
         ))}
       </div>
     </main>
-  );
-}
-
-function FocusItem({ icon, title, text }) {
-  return (
-    <div className="focus-item">
-      <span>{React.cloneElement(icon, { size: 19 })}</span>
-      <div>
-        <strong>{title}</strong>
-        <p>{text}</p>
-      </div>
-    </div>
   );
 }
 

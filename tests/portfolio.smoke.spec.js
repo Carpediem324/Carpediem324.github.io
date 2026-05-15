@@ -3,6 +3,9 @@ const { test, expect } = require("@playwright/test");
 test("home page toggles theme and language", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "센서 데이터에서 주행 제어까지, 움직이는 로봇을 만듭니다." })).toBeVisible();
+  await expect(page.getByText("자율주행자동차 연구회")).toBeVisible();
+  await expect(page.getByText("POSCO DX P/C 엔지니어")).toBeVisible();
+  await expect(page.getByText("Autonomy Pipeline")).toHaveCount(0);
 
   const initialTheme = await page.locator("html").evaluate((el) => el.classList.contains("dark"));
   await page.getByRole("button", { name: "Theme toggle" }).click();
