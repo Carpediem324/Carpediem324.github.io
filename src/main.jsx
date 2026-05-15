@@ -487,12 +487,25 @@ function AutonomyField({ dark }) {
     let frameId = 0;
     let width = 0;
     let height = 0;
-    let particles = [];
+    let mapPoints = [];
+    let lastScrollY = window.scrollY;
+    let scrollVelocity = 0;
     let gutters = { left: 0, right: 0 };
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const palette = dark
-      ? { accent: "125, 211, 199", soft: "52, 211, 153", base: "226, 232, 240" }
-      : { accent: "0, 138, 91", soft: "3, 199, 90", base: "15, 23, 42" };
+      ? { lane: "125, 211, 199", point: "52, 211, 153", object: "248, 250, 252", grid: "148, 163, 184" }
+      : { lane: "0, 95, 72", point: "0, 138, 91", object: "15, 23, 42", grid: "71, 85, 105" };
+
+    const createMapPoints = () =>
+      Array.from({ length: Math.max(120, Math.floor(height / 4.6)) }, (_, index) => ({
+        side: index % 2,
+        lateral: (Math.random() - 0.5) * 1.85,
+        depth: Math.random(),
+        height: Math.random() ** 2,
+        size: 0.6 + Math.random() * 1.8,
+        flicker: 0.55 + Math.random() * 0.45,
+        kind: Math.random() > 0.82 ? "object" : "ground",
+      }));
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -505,85 +518,112 @@ function AutonomyField({ dark }) {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       const shell = document.querySelector(".app-shell")?.getBoundingClientRect();
       gutters = shell ? { left: shell.left, right: width - shell.right } : { left: 0, right: 0 };
-      particles = Array.from({ length: Math.max(18, Math.floor(height / 34)) }, (_, index) => ({
-        side: index % 2,
-        xSeed: Math.random(),
-        y: Math.random() * height,
-        speed: 0.16 + Math.random() * 0.32,
-        size: 1.2 + Math.random() * 2.2,
-        phase: Math.random() * Math.PI * 2,
-      }));
+      mapPoints = createMapPoints();
     };
 
     const sideBand = (side) => {
       const gutter = side === 0 ? gutters.left : gutters.right;
-      const margin = gutter >= 96 ? 16 : 8;
-      const compactWidth = Math.min(118, Math.max(82, width * 0.09));
-      const band = gutter >= 96 ? Math.max(72, gutter - margin * 2) : compactWidth;
+      const margin = gutter >= 112 ? 18 : 8;
+      const compactWidth = Math.min(138, Math.max(92, width * 0.1));
+      const band = gutter >= 112 ? Math.max(88, gutter - margin * 2) : compactWidth;
       const x = side === 0 ? margin : width - band - margin;
-      const anchor = side === 0 ? x + band * 0.58 : x + band * 0.42;
-      return { x, w: band, anchor };
+      return {
+        x,
+        w: band,
+        horizon: height * 0.18,
+        bottom: height + 80,
+        center: side === 0 ? x + band * 0.58 : x + band * 0.42,
+        yaw: side === 0 ? -0.22 : 0.22,
+      };
     };
 
-    const drawRoute = (band, time, side) => {
-      const direction = side === 0 ? 1 : -1;
-      const spread = Math.max(18, Math.min(42, band.w * 0.24));
-      const x0 = band.anchor - direction * spread;
-      const y0 = height * 0.18;
-      const x1 = band.anchor + direction * spread * 0.9;
-      const y1 = height * 0.38;
-      const x2 = band.anchor - direction * spread * 0.8;
-      const y2 = height * 0.62;
-      const x3 = band.anchor + direction * spread;
-      const y3 = height * 0.82;
-
-      ctx.beginPath();
-      ctx.moveTo(x0, y0);
-      ctx.bezierCurveTo(x1, y1, x2, y2, x3, y3);
-      ctx.strokeStyle = `rgba(${palette.accent}, ${dark ? 0.28 : 0.22})`;
-      ctx.lineWidth = 1.4;
-      ctx.setLineDash([8, 12]);
-      ctx.lineDashOffset = -time * 0.035;
-      ctx.stroke();
-      ctx.setLineDash([]);
-
-      const pulse = (time * 0.00016 + side * 0.42) % 1;
-      const py = y0 + (y3 - y0) * pulse;
-      const px = band.anchor + Math.sin(pulse * Math.PI * 3) * spread * 0.85 * direction;
-      ctx.beginPath();
-      ctx.arc(px, py, 5.5, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${palette.soft}, ${dark ? 0.62 : 0.5})`;
-      ctx.shadowColor = `rgba(${palette.soft}, 0.38)`;
-      ctx.shadowBlur = 18;
-      ctx.fill();
-      ctx.shadowBlur = 0;
+    const project = (band, lateral, depth, lift = 0) => {
+      const perspective = 0.15 + depth * depth * 0.88;
+      const y = band.horizon + (band.bottom - band.horizon) * depth - lift * 42 * perspective;
+      const roadWidth = band.w * (0.12 + depth * 0.72);
+      const bend = Math.sin(depth * Math.PI * 1.25 + band.yaw) * band.w * 0.12 * depth;
+      const x = band.center + bend + lateral * roadWidth * 0.5;
+      return { x, y, scale: perspective };
     };
 
-    const drawScanner = (band, time, side) => {
-      const direction = side === 0 ? 1 : -1;
-      const safeRadius = Math.max(28, Math.min(78, band.w * 0.38));
-      const cx = side === 0 ? band.x + safeRadius + 8 : band.x + band.w - safeRadius - 8;
-      const cy = height * (side === 0 ? 0.33 : 0.58);
-      const sweep = (time * 0.0012 + side * 1.5) % (Math.PI * 2);
-
-      for (let radius = safeRadius * 0.34; radius <= safeRadius; radius += safeRadius * 0.24) {
+    const drawPerspectiveGrid = (band, travel) => {
+      ctx.lineCap = "round";
+      [-0.85, -0.42, 0, 0.42, 0.85].forEach((lane) => {
         ctx.beginPath();
-        ctx.arc(cx, cy, radius, -0.55 * direction, 0.55 * direction);
-        ctx.strokeStyle = `rgba(${palette.accent}, ${dark ? 0.18 : 0.13})`;
-        ctx.lineWidth = 1;
+        for (let step = 0; step <= 28; step += 1) {
+          const depth = step / 28;
+          const point = project(band, lane, depth);
+          if (step === 0) ctx.moveTo(point.x, point.y);
+          else ctx.lineTo(point.x, point.y);
+        }
+        ctx.strokeStyle = `rgba(${palette.lane}, ${dark ? 0.18 : 0.13})`;
+        ctx.lineWidth = lane === 0 ? 1.4 : 0.9;
+        ctx.stroke();
+      });
+
+      for (let step = 0; step < 18; step += 1) {
+        const depth = (step / 18 + travel) % 1;
+        const left = project(band, -0.95, depth);
+        const right = project(band, 0.95, depth);
+        ctx.beginPath();
+        ctx.moveTo(left.x, left.y);
+        ctx.lineTo(right.x, right.y);
+        ctx.strokeStyle = `rgba(${palette.grid}, ${dark ? 0.09 + depth * 0.08 : 0.06 + depth * 0.05})`;
+        ctx.lineWidth = 0.7 + depth * 0.9;
         ctx.stroke();
       }
+    };
+
+    const drawVehicle = (band, time) => {
+      const pulse = 0.7 + Math.sin(time * 0.004) * 0.12;
+      const rear = project(band, 0, 0.86);
+      const nose = project(band, 0, 0.68);
+      const half = band.w * 0.12;
 
       ctx.beginPath();
-      ctx.moveTo(cx, cy);
-      ctx.lineTo(cx + Math.cos(sweep) * safeRadius * direction, cy + Math.sin(sweep) * safeRadius);
-      ctx.strokeStyle = `rgba(${palette.soft}, ${dark ? 0.34 : 0.24})`;
-      ctx.lineWidth = 1.5;
+      ctx.moveTo(nose.x, nose.y);
+      ctx.lineTo(rear.x - half, rear.y + 18);
+      ctx.lineTo(rear.x + half, rear.y + 18);
+      ctx.closePath();
+      ctx.fillStyle = `rgba(${palette.object}, ${dark ? 0.06 : 0.045})`;
+      ctx.strokeStyle = `rgba(${palette.lane}, ${dark ? 0.24 : 0.17})`;
+      ctx.lineWidth = 1;
+      ctx.fill();
       ctx.stroke();
+
+      ctx.beginPath();
+      ctx.ellipse(nose.x, nose.y + 4, band.w * 0.18 * pulse, 16 * pulse, 0, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(${palette.point}, ${dark ? 0.34 : 0.22})`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    };
+
+    const drawPoints = (band, side, travel, time) => {
+      mapPoints
+        .filter((point) => point.side === side)
+        .forEach((point) => {
+          const drift = reducedMotion ? 0 : time * 0.00006;
+          const depth = (point.depth + travel + drift) % 1;
+          const lift = point.kind === "object" ? 0.2 + point.height * 0.8 : point.height * 0.12;
+          const projected = project(band, point.lateral, depth, lift);
+          if (projected.y < -10 || projected.y > height + 20) return;
+
+          const alphaBase = point.kind === "object" ? 0.36 : 0.22;
+          const alpha = (dark ? alphaBase + 0.08 : alphaBase) * point.flicker * (0.45 + depth * 0.8);
+          const radius = point.size * (0.5 + projected.scale * 1.8);
+          ctx.beginPath();
+          ctx.arc(projected.x, projected.y, radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${point.kind === "object" ? palette.object : palette.point}, ${alpha})`;
+          ctx.fill();
+        });
     };
 
     const draw = (time = 0) => {
       ctx.clearRect(0, 0, width, height);
+      const currentScrollY = window.scrollY;
+      scrollVelocity += (currentScrollY - lastScrollY - scrollVelocity) * 0.08;
+      lastScrollY = currentScrollY;
+      const travel = ((currentScrollY * 0.0016 + time * 0.000035 + scrollVelocity * 0.001) % 1 + 1) % 1;
 
       [0, 1].forEach((side) => {
         const band = sideBand(side);
@@ -592,35 +632,18 @@ function AutonomyField({ dark }) {
         ctx.rect(band.x, 0, band.w, height);
         ctx.clip();
 
-        const gridX = side === 0 ? band.x + 26 : band.x + band.w - 26;
-        ctx.strokeStyle = `rgba(${palette.base}, ${dark ? 0.07 : 0.045})`;
-        ctx.lineWidth = 1;
-        for (let y = 40; y < height; y += 42) {
-          ctx.beginPath();
-          ctx.moveTo(band.x + 18, y);
-          ctx.lineTo(band.x + band.w - 18, y);
-          ctx.stroke();
-        }
-        for (let x = gridX; side === 0 ? x < band.x + band.w : x > band.x; x += side === 0 ? 42 : -42) {
-          ctx.beginPath();
-          ctx.moveTo(x, 28);
-          ctx.lineTo(x, height - 28);
-          ctx.stroke();
-        }
+        const fade = ctx.createLinearGradient(0, 0, 0, height);
+        fade.addColorStop(0, `rgba(${palette.point}, 0)`);
+        fade.addColorStop(0.22, `rgba(${palette.point}, ${dark ? 0.03 : 0.022})`);
+        fade.addColorStop(0.78, `rgba(${palette.point}, ${dark ? 0.045 : 0.026})`);
+        fade.addColorStop(1, `rgba(${palette.point}, 0)`);
+        ctx.fillStyle = fade;
+        ctx.fillRect(band.x, 0, band.w, height);
 
-        drawRoute(band, time, side);
-        drawScanner(band, time, side);
+        drawPerspectiveGrid(band, travel);
+        drawPoints(band, side, travel, time);
+        drawVehicle(band, time);
         ctx.restore();
-      });
-
-      particles.forEach((particle) => {
-        const band = sideBand(particle.side);
-        particle.y = (particle.y + particle.speed) % (height + 20);
-        const x = band.x + 24 + particle.xSeed * Math.max(30, band.w - 48) + Math.sin(time * 0.001 + particle.phase) * 5;
-        ctx.beginPath();
-        ctx.arc(x, particle.y - 10, particle.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${palette.accent}, ${dark ? 0.32 : 0.2})`;
-        ctx.fill();
       });
 
       if (!reducedMotion) frameId = window.requestAnimationFrame(draw);
