@@ -10,7 +10,6 @@ import {
   ExternalLink,
   GitBranch,
   GraduationCap,
-  Languages,
   Mail,
   Moon,
   Radar,
@@ -516,8 +515,10 @@ function Header({ page, setPage, dark, setDark, lang, setLang, text }) {
           </button>
         ))}
       </nav>
-      <button className="utility-btn" onClick={() => setLang((value) => (value === "ko" ? "en" : "ko"))} type="button" aria-label="Language toggle">
-        <Languages size={15} /> {lang === "ko" ? "EN" : "KO"}
+      <button className="lang-btn" onClick={() => setLang((value) => (value === "ko" ? "en" : "ko"))} type="button" aria-label="Language toggle">
+        <span className={lang === "ko" ? "active" : ""}>한</span>
+        <i></i>
+        <span className={lang === "en" ? "active" : ""}>EN</span>
       </button>
       <button className="icon-btn" onClick={() => setDark((value) => !value)} type="button" aria-label="Theme toggle">
         {dark ? <Sun size={18} /> : <Moon size={18} />}

@@ -145,7 +145,7 @@ button {
 .brand,
 .nav-tabs button,
 .icon-btn,
-.utility-btn,
+.lang-btn,
 .primary-btn,
 .secondary-btn,
 .section-header button {
@@ -195,7 +195,7 @@ button {
 }
 
 .icon-btn,
-.utility-btn {
+.lang-btn {
   aspect-ratio: 1;
   background: var(--surface-soft);
   border: 1px solid var(--line);
@@ -204,11 +204,29 @@ button {
   height: 46px;
 }
 
-.utility-btn {
+.lang-btn {
   aspect-ratio: auto;
-  gap: 6px;
-  min-width: 58px;
-  padding: 0 12px;
+  gap: 7px;
+  min-width: 74px;
+  padding: 0 10px;
+}
+
+.lang-btn span {
+  color: var(--subtle);
+  font-size: 0.78rem;
+  font-weight: 900;
+  min-width: 20px;
+  text-align: center;
+}
+
+.lang-btn span.active {
+  color: var(--text);
+}
+
+.lang-btn i {
+  background: var(--line);
+  height: 14px;
+  width: 1px;
 }
 
 main {
