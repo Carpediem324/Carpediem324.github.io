@@ -186,13 +186,13 @@ const profile = {
 
 const stats = {
   ko: [
-    { label: "로봇/자율주행 프로젝트", value: "7+" },
-    { label: "자율주행·로봇 수상", value: "3" },
+    { label: "로보틱스 프로젝트 경력", value: "4년+" },
+    { label: "관련 수상이력", value: "4+" },
     { label: "주요 개발 스택", value: "ROS2" },
   ],
   en: [
-    { label: "Robotics Projects", value: "7+" },
-    { label: "Autonomy Awards", value: "3" },
+    { label: "Robotics Project Experience", value: "4Y+" },
+    { label: "Related Awards", value: "4+" },
     { label: "Core Stack", value: "ROS2" },
   ],
 };

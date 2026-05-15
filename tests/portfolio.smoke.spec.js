@@ -5,7 +5,10 @@ test("home page toggles theme and language", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "센서 데이터에서 주행 제어까지, 움직이는 로봇을 만듭니다." })).toBeVisible();
   await expect(page.getByText("자율주행자동차 연구회")).toBeVisible();
   await expect(page.getByText("POSCO DX P/C 엔지니어")).toBeVisible();
-  await expect(page.getByText("로봇/자율주행 프로젝트")).toBeVisible();
+  await expect(page.getByText("로보틱스 프로젝트 경력")).toBeVisible();
+  await expect(page.getByText("4년+")).toBeVisible();
+  await expect(page.getByText("관련 수상이력")).toBeVisible();
+  await expect(page.getByText("4+")).toBeVisible();
   await expect(page.getByRole("heading", { name: "대표 작업" })).toBeVisible();
   await expect(page.getByRole("button", { name: "대표 작업 살펴보기" })).toBeVisible();
   await expect(page.getByRole("button", { name: "이력 한눈에 보기" })).toBeVisible();
