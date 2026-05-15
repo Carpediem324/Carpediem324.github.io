@@ -83,35 +83,89 @@ button {
   z-index: 1;
 }
 
-.autonomy-photo,
-.autonomy-field,
+.autonomy-scene,
 .ripple-layer {
   inset: 0;
   pointer-events: none;
   position: fixed;
 }
 
+.autonomy-scene {
+  overflow: hidden;
+  z-index: 0;
+}
+
 .autonomy-photo {
   background-image: url("/assets/images/hero/autonomous-road.jpg");
-  background-position: center;
+  background-position: center 52%;
   background-size: cover;
-  filter: saturate(0.86) contrast(1.05);
-  opacity: 0.38;
-  transform: scale(1.02);
-  z-index: 0;
+  filter: saturate(0.82) contrast(1.06);
+  inset: 0;
+  opacity: 0.46;
+  position: absolute;
+  transform: scale(1.015);
 }
 
 :root.dark .autonomy-photo {
-  filter: saturate(0.78) contrast(1.12) brightness(0.78);
-  opacity: 0.48;
+  filter: saturate(0.76) contrast(1.12) brightness(0.76);
+  opacity: 0.54;
 }
 
-.autonomy-field {
-  display: block;
-  height: 100vh;
-  opacity: 0.82;
-  z-index: 0;
-  width: 100vw;
+.autonomy-grade {
+  background:
+    linear-gradient(90deg, rgba(245, 247, 251, 0.96), rgba(245, 247, 251, 0.68) 34%, rgba(245, 247, 251, 0.28) 50%, rgba(245, 247, 251, 0.68) 66%, rgba(245, 247, 251, 0.96)),
+    linear-gradient(180deg, rgba(245, 247, 251, 0.1), rgba(245, 247, 251, 0.9));
+  inset: 0;
+  position: absolute;
+}
+
+:root.dark .autonomy-grade {
+  background:
+    linear-gradient(90deg, rgba(11, 18, 32, 0.96), rgba(11, 18, 32, 0.7) 34%, rgba(11, 18, 32, 0.28) 50%, rgba(11, 18, 32, 0.7) 66%, rgba(11, 18, 32, 0.96)),
+    linear-gradient(180deg, rgba(11, 18, 32, 0.12), rgba(11, 18, 32, 0.92));
+}
+
+.autonomy-perception {
+  inset: 0;
+  opacity: 0.62;
+  position: absolute;
+}
+
+.perception-line {
+  background: rgba(220, 38, 38, 0.32);
+  height: 1px;
+  left: 50%;
+  position: absolute;
+  top: 80%;
+  transform-origin: 0 50%;
+  width: 34vw;
+}
+
+.perception-line--left {
+  transform: rotate(-104deg);
+}
+
+.perception-line--right {
+  transform: rotate(-76deg);
+}
+
+.perception-box {
+  border: 1px solid rgba(220, 38, 38, 0.34);
+  position: absolute;
+}
+
+.perception-box--vehicle {
+  height: 18vh;
+  left: 15.8vw;
+  top: 51vh;
+  width: 28vw;
+}
+
+.perception-box--far {
+  height: 2.7vh;
+  left: 50vw;
+  top: 53.8vh;
+  width: 3.8vw;
 }
 
 .ripple-layer {

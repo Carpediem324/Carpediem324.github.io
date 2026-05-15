@@ -16,20 +16,9 @@ test("home page toggles theme and language", async ({ page }) => {
   await expect(page.locator(".career-card")).toHaveCSS("background-color", "rgb(248, 250, 252)");
   await expect(page.locator(".primary-btn")).toHaveCSS("background-color", "rgb(17, 24, 39)");
   const brandXBeforeLanguageToggle = Math.round((await page.locator(".brand").boundingBox()).x);
-  await expect(page.locator(".autonomy-field")).toBeVisible();
-  await expect
-    .poll(async () =>
-      page.locator(".autonomy-field").evaluate((canvas) => {
-        const context = canvas.getContext("2d");
-        if (!context || !canvas.width || !canvas.height) return false;
-        const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
-        for (let index = 3; index < pixels.length; index += 388) {
-          if (pixels[index] > 0) return true;
-        }
-        return false;
-      }),
-    )
-    .toBe(true);
+  await expect(page.locator(".autonomy-scene")).toBeVisible();
+  await expect(page.locator(".autonomy-photo")).toHaveCSS("background-image", /autonomous-road\.jpg/);
+  await expect(page.locator(".perception-box")).toHaveCount(2);
   await page.mouse.click(640, 360);
   await expect(page.locator(".ripple-pop")).toHaveCount(0);
   await page.mouse.click(12, 360);
