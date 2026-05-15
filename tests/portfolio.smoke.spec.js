@@ -13,7 +13,7 @@ test("home page toggles theme and language", async ({ page }) => {
     localStorage.setItem("portfolio-theme", "light");
   });
   await page.goto(pageUrl("index.html"));
-  await expect(page.getByRole("heading", { name: "현장 문제를 데이터와 소프트웨어로 풀어내는 엔지니어" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "로봇이 스스로 판단하고 움직이게 만드는 SW 엔지니어" })).toBeVisible();
   await expect(page.locator("[data-weather-label]")).toContainText("서울 기준");
 
   const initialTheme = await page.locator("html").evaluate((el) => el.classList.contains("dark"));
@@ -23,7 +23,7 @@ test("home page toggles theme and language", async ({ page }) => {
     .toBe(!initialTheme);
 
   await page.getByRole("button", { name: "Language toggle" }).click();
-  await expect(page.getByRole("heading", { name: "An engineer turning field problems into data-driven software" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "A software engineer building robots that perceive, decide, and move" })).toBeVisible();
 });
 
 test("profile page shows framed profile photo", async ({ page }) => {
