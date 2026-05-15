@@ -488,6 +488,7 @@ function AutonomyField({ dark }) {
     let width = 0;
     let height = 0;
     let particles = [];
+    let gutters = { left: 0, right: 0 };
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const palette = dark
       ? { accent: "125, 211, 199", soft: "52, 211, 153", base: "226, 232, 240" }
@@ -502,6 +503,8 @@ function AutonomyField({ dark }) {
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const shell = document.querySelector(".app-shell")?.getBoundingClientRect();
+      gutters = shell ? { left: shell.left, right: width - shell.right } : { left: 0, right: 0 };
       particles = Array.from({ length: Math.max(18, Math.floor(height / 34)) }, (_, index) => ({
         side: index % 2,
         xSeed: Math.random(),
@@ -513,19 +516,25 @@ function AutonomyField({ dark }) {
     };
 
     const sideBand = (side) => {
-      const band = Math.min(170, Math.max(96, width * 0.13));
-      return side === 0 ? { x: 0, w: band, anchor: band * 0.55 } : { x: width - band, w: band, anchor: width - band * 0.55 };
+      const gutter = side === 0 ? gutters.left : gutters.right;
+      const margin = gutter >= 96 ? 16 : 8;
+      const compactWidth = Math.min(118, Math.max(82, width * 0.09));
+      const band = gutter >= 96 ? Math.max(72, gutter - margin * 2) : compactWidth;
+      const x = side === 0 ? margin : width - band - margin;
+      const anchor = side === 0 ? x + band * 0.58 : x + band * 0.42;
+      return { x, w: band, anchor };
     };
 
     const drawRoute = (band, time, side) => {
       const direction = side === 0 ? 1 : -1;
-      const x0 = band.anchor - direction * 46;
+      const spread = Math.max(18, Math.min(42, band.w * 0.24));
+      const x0 = band.anchor - direction * spread;
       const y0 = height * 0.18;
-      const x1 = band.anchor + direction * 38;
+      const x1 = band.anchor + direction * spread * 0.9;
       const y1 = height * 0.38;
-      const x2 = band.anchor - direction * 32;
+      const x2 = band.anchor - direction * spread * 0.8;
       const y2 = height * 0.62;
-      const x3 = band.anchor + direction * 42;
+      const x3 = band.anchor + direction * spread;
       const y3 = height * 0.82;
 
       ctx.beginPath();
@@ -540,7 +549,7 @@ function AutonomyField({ dark }) {
 
       const pulse = (time * 0.00016 + side * 0.42) % 1;
       const py = y0 + (y3 - y0) * pulse;
-      const px = band.anchor + Math.sin(pulse * Math.PI * 3) * 34 * direction;
+      const px = band.anchor + Math.sin(pulse * Math.PI * 3) * spread * 0.85 * direction;
       ctx.beginPath();
       ctx.arc(px, py, 5.5, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(${palette.soft}, ${dark ? 0.62 : 0.5})`;
@@ -552,11 +561,12 @@ function AutonomyField({ dark }) {
 
     const drawScanner = (band, time, side) => {
       const direction = side === 0 ? 1 : -1;
-      const cx = band.anchor - direction * 18;
+      const safeRadius = Math.max(28, Math.min(78, band.w * 0.38));
+      const cx = side === 0 ? band.x + safeRadius + 8 : band.x + band.w - safeRadius - 8;
       const cy = height * (side === 0 ? 0.33 : 0.58);
       const sweep = (time * 0.0012 + side * 1.5) % (Math.PI * 2);
 
-      for (let radius = 34; radius <= 118; radius += 28) {
+      for (let radius = safeRadius * 0.34; radius <= safeRadius; radius += safeRadius * 0.24) {
         ctx.beginPath();
         ctx.arc(cx, cy, radius, -0.55 * direction, 0.55 * direction);
         ctx.strokeStyle = `rgba(${palette.accent}, ${dark ? 0.18 : 0.13})`;
@@ -566,7 +576,7 @@ function AutonomyField({ dark }) {
 
       ctx.beginPath();
       ctx.moveTo(cx, cy);
-      ctx.lineTo(cx + Math.cos(sweep) * 116 * direction, cy + Math.sin(sweep) * 116);
+      ctx.lineTo(cx + Math.cos(sweep) * safeRadius * direction, cy + Math.sin(sweep) * safeRadius);
       ctx.strokeStyle = `rgba(${palette.soft}, ${dark ? 0.34 : 0.24})`;
       ctx.lineWidth = 1.5;
       ctx.stroke();
