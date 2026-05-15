@@ -171,6 +171,8 @@ const profile = {
   ],
   education: [
     "한국기술교육대학교 컴퓨터공학부 스마트IoT 트랙 공학사 | 2018 - 2024",
+  ],
+  training: [
     "삼성청년SW아카데미 임베디드 로봇 트랙 | 2024.07 - 2025.06",
   ],
   awards: [
@@ -317,6 +319,7 @@ const copy = {
     contact: "연락처",
     experience: "경험",
     education: "학력",
+    training: "교육 및 활동",
     awards: "수상 및 인증",
     projectsEyebrow: "Selected Work",
     projectsTitle: "프로젝트",
@@ -338,6 +341,7 @@ const copy = {
     contact: "Contact",
     experience: "Experience",
     education: "Education",
+    training: "Training & Activities",
     awards: "Awards & Certifications",
     projectsEyebrow: "Selected Work",
     projectsTitle: "Projects",
@@ -358,6 +362,8 @@ const profileEn = {
   ],
   education: [
     "KOREATECH, B.S. in Computer Science, Smart IoT Track | 2018 - 2024",
+  ],
+  training: [
     "Samsung Software AI Academy for Youth, Embedded Robot Track | 2024.07 - 2025.06",
   ],
   awards: [
@@ -555,6 +561,7 @@ function Profile({ lang, text }) {
       <InfoCard icon={<Mail />} title={text.contact} items={currentProfile.contact} />
       <InfoCard icon={<Cpu />} title={text.experience} items={experienceItems} />
       <InfoCard icon={<GraduationCap />} title={text.education} items={currentProfile.education} />
+      <InfoCard icon={<Code2 />} title={text.training} items={currentProfile.training} />
       <InfoCard icon={<Award />} title={text.awards} items={currentProfile.awards} />
     </main>
   );

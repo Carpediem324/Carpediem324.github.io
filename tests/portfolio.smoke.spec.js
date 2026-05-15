@@ -29,7 +29,12 @@ test("profile page shows framed profile photo", async ({ page }) => {
   await page.getByRole("button", { name: "프로필", exact: true }).click();
   await expect(page.getByRole("heading", { name: "신현학", exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "연락처" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "학력" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "교육 및 활동" })).toBeVisible();
   await expect(page.getByText("대한민국, 여수시")).toBeVisible();
+  await expect(page.locator(".info-card", { hasText: "학력" })).toContainText("한국기술교육대학교");
+  await expect(page.locator(".info-card", { hasText: "학력" })).not.toContainText("삼성청년SW아카데미");
+  await expect(page.locator(".info-card", { hasText: "교육 및 활동" })).toContainText("삼성청년SW아카데미");
   await expect(page.getByText("SSAFY 삼성전자 DA사업부 연계 프로젝트 우수상 | 3등")).toBeVisible();
   await expect(page.getByRole("link", { name: "imur.navigator@gmail.com" })).toHaveAttribute("href", "mailto:imur.navigator@gmail.com");
   await expect(page.getByRole("link", { name: /github\.com\/Carpediem324/ })).toHaveAttribute("href", "https://github.com/Carpediem324");
