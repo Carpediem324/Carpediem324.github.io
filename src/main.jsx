@@ -532,7 +532,6 @@ function Home({ projects, setPage, lang, text }) {
 
   return (
     <main>
-      <RoadHero />
       <section className="hero-section">
         <div className="hero-copy">
           <p className="eyebrow">
@@ -597,15 +596,6 @@ function Home({ projects, setPage, lang, text }) {
         ))}
       </div>
     </main>
-  );
-}
-
-function RoadHero() {
-  return (
-    <section className="road-hero" aria-label="Autonomous driving road scene">
-      <div className="road-hero__image"></div>
-      <div className="road-hero__shade"></div>
-    </section>
   );
 }
 

@@ -215,52 +215,28 @@ main {
   margin-top: 30px;
 }
 
-.road-hero {
-  background: #0f172a;
+.hero-section {
+  background:
+    linear-gradient(90deg, rgba(15, 23, 42, 0.76), rgba(15, 23, 42, 0.38) 48%, rgba(15, 23, 42, 0.7)),
+    linear-gradient(180deg, rgba(15, 23, 42, 0.1), rgba(15, 23, 42, 0.62)),
+    url("/assets/images/hero/road-day.jpg") center / cover;
   border: 1px solid var(--line);
   border-radius: 8px;
   box-shadow: var(--shadow);
-  height: clamp(360px, 62vh, 680px);
-  margin-bottom: 18px;
-  overflow: hidden;
-  position: relative;
-}
-
-.road-hero__image,
-.road-hero__shade {
-  inset: 0;
-  position: absolute;
-}
-
-.road-hero__image {
-  background-image: url("/assets/images/hero/road-day.jpg");
-  background-position: center;
-  background-size: cover;
-  filter: saturate(0.94) contrast(1.04);
-  transform: scale(1.01);
-}
-
-:root.dark .road-hero__image {
-  background-image: url("/assets/images/hero/road-night.jpg");
-  filter: saturate(0.9) contrast(1.08) brightness(0.9);
-}
-
-.road-hero__shade {
-  background:
-    linear-gradient(90deg, rgba(15, 23, 42, 0.18), transparent 32%, transparent 68%, rgba(15, 23, 42, 0.16)),
-    linear-gradient(180deg, transparent 54%, rgba(15, 23, 42, 0.28));
-}
-
-:root.dark .road-hero__shade {
-  background:
-    linear-gradient(90deg, rgba(0, 0, 0, 0.22), transparent 34%, transparent 66%, rgba(0, 0, 0, 0.26)),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.34));
-}
-
-.hero-section {
   display: grid;
   gap: 18px;
   grid-template-columns: minmax(0, 1.12fr) minmax(340px, 0.88fr);
+  min-height: clamp(560px, 78vh, 760px);
+  overflow: hidden;
+  padding: clamp(18px, 3vw, 34px);
+  position: relative;
+}
+
+:root.dark .hero-section {
+  background:
+    linear-gradient(90deg, rgba(3, 7, 18, 0.72), rgba(3, 7, 18, 0.28) 48%, rgba(3, 7, 18, 0.72)),
+    linear-gradient(180deg, rgba(3, 7, 18, 0.08), rgba(3, 7, 18, 0.7)),
+    url("/assets/images/hero/road-night.jpg") center / cover;
 }
 
 .hero-copy,
@@ -276,26 +252,17 @@ main {
 }
 
 .hero-copy {
-  background:
-    linear-gradient(135deg, color-mix(in srgb, var(--surface) 92%, transparent), color-mix(in srgb, var(--surface-soft) 78%, transparent)),
-    radial-gradient(circle at 86% 20%, rgba(0, 138, 91, 0.14), transparent 18rem),
-    radial-gradient(circle at 12% 88%, rgba(3, 199, 90, 0.13), transparent 16rem);
+  align-self: end;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
   overflow: hidden;
-  padding: clamp(30px, 5vw, 58px);
+  padding: clamp(22px, 4vw, 46px) 0;
   position: relative;
 }
 
 .hero-copy::after {
-  background:
-    linear-gradient(90deg, color-mix(in srgb, var(--blue) 28%, transparent) 1px, transparent 1px),
-    linear-gradient(0deg, color-mix(in srgb, var(--green) 16%, transparent) 1px, transparent 1px);
-  background-size: 42px 42px;
-  content: "";
-  inset: 0;
-  mask-image: linear-gradient(135deg, transparent 0%, #000 56%, transparent 100%);
-  opacity: 0.34;
-  pointer-events: none;
-  position: absolute;
+  content: none;
 }
 
 .eyebrow {
@@ -328,6 +295,11 @@ p {
   z-index: 1;
 }
 
+.hero-copy h1 {
+  color: #ffffff;
+  text-shadow: 0 18px 42px rgba(0, 0, 0, 0.34);
+}
+
 .hero-copy p:not(.eyebrow),
 .page-title p,
 .profile-panel p {
@@ -338,6 +310,11 @@ p {
   max-width: 720px;
   position: relative;
   z-index: 1;
+}
+
+.hero-copy p:not(.eyebrow) {
+  color: rgba(255, 255, 255, 0.82);
+  text-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
 }
 
 .hero-actions {
@@ -359,10 +336,10 @@ p {
 }
 
 .hero-signal-row span {
-  background: color-mix(in srgb, var(--surface) 78%, transparent);
-  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.24);
   border-radius: 999px;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.84);
   font-size: 0.78rem;
   font-weight: 800;
   padding: 7px 10px;
@@ -405,6 +382,9 @@ p {
 }
 
 .hero-card {
+  align-self: end;
+  backdrop-filter: blur(18px);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
   display: flex;
   flex-direction: column;
   gap: 18px;

@@ -17,8 +17,8 @@ test("home page toggles theme and language", async ({ page }) => {
   await expect(page.locator(".primary-btn")).toHaveCSS("background-color", "rgb(17, 24, 39)");
   const brandXBeforeLanguageToggle = Math.round((await page.locator(".brand").boundingBox()).x);
   const initialTheme = await page.locator("html").evaluate((el) => el.classList.contains("dark"));
-  await expect(page.locator(".road-hero")).toBeVisible();
-  await expect(page.locator(".road-hero__image")).toHaveCSS("background-image", initialTheme ? /road-night\.jpg/ : /road-day\.jpg/);
+  await expect(page.locator(".hero-section")).toBeVisible();
+  await expect(page.locator(".hero-section")).toHaveCSS("background-image", initialTheme ? /road-night\.jpg/ : /road-day\.jpg/);
   await page.mouse.click(640, 360);
   await expect(page.locator(".ripple-pop")).toHaveCount(0);
   await page.mouse.click(12, 360);
@@ -40,7 +40,7 @@ test("home page toggles theme and language", async ({ page }) => {
   await expect
     .poll(() => page.locator("html").evaluate((el) => el.classList.contains("dark")))
     .toBe(!initialTheme);
-  await expect(page.locator(".road-hero__image")).toHaveCSS("background-image", initialTheme ? /road-day\.jpg/ : /road-night\.jpg/);
+  await expect(page.locator(".hero-section")).toHaveCSS("background-image", initialTheme ? /road-day\.jpg/ : /road-night\.jpg/);
 });
 
 test("profile page shows framed profile photo", async ({ page }) => {
