@@ -84,125 +84,23 @@ button {
   z-index: 1;
 }
 
-.ambient-layer,
+.autonomy-field,
 .ripple-layer {
   inset: 0;
-  overflow: hidden;
   pointer-events: none;
   position: fixed;
 }
 
-.ambient-layer {
+.autonomy-field {
+  display: block;
+  height: 100vh;
   z-index: 0;
+  width: 100vw;
 }
 
 .ripple-layer {
+  overflow: hidden;
   z-index: 2;
-}
-
-.ambient-line {
-  background:
-    linear-gradient(180deg, transparent, color-mix(in srgb, var(--blue) 26%, transparent), transparent),
-    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.72), transparent);
-  filter: blur(0.2px);
-  opacity: 0.52;
-  position: absolute;
-  width: 1px;
-}
-
-.ambient-line--left {
-  height: 68vh;
-  left: max(22px, calc((100vw - 1180px) / 2 - 44px));
-  top: 18vh;
-}
-
-.ambient-line--right {
-  height: 54vh;
-  right: max(22px, calc((100vw - 1180px) / 2 - 48px));
-  top: 10vh;
-}
-
-.ambient-dot {
-  background: color-mix(in srgb, var(--blue) 16%, #ffffff);
-  border: 1px solid color-mix(in srgb, var(--blue) 20%, transparent);
-  border-radius: 50%;
-  box-shadow: 0 16px 45px color-mix(in srgb, var(--blue) 12%, transparent);
-  opacity: 0.6;
-  position: absolute;
-}
-
-.ambient-dot--one {
-  height: 11px;
-  left: max(26px, calc((100vw - 1180px) / 2 - 76px));
-  top: 28vh;
-  width: 11px;
-}
-
-.ambient-dot--two {
-  bottom: 24vh;
-  height: 8px;
-  right: max(34px, calc((100vw - 1180px) / 2 - 82px));
-  width: 8px;
-}
-
-.ambient-dot--three {
-  height: 6px;
-  right: max(60px, calc((100vw - 1180px) / 2 - 118px));
-  top: 62vh;
-  width: 6px;
-}
-
-.sensor-rail {
-  display: grid;
-  gap: 0.55rem;
-  opacity: 0.72;
-  position: absolute;
-}
-
-.sensor-rail--left {
-  left: max(36px, calc((100vw - 1180px) / 2 - 116px));
-  top: 44vh;
-}
-
-.sensor-rail--right {
-  right: max(36px, calc((100vw - 1180px) / 2 - 120px));
-  top: 34vh;
-}
-
-.sensor-rail i {
-  background: color-mix(in srgb, var(--surface) 72%, transparent);
-  border: 1px solid color-mix(in srgb, var(--blue) 20%, var(--line));
-  border-radius: 6px;
-  box-shadow: 0 14px 38px color-mix(in srgb, var(--blue) 10%, transparent);
-  color: var(--blue);
-  font-size: 0.68rem;
-  font-style: normal;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  padding: 0.4rem 0.52rem;
-  text-transform: uppercase;
-}
-
-.scan-sweep {
-  animation: scanDrift 4.8s ease-in-out infinite;
-  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--blue) 36%, transparent), transparent);
-  border-radius: 999px;
-  filter: blur(0.4px);
-  height: 16vh;
-  opacity: 0.36;
-  position: absolute;
-  width: 2px;
-}
-
-.scan-sweep--left {
-  left: max(74px, calc((100vw - 1180px) / 2 - 22px));
-  top: 18vh;
-}
-
-.scan-sweep--right {
-  animation-delay: -1.8s;
-  right: max(74px, calc((100vw - 1180px) / 2 - 24px));
-  top: 46vh;
 }
 
 .ripple-pop {
@@ -903,7 +801,6 @@ p {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .scan-sweep,
   .ripple-pop,
   .ripple-pop::before,
   .ripple-pop i {
@@ -933,19 +830,5 @@ p {
   100% {
     opacity: 0;
     transform: rotate(var(--angle)) translateX(var(--distance)) scale(0.18);
-  }
-}
-
-@keyframes scanDrift {
-  0% {
-    transform: translateY(-18px);
-  }
-
-  50% {
-    transform: translateY(26px);
-  }
-
-  100% {
-    transform: translateY(-18px);
   }
 }

@@ -15,13 +15,30 @@ test("home page toggles theme and language", async ({ page }) => {
   await expect(page.getByText("Autonomy Pipeline")).toHaveCount(0);
   await expect(page.locator(".career-card")).toHaveCSS("background-color", "rgb(248, 250, 252)");
   await expect(page.locator(".primary-btn")).toHaveCSS("background-color", "rgb(17, 24, 39)");
-  await expect(page.locator(".ambient-layer")).toBeVisible();
-  await expect(page.locator(".sensor-rail").first()).toBeVisible();
-  await expect(page.locator(".scan-sweep").first()).toBeVisible();
+  await expect(page.locator(".autonomy-field")).toBeVisible();
+  await expect
+    .poll(async () =>
+      page.locator(".autonomy-field").evaluate((canvas) => {
+        const context = canvas.getContext("2d");
+        if (!context || !canvas.width || !canvas.height) return false;
+        const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+        for (let index = 3; index < pixels.length; index += 388) {
+          if (pixels[index] > 0) return true;
+        }
+        return false;
+      }),
+    )
+    .toBe(true);
   await page.mouse.click(640, 360);
   await expect(page.locator(".ripple-pop")).toHaveCount(0);
   await page.mouse.click(12, 360);
   await expect(page.locator(".ripple-pop")).toHaveCount(1);
+  await page.evaluate(() => window.getSelection().removeAllRanges());
+  await page.mouse.move(12, 420);
+  await page.mouse.down();
+  await page.mouse.move(640, 420);
+  await page.mouse.up();
+  await expect.poll(() => page.evaluate(() => window.getSelection().toString())).toBe("");
   await page.getByRole("button", { name: "Language toggle" }).click();
   await expect(page.getByRole("heading", { name: "Building robot software from sensor data to motion control." })).toBeVisible();
   await expect(page.getByText("Autonomous Vehicle Research Group")).toBeVisible();

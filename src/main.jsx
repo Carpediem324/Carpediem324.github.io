@@ -430,6 +430,12 @@ function App() {
       return Boolean(rect && (x < rect.left || x > rect.right));
     };
 
+    const onMouseDown = (event) => {
+      if (event.button !== 0) return;
+      if (isInteractiveTarget(event.target)) return;
+      if (isGutterPoint(event.clientX)) event.preventDefault();
+    };
+
     const onClick = (event) => {
       if (isReducedMotion()) return;
       if (isInteractiveTarget(event.target)) return;
@@ -448,15 +454,17 @@ function App() {
       }, 900);
     };
 
+    document.addEventListener("mousedown", onMouseDown);
     document.addEventListener("click", onClick);
     return () => {
+      document.removeEventListener("mousedown", onMouseDown);
       document.removeEventListener("click", onClick);
     };
   }, []);
 
   return (
     <>
-      <AmbientBackground />
+      <AutonomyField dark={dark} />
       <RippleLayer ripples={ripples} />
       <div className="app-shell">
         <Header page={page} setPage={setPage} dark={dark} setDark={setDark} lang={lang} setLang={setLang} text={text} />
@@ -468,28 +476,156 @@ function App() {
   );
 }
 
-function AmbientBackground() {
-  return (
-    <div className="ambient-layer" aria-hidden="true">
-      <span className="ambient-line ambient-line--left"></span>
-      <span className="ambient-line ambient-line--right"></span>
-      <span className="sensor-rail sensor-rail--left">
-        <i>RTK</i>
-        <i>IMU</i>
-        <i>LiDAR</i>
-      </span>
-      <span className="sensor-rail sensor-rail--right">
-        <i>ROS2</i>
-        <i>SLAM</i>
-        <i>CAN</i>
-      </span>
-      <span className="scan-sweep scan-sweep--left"></span>
-      <span className="scan-sweep scan-sweep--right"></span>
-      <span className="ambient-dot ambient-dot--one"></span>
-      <span className="ambient-dot ambient-dot--two"></span>
-      <span className="ambient-dot ambient-dot--three"></span>
-    </div>
-  );
+function AutonomyField({ dark }) {
+  const canvasRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext("2d");
+    if (!ctx) return undefined;
+
+    let frameId = 0;
+    let width = 0;
+    let height = 0;
+    let particles = [];
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const palette = dark
+      ? { accent: "125, 211, 199", soft: "52, 211, 153", base: "226, 232, 240" }
+      : { accent: "0, 138, 91", soft: "3, 199, 90", base: "15, 23, 42" };
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      particles = Array.from({ length: Math.max(18, Math.floor(height / 34)) }, (_, index) => ({
+        side: index % 2,
+        xSeed: Math.random(),
+        y: Math.random() * height,
+        speed: 0.16 + Math.random() * 0.32,
+        size: 1.2 + Math.random() * 2.2,
+        phase: Math.random() * Math.PI * 2,
+      }));
+    };
+
+    const sideBand = (side) => {
+      const band = Math.min(170, Math.max(96, width * 0.13));
+      return side === 0 ? { x: 0, w: band, anchor: band * 0.55 } : { x: width - band, w: band, anchor: width - band * 0.55 };
+    };
+
+    const drawRoute = (band, time, side) => {
+      const direction = side === 0 ? 1 : -1;
+      const x0 = band.anchor - direction * 46;
+      const y0 = height * 0.18;
+      const x1 = band.anchor + direction * 38;
+      const y1 = height * 0.38;
+      const x2 = band.anchor - direction * 32;
+      const y2 = height * 0.62;
+      const x3 = band.anchor + direction * 42;
+      const y3 = height * 0.82;
+
+      ctx.beginPath();
+      ctx.moveTo(x0, y0);
+      ctx.bezierCurveTo(x1, y1, x2, y2, x3, y3);
+      ctx.strokeStyle = `rgba(${palette.accent}, ${dark ? 0.28 : 0.22})`;
+      ctx.lineWidth = 1.4;
+      ctx.setLineDash([8, 12]);
+      ctx.lineDashOffset = -time * 0.035;
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      const pulse = (time * 0.00016 + side * 0.42) % 1;
+      const py = y0 + (y3 - y0) * pulse;
+      const px = band.anchor + Math.sin(pulse * Math.PI * 3) * 34 * direction;
+      ctx.beginPath();
+      ctx.arc(px, py, 5.5, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${palette.soft}, ${dark ? 0.62 : 0.5})`;
+      ctx.shadowColor = `rgba(${palette.soft}, 0.38)`;
+      ctx.shadowBlur = 18;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    };
+
+    const drawScanner = (band, time, side) => {
+      const direction = side === 0 ? 1 : -1;
+      const cx = band.anchor - direction * 18;
+      const cy = height * (side === 0 ? 0.33 : 0.58);
+      const sweep = (time * 0.0012 + side * 1.5) % (Math.PI * 2);
+
+      for (let radius = 34; radius <= 118; radius += 28) {
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius, -0.55 * direction, 0.55 * direction);
+        ctx.strokeStyle = `rgba(${palette.accent}, ${dark ? 0.18 : 0.13})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + Math.cos(sweep) * 116 * direction, cy + Math.sin(sweep) * 116);
+      ctx.strokeStyle = `rgba(${palette.soft}, ${dark ? 0.34 : 0.24})`;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    };
+
+    const draw = (time = 0) => {
+      ctx.clearRect(0, 0, width, height);
+
+      [0, 1].forEach((side) => {
+        const band = sideBand(side);
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(band.x, 0, band.w, height);
+        ctx.clip();
+
+        const gridX = side === 0 ? band.x + 26 : band.x + band.w - 26;
+        ctx.strokeStyle = `rgba(${palette.base}, ${dark ? 0.07 : 0.045})`;
+        ctx.lineWidth = 1;
+        for (let y = 40; y < height; y += 42) {
+          ctx.beginPath();
+          ctx.moveTo(band.x + 18, y);
+          ctx.lineTo(band.x + band.w - 18, y);
+          ctx.stroke();
+        }
+        for (let x = gridX; side === 0 ? x < band.x + band.w : x > band.x; x += side === 0 ? 42 : -42) {
+          ctx.beginPath();
+          ctx.moveTo(x, 28);
+          ctx.lineTo(x, height - 28);
+          ctx.stroke();
+        }
+
+        drawRoute(band, time, side);
+        drawScanner(band, time, side);
+        ctx.restore();
+      });
+
+      particles.forEach((particle) => {
+        const band = sideBand(particle.side);
+        particle.y = (particle.y + particle.speed) % (height + 20);
+        const x = band.x + 24 + particle.xSeed * Math.max(30, band.w - 48) + Math.sin(time * 0.001 + particle.phase) * 5;
+        ctx.beginPath();
+        ctx.arc(x, particle.y - 10, particle.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${palette.accent}, ${dark ? 0.32 : 0.2})`;
+        ctx.fill();
+      });
+
+      if (!reducedMotion) frameId = window.requestAnimationFrame(draw);
+    };
+
+    resize();
+    draw();
+    window.addEventListener("resize", resize);
+    return () => {
+      window.removeEventListener("resize", resize);
+      window.cancelAnimationFrame(frameId);
+    };
+  }, [dark]);
+
+  return <canvas className="autonomy-field" ref={canvasRef} aria-hidden="true"></canvas>;
 }
 
 function RippleLayer({ ripples }) {
