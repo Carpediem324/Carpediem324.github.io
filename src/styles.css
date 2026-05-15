@@ -84,7 +84,7 @@ button {
   box-shadow: 0 10px 28px rgba(16, 24, 40, 0.06);
   display: grid;
   gap: 16px;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: 1fr auto auto auto;
   padding: 12px;
   position: sticky;
   top: 14px;
@@ -94,6 +94,7 @@ button {
 .brand,
 .nav-tabs button,
 .icon-btn,
+.utility-btn,
 .primary-btn,
 .secondary-btn,
 .section-header button {
@@ -139,13 +140,21 @@ button {
   color: var(--blue);
 }
 
-.icon-btn {
+.icon-btn,
+.utility-btn {
   aspect-ratio: 1;
   background: var(--surface-soft);
   border: 1px solid var(--line);
   border-radius: 8px;
   color: var(--text);
   height: 46px;
+}
+
+.utility-btn {
+  aspect-ratio: auto;
+  gap: 6px;
+  min-width: 58px;
+  padding: 0 12px;
 }
 
 main {

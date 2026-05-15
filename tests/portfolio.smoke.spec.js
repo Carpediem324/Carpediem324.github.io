@@ -10,6 +10,10 @@ test("home page toggles theme and language", async ({ page }) => {
   await expect(page.getByText("Autonomy Pipeline")).toHaveCount(0);
   await expect(page.locator(".career-card")).toHaveCSS("background-color", "rgb(248, 250, 252)");
   await expect(page.locator(".primary-btn")).toHaveCSS("background-color", "rgb(17, 24, 39)");
+  await page.getByRole("button", { name: "Language toggle" }).click();
+  await expect(page.getByRole("heading", { name: "Building robot software from sensor data to motion control." })).toBeVisible();
+  await expect(page.getByText("Autonomous Vehicle Research Group")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Explore Selected Work" })).toBeVisible();
 
   const initialTheme = await page.locator("html").evaluate((el) => el.classList.contains("dark"));
   await page.getByRole("button", { name: "Theme toggle" }).click();

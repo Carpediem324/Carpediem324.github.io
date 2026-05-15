@@ -10,6 +10,7 @@ import {
   ExternalLink,
   GitBranch,
   GraduationCap,
+  Languages,
   Mail,
   Moon,
   Radar,
@@ -204,30 +205,209 @@ const careerHighlights = [
   },
 ];
 
+const projectEn = {
+  "creative-mobility-2023": {
+    title: "Student Creative Mobility Competition 2023",
+    role: "Localization Lead",
+    team: "12 members",
+    summary:
+      "Led RTK GPS and IMU-based localization, WGS-84 to UTM conversion, and JOSM-based global path generation at K-City.",
+    outcome: "Grand Prize | MOLIT Minister Award",
+  },
+  robocop: {
+    title: "ROBOCOP Unmanned Security Robot Control System",
+    role: "Autonomous Path Planning & Motion Control",
+    team: "6 members",
+    summary:
+      "Implemented 3D LiDAR object detection, A* global path planning, Pure Pursuit control, and ROS2 topic/service-based state control.",
+    outcome: "Autonomous driving simulation",
+  },
+  "indoor-slam-evaluation": {
+    title: "Indoor SLAM Evaluation in Extreme Environments",
+    role: "SLAM Evaluation & Robot Experiments",
+    team: "3 members",
+    summary:
+      "Tuned HDL Graph SLAM, tested in Isaac Sim, evaluated with Unitree Go1, and built 3D maps combined with radiation data.",
+    outcome: "Indoor SLAM evaluation pipeline",
+  },
+  gaemi: {
+    title: "GAEMI Disaster Area Exploration Robot",
+    role: "Hexapod Reinforcement Learning & Sensor Drivers",
+    team: "7 members",
+    summary:
+      "Configured a hexapod reinforcement-learning environment in NVIDIA Isaac Sim and handled sensor driver management and data publishing.",
+    outcome: "SSAFY Autonomous Project 1st Place",
+  },
+  "kaeri-rover-panel": {
+    title: "KAERI ROS Remote Operation for Space Exploration Rover",
+    role: "ROS Data Integration & Remote Operation",
+    team: "2 members",
+    summary:
+      "Integrated robot camera streams and ROS topic data into a remote operation view with real-time status monitoring.",
+    outcome: "Rover remote operation demo",
+  },
+  "nanosaur-line-tracing": {
+    title: "Nanosaur Line Tracing",
+    role: "Team Lead | Motor Control & Line Detection",
+    team: "3 members",
+    summary:
+      "Built a Jetson Nano tracked vehicle and implemented OpenCV HSV line detection with C++ motor control logic.",
+    outcome: "Line detection and driving control",
+  },
+  "dobot-magician": {
+    title: "Dobot Magician Digital Twin Project",
+    role: "Team Lead | ROS Programming & Socket Communication",
+    team: "2 members",
+    summary:
+      "Controlled Dobot in ROS, synchronized joint data with RoboDK, and implemented YOLOv8 panel recognition and sorting logic.",
+    outcome: "Sim-to-Real-to-Sim control",
+  },
+  "voice-assistant": {
+    title: "Distributed Voice Event Detection and AI Assistant",
+    role: "Embedded On-device Keyword Recognition",
+    team: "6 members",
+    summary:
+      "Built Raspberry Pi 5 Docker runtime, wake-word recognition, MQTT audio transfer, and PulseAudio microphone access handling.",
+    outcome: "SSAFY DA-linked Project Excellence Award",
+  },
+  "mock-interview-stt": {
+    title: "Mock Interview Website with STT",
+    role: "Team Lead | Backend & Prompt Engineering",
+    team: "4 members",
+    summary:
+      "Implemented Firebase auth/database/deployment, STT, Korean keyword extraction, spell checking, and GPT-powered interview Q&A.",
+    outcome: "Real-time interview practice service",
+  },
+  "rag-chatbot": {
+    title: "RAG-based Chatbot Service",
+    role: "Team Lead | RAG Pipeline",
+    team: "4 members",
+    summary:
+      "Built a news-grounded RAG Q&A service using LangChain, UpstageEmbeddings, Solar LLM, and Chroma DB Top-K retrieval.",
+    outcome: "News-grounded RAG Q&A",
+  },
+};
+
+const copy = {
+  ko: {
+    nav: { home: "홈", profile: "프로필", projects: "프로젝트" },
+    heroEyebrow: "ROBOTICS SOFTWARE PORTFOLIO",
+    heroTitle: "센서 데이터에서 주행 제어까지, 움직이는 로봇을 만듭니다.",
+    heroLead: "자율주행 수상 경험과 로봇 실험, 그리고 현업 제어 시스템 경험을 연결해 성장하고 있습니다.",
+    primaryCta: "대표 작업 살펴보기",
+    secondaryCta: "이력 한눈에 보기",
+    careerLabel: "Career Track",
+    careerTitle: "자율주행 연구회 수상부터 현업 전산설계까지",
+    featuredTitle: "Featured Work",
+    featuredAction: "작업 전체 보기",
+    profileEyebrow: "Hyeonhak Shin",
+    contact: "Contact",
+    experience: "Experience",
+    education: "Education",
+    awards: "Awards & Certifications",
+    projectsEyebrow: "Selected Work",
+    projectsTitle: "프로젝트",
+    projectsLead: "자율주행 위치 추정, ROS 기반 로봇 제어, SLAM 평가, 시뮬레이션과 임베디드 로봇 프로젝트를 중심으로 정리했습니다.",
+    period: "기간",
+  },
+  en: {
+    nav: { home: "Home", profile: "Profile", projects: "Projects" },
+    heroEyebrow: "ROBOTICS SOFTWARE PORTFOLIO",
+    heroTitle: "Building robot software from sensor data to motion control.",
+    heroLead: "I connect autonomous-driving awards, hands-on robot experiments, and real-world control-system engineering.",
+    primaryCta: "Explore Selected Work",
+    secondaryCta: "View Career Snapshot",
+    careerLabel: "Career Track",
+    careerTitle: "From autonomous-driving awards to industrial P/C engineering",
+    featuredTitle: "Featured Work",
+    featuredAction: "View all work",
+    profileEyebrow: "Hyeonhak Shin",
+    contact: "Contact",
+    experience: "Experience",
+    education: "Education",
+    awards: "Awards & Certifications",
+    projectsEyebrow: "Selected Work",
+    projectsTitle: "Projects",
+    projectsLead: "Selected work across autonomous localization, ROS robot control, SLAM evaluation, simulation, and embedded robotics.",
+    period: "Period",
+  },
+};
+
+const profileEn = {
+  name: "Hyeonhak Shin",
+  intro:
+    "I want to build software that helps robots perceive their environment and navigate reliably, grounded in C++, Python, ROS/ROS2, SLAM, and path planning experience.",
+  contact: ["Yeosu, Republic of Korea", "imur.navigator@gmail.com", "github.com/Carpediem324", "Korean Native | English Business Level"],
+  education: [
+    "KOREATECH, B.S. in Computer Science, Smart IoT Track | 2018 - 2024",
+    "Samsung Software AI Academy for Youth, Embedded Robot Track | 2024.07 - 2025.06",
+  ],
+  awards: [
+    "Grand Prize, Student Creative Mobility Competition 2023, Unmanned Mobility",
+    "SSAFY Autonomous Project Excellence Award | 1st place",
+    "SSAFY Project Exhibition Presentation Award | 1st place",
+    "PCCP C++ Lv.3",
+  ],
+};
+
+const careerEn = [
+  {
+    period: "2023",
+    title: "Autonomous Vehicle Research Group",
+    text: "Won the MOLIT Minister Award at the K-City unmanned mobility competition, leading RTK GPS/IMU localization and global path generation.",
+  },
+  {
+    period: "Jan 2024 - Jun 2024",
+    title: "KAERI Research Intern",
+    text: "Worked on Isaac Sim 3D SLAM testing, Unitree Go1 experiments, and ROS robot data integration.",
+  },
+  {
+    period: "Jul 2024 - Jun 2025",
+    title: "SSAFY Embedded Robot Track",
+    text: "Built ROS2 autonomous driving and walking robot projects including ROBOCOP and GAEMI, winning 1st place in the autonomous project.",
+  },
+  {
+    period: "Current",
+    title: "POSCO DX P/C Engineer",
+    text: "Working on steel-mill Level2/P-C design while learning industrial data flow, control interfaces, and reliable operating systems.",
+  },
+];
+
+const experienceEn = [
+  "POSCO DX P/C Engineer | Real-time industrial data flow and control-interface experience",
+  "KAERI Research Intern | Isaac Sim 3D SLAM testing, Unitree Go1 experiments, ROS robot data integration",
+];
+
 function App() {
   const [page, setPage] = React.useState("home");
   const [dark, setDark] = React.useState(false);
+  const [lang, setLang] = React.useState("ko");
   const featuredProjects = projects.slice(0, 5);
+  const text = copy[lang];
 
   React.useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
   }, [dark]);
 
+  React.useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
+
   return (
     <div className="app-shell">
-      <Header page={page} setPage={setPage} dark={dark} setDark={setDark} />
-      {page === "home" && <Home projects={featuredProjects} setPage={setPage} />}
-      {page === "profile" && <Profile />}
-      {page === "projects" && <Projects projects={projects} />}
+      <Header page={page} setPage={setPage} dark={dark} setDark={setDark} lang={lang} setLang={setLang} text={text} />
+      {page === "home" && <Home projects={featuredProjects} setPage={setPage} lang={lang} text={text} />}
+      {page === "profile" && <Profile lang={lang} text={text} />}
+      {page === "projects" && <Projects projects={projects} lang={lang} text={text} />}
     </div>
   );
 }
 
-function Header({ page, setPage, dark, setDark }) {
+function Header({ page, setPage, dark, setDark, lang, setLang, text }) {
   const links = [
-    ["home", "홈"],
-    ["profile", "프로필"],
-    ["projects", "프로젝트"],
+    ["home", text.nav.home],
+    ["profile", text.nav.profile],
+    ["projects", text.nav.projects],
   ];
 
   return (
@@ -243,6 +423,9 @@ function Header({ page, setPage, dark, setDark }) {
           </button>
         ))}
       </nav>
+      <button className="utility-btn" onClick={() => setLang((value) => (value === "ko" ? "en" : "ko"))} type="button" aria-label="Language toggle">
+        <Languages size={15} /> {lang === "ko" ? "EN" : "KO"}
+      </button>
       <button className="icon-btn" onClick={() => setDark((value) => !value)} type="button" aria-label="Theme toggle">
         {dark ? <Sun size={18} /> : <Moon size={18} />}
       </button>
@@ -250,22 +433,25 @@ function Header({ page, setPage, dark, setDark }) {
   );
 }
 
-function Home({ projects, setPage }) {
+function Home({ projects, setPage, lang, text }) {
+  const careerItems = lang === "en" ? careerEn : careerHighlights;
+  const currentProfile = lang === "en" ? { ...profile, ...profileEn } : profile;
+
   return (
     <main>
       <section className="hero-section">
         <div className="hero-copy">
           <p className="eyebrow">
-            <Radar size={16} /> ROBOTICS SOFTWARE PORTFOLIO
+            <Radar size={16} /> {text.heroEyebrow}
           </p>
-          <h1>센서 데이터에서 주행 제어까지, 움직이는 로봇을 만듭니다.</h1>
-          <p>자율주행 수상 경험과 로봇 실험, 그리고 현업 제어 시스템 경험을 연결해 성장하고 있습니다.</p>
+          <h1>{text.heroTitle}</h1>
+          <p>{text.heroLead}</p>
           <div className="hero-actions">
             <button className="primary-btn" onClick={() => setPage("projects")} type="button">
-              대표 작업 살펴보기 <ChevronRight size={18} />
+              {text.primaryCta} <ChevronRight size={18} />
             </button>
             <button className="secondary-btn" onClick={() => setPage("profile")} type="button">
-              이력 한눈에 보기
+              {text.secondaryCta}
             </button>
           </div>
           <div className="hero-signal-row">
@@ -279,15 +465,15 @@ function Home({ projects, setPage }) {
           <div className="profile-strip">
             <img src="/assets/images/profile/hyeonhak-shin.jpg" alt="Hyeonhak Shin profile" />
             <div>
-              <strong>{profile.name}</strong>
-              <span>{profile.headline}</span>
+              <strong>{currentProfile.name}</strong>
+              <span>{currentProfile.headline}</span>
             </div>
           </div>
           <div className="career-card">
-            <p className="career-card__label">Career Track</p>
-            <h2>자율주행 연구회 수상부터 현업 전산설계까지</h2>
+            <p className="career-card__label">{text.careerLabel}</p>
+            <h2>{text.careerTitle}</h2>
             <div className="career-timeline">
-              {careerHighlights.map((item) => (
+              {careerItems.map((item) => (
                 <article className="career-item" key={`${item.period}-${item.title}`}>
                   <span>{item.period}</span>
                   <div>
@@ -310,27 +496,36 @@ function Home({ projects, setPage }) {
         ))}
       </section>
 
-      <SectionHeader title="Featured Work" action="작업 전체 보기" onAction={() => setPage("projects")} />
+      <SectionHeader title={text.featuredTitle} action={text.featuredAction} onAction={() => setPage("projects")} />
       <div className="project-grid featured">
         {projects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
+          <ProjectCard key={project.id} project={project} lang={lang} text={text} />
         ))}
       </div>
     </main>
   );
 }
 
-function Profile() {
+function Profile({ lang, text }) {
+  const currentProfile = lang === "en" ? { ...profile, ...profileEn } : profile;
+  const experienceItems =
+    lang === "en"
+      ? experienceEn
+      : [
+          "POSCO DX P/C Engineer | 산업 시스템의 실시간 데이터 흐름과 제어 인터페이스 경험",
+          "KAERI Research Intern | Isaac Sim 3D SLAM 테스트, Unitree Go1 실험, ROS 로봇 데이터 연동",
+        ];
+
   return (
     <main className="page-grid">
       <section className="profile-panel">
         <img src="/assets/images/profile/hyeonhak-shin.jpg" alt="Hyeonhak Shin profile photo" />
         <div>
           <p className="eyebrow">
-            <UserRound size={16} /> Hyeonhak Shin
+            <UserRound size={16} /> {text.profileEyebrow}
           </p>
-          <h1>{profile.name}</h1>
-          <p>{profile.intro}</p>
+          <h1>{currentProfile.name}</h1>
+          <p>{currentProfile.intro}</p>
           <div className="skill-row">
             {["C++", "Python", "ROS / ROS2", "SLAM", "Path Planning", "Autonomous Driving"].map((skill) => (
               <span key={skill}>{skill}</span>
@@ -338,57 +533,52 @@ function Profile() {
           </div>
         </div>
       </section>
-      <InfoCard icon={<Mail />} title="Contact" items={profile.contact} />
-      <InfoCard
-        icon={<Cpu />}
-        title="Experience"
-        items={[
-          "POSCO DX P/C Engineer | 산업 시스템의 실시간 데이터 흐름과 제어 인터페이스 경험",
-          "KAERI Research Intern | Isaac Sim 3D SLAM 테스트, Unitree Go1 실험, ROS 로봇 데이터 연동",
-        ]}
-      />
-      <InfoCard icon={<GraduationCap />} title="Education" items={profile.education} />
-      <InfoCard icon={<Award />} title="Awards & Certifications" items={profile.awards} />
+      <InfoCard icon={<Mail />} title={text.contact} items={currentProfile.contact} />
+      <InfoCard icon={<Cpu />} title={text.experience} items={experienceItems} />
+      <InfoCard icon={<GraduationCap />} title={text.education} items={currentProfile.education} />
+      <InfoCard icon={<Award />} title={text.awards} items={currentProfile.awards} />
     </main>
   );
 }
 
-function Projects({ projects }) {
+function Projects({ projects, lang, text }) {
   return (
     <main>
       <section className="page-title">
         <p className="eyebrow">
-          <Code2 size={16} /> Selected Work
+          <Code2 size={16} /> {text.projectsEyebrow}
         </p>
-        <h1>프로젝트</h1>
-        <p>자율주행 위치 추정, ROS 기반 로봇 제어, SLAM 평가, 시뮬레이션과 임베디드 로봇 프로젝트를 중심으로 정리했습니다.</p>
+        <h1>{text.projectsTitle}</h1>
+        <p>{text.projectsLead}</p>
       </section>
       <div className="project-grid">
         {projects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
+          <ProjectCard key={project.id} project={project} lang={lang} text={text} />
         ))}
       </div>
     </main>
   );
 }
 
-function ProjectCard({ project }) {
+function ProjectCard({ project, lang, text }) {
+  const localized = lang === "en" ? { ...project, ...projectEn[project.id] } : project;
+
   return (
     <article className="project-card">
       <div className="project-media">
-        {project.image ? <img src={project.image} alt={project.title} /> : <div className="media-fallback">{project.title}</div>}
-        <span>{project.outcome}</span>
+        {project.image ? <img src={project.image} alt={localized.title} /> : <div className="media-fallback">{localized.title}</div>}
+        <span>{localized.outcome}</span>
       </div>
       <div className="project-body">
         <div className="project-meta">
           <span>
             <CalendarDays size={14} /> {project.period}
           </span>
-          <span>{project.team}</span>
+          <span>{localized.team}</span>
         </div>
-        <h2>{project.title}</h2>
-        <strong>{project.role}</strong>
-        <p>{project.summary}</p>
+        <h2>{localized.title}</h2>
+        <strong>{localized.role}</strong>
+        <p>{localized.summary}</p>
         <div className="tag-row">
           {project.stack.map((tag) => (
             <span key={tag}>{tag}</span>
