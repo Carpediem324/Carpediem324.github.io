@@ -174,8 +174,7 @@ const profile = {
   ],
   training: [
     "삼성청년SW아카데미 임베디드 로봇 트랙 | 2024.07 - 2025.06",
-    "H-모빌리티 클래스 자율주행 - 인지 | 2026.04.20 - 2026.06.26 | 이수 중",
-    "카인사이드아웃 자율주행 - 인지 | 2026.04.20 - 2026.06.26 | 이수 중",
+    "H-모빌리티 클래스 | 카인사이드아웃 자율주행 - 인지 | 2026.04.20 - 2026.06.26 | 이수 중",
   ],
   awards: [
     "2023 대학생 창작모빌리티 경진대회 무인모빌리티 부문 대상",
@@ -367,8 +366,7 @@ const profileEn = {
   ],
   training: [
     "Samsung Software AI Academy for Youth, Embedded Robot Track | 2024.07 - 2025.06",
-    "H-Mobility Class, Autonomous Driving - Perception | 2026.04.20 - 2026.06.26 | In progress",
-    "Car Inside Out, Autonomous Driving - Perception | 2026.04.20 - 2026.06.26 | In progress",
+    "H-Mobility Class | Car Inside Out, Autonomous Driving - Perception | 2026.04.20 - 2026.06.26 | In progress",
   ],
   awards: [
     "Grand Prize, Student Creative Mobility Competition 2023, Unmanned Mobility",
