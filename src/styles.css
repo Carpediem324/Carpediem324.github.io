@@ -873,12 +873,36 @@ p {
   }
 
   .topbar {
-    grid-template-columns: 1fr auto;
+    gap: 10px;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    padding: 10px;
+  }
+
+  .brand {
+    min-width: 0;
+    order: 1;
+  }
+
+  .brand span {
+    font-size: 0.84rem;
+  }
+
+  .lang-btn {
+    order: 2;
+  }
+
+  .icon-btn,
+  .lang-btn {
+    height: 40px;
+  }
+
+  .icon-btn {
+    order: 3;
   }
 
   .nav-tabs {
     grid-column: 1 / -1;
-    order: 3;
+    order: 4;
     width: 100%;
   }
 
