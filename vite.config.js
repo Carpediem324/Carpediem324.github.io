@@ -2,23 +2,19 @@ const { defineConfig } = require("vite");
 const react = require("@vitejs/plugin-react");
 
 module.exports = defineConfig({
-  plugins: [
-    react(),
-    {
-      name: "serve-dev-index",
-      configureServer(server) {
-        server.middlewares.use((request, _response, next) => {
-          if (request.url === "/" || request.url === "/index.html") {
-            request.url = "/index.dev.html";
-          }
-          next();
-        });
-      },
-    },
-  ],
+  plugins: [react()],
   build: {
+    manifest: true,
     rollupOptions: {
-      input: "index.dev.html",
+      input: "src/main.jsx",
+      output: {
+        entryFileNames: "assets/app.js",
+        chunkFileNames: "assets/[name].js",
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name?.endsWith(".css")) return "assets/app.css";
+          return "assets/[name][extname]";
+        },
+      },
     },
   },
 });

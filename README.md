@@ -24,7 +24,7 @@ playwright.config.js
 
 `src/App.jsx` contains the React views and interaction logic. `src/data.js` contains portfolio content. `src/main.jsx` is only the React entrypoint. `public/` contains source static assets that Vite copies into the final build.
 
-This repository also keeps a built `index.html` and root `assets/` directory because the current GitHub Pages source serves the repository root. Run `npm run build` before committing changes that affect the app or assets.
+The single root `index.html` supports both local Vite development and GitHub Pages root hosting. The repository also keeps root `assets/app.js` and `assets/app.css` because the current GitHub Pages source serves the repository root. Run `npm run build` before committing changes that affect the app or assets.
 
 ## Project Data
 

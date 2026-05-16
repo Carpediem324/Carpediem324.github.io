@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build && node scripts/sync-pages-build.cjs",
     "preview": "vite preview",
-    "check:js": "vite build",
+    "check:js": "npm run build",
     "test:smoke": "node scripts/smoke-test.cjs",
     "test:smoke:pw": "node ./node_modules/@playwright/test/cli.js test",
     "test": "npm run check:js && npm run test:smoke"
