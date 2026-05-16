@@ -302,7 +302,7 @@ export const copy = {
     primaryCta: "대표 작업 살펴보기",
     secondaryCta: "이력 한눈에 보기",
     careerLabel: "이력 흐름",
-    careerTitle: "자율주행 대회 수상에서 산업 제어 시스템 경험까지",
+    careerTitle: "자율주행 대회에서\n제철소 제강공정 제어 시스템까지",
     featuredTitle: "대표 작업",
     featuredAction: "작업 전체 보기",
     profileEyebrow: "Hyeonhak Shin",
