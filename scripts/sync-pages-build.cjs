@@ -21,7 +21,7 @@ if (!fs.existsSync(pagesAssets)) {
 }
 
 for (const entry of fs.readdirSync(pagesAssets)) {
-  if (/^index-.*\.(js|css)$/.test(entry)) {
+  if (/^index(?:\.dev)?-.*\.(js|css)$/.test(entry)) {
     fs.rmSync(path.join(pagesAssets, entry), { force: true });
   }
 }
