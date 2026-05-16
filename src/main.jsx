@@ -118,7 +118,7 @@ const projects = [
       "Dobot을 ROS 환경에서 제어하고 RoboDK와 관절 각도 데이터를 송수신했으며 YOLOv8 패널 인식과 객체 분류 흐름을 구현했습니다.",
     stack: ["ROS", "RoboDK", "YOLOv8", "Raspberry Pi"],
     outcome: "Sim-to-Real-to-Sim 제어",
-    image: null,
+    image: "/assets/images/projects/dobot.png",
     links: [{ label: "GitHub", href: "https://github.com/Carpediem324/ssafy_project" }],
   },
   {
