@@ -603,6 +603,15 @@ p {
   width: 100%;
 }
 
+.project-media.is-contain {
+  background: color-mix(in srgb, var(--surface-soft) 82%, var(--blue) 8%);
+  padding: 12px;
+}
+
+.project-media.is-contain img {
+  object-fit: contain;
+}
+
 .project-media span {
   background: rgba(16, 24, 40, 0.72);
   border-radius: 6px;

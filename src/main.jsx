@@ -119,6 +119,7 @@ const projects = [
     stack: ["ROS", "RoboDK", "YOLOv8", "Raspberry Pi"],
     outcome: "Sim-to-Real-to-Sim 제어",
     image: "/assets/images/projects/dobot.png",
+    imageFit: "contain",
     links: [{ label: "GitHub", href: "https://github.com/Carpediem324/ssafy_project" }],
   },
   {
@@ -691,7 +692,7 @@ function ProjectCard({ project, lang, text }) {
   return (
     <article className="project-card">
       <div
-        className={`project-media${hasMultipleImages ? " is-clickable" : ""}`}
+        className={`project-media${hasMultipleImages ? " is-clickable" : ""}${project.imageFit === "contain" ? " is-contain" : ""}`}
         onClick={hasMultipleImages ? showNextImage : undefined}
         onKeyDown={handleMediaKeyDown}
         role={hasMultipleImages ? "button" : undefined}
