@@ -581,6 +581,15 @@ p {
   position: relative;
 }
 
+.project-media.is-clickable {
+  cursor: pointer;
+}
+
+.project-media.is-clickable:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--blue) 46%, transparent);
+  outline-offset: -3px;
+}
+
 .project-grid.featured .project-media {
   flex-basis: 156px;
   height: 156px;
@@ -605,6 +614,62 @@ p {
   max-width: calc(100% - 20px);
   padding: 6px 9px;
   position: absolute;
+}
+
+.media-nav {
+  align-items: center;
+  background: rgba(16, 24, 40, 0.66);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 999px;
+  color: #fff;
+  display: inline-flex;
+  height: 30px;
+  justify-content: center;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: background-color 0.16s ease, opacity 0.16s ease;
+  width: 30px;
+  z-index: 2;
+}
+
+.project-media:hover .media-nav,
+.project-media:focus-visible .media-nav {
+  opacity: 1;
+}
+
+.media-nav:hover {
+  background: rgba(16, 24, 40, 0.86);
+}
+
+.media-nav--prev {
+  left: 10px;
+}
+
+.media-nav--next {
+  right: 10px;
+}
+
+.media-dots {
+  bottom: 10px;
+  display: flex;
+  gap: 5px;
+  position: absolute;
+  right: 10px;
+  z-index: 2;
+}
+
+.media-dots i {
+  background: rgba(255, 255, 255, 0.48);
+  border-radius: 999px;
+  height: 6px;
+  width: 6px;
+}
+
+.media-dots i.active {
+  background: #fff;
+  width: 16px;
 }
 
 .media-fallback {

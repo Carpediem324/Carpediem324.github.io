@@ -92,6 +92,14 @@ test("project page renders static project cards", async ({ page }) => {
   );
   expect(loadedImages.every((image) => image.width > 0)).toBeTruthy();
 
+  const gaemiCard = page.locator(".project-card", { hasText: "GAEMI" }).first();
+  const gaemiImage = gaemiCard.locator(".project-media img");
+  await expect(gaemiImage).toHaveAttribute("src", "/assets/images/projects/gaemi-1.jpg");
+  await gaemiCard.locator(".project-media").click();
+  await expect(gaemiImage).toHaveAttribute("src", "/assets/images/projects/gaemi-2.jpg");
+  await gaemiCard.getByRole("button", { name: "Previous image" }).click();
+  await expect(gaemiImage).toHaveAttribute("src", "/assets/images/projects/gaemi-1.jpg");
+
   const mediaHeights = await page.locator(".project-card .project-media").evaluateAll((media) =>
     media.map((item) => Math.round(item.getBoundingClientRect().height)),
   );

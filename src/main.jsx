@@ -4,6 +4,7 @@ import {
   Award,
   Bot,
   CalendarDays,
+  ChevronLeft,
   ChevronRight,
   Code2,
   Cpu,
@@ -46,6 +47,7 @@ const projects = [
     stack: ["ROS2", "3D LiDAR", "A*", "Pure Pursuit"],
     outcome: "자율주행 시뮬레이션",
     image: "/assets/images/projects/robocop-1.jpg",
+    images: ["/assets/images/projects/robocop-1.jpg", "/assets/images/projects/robocop-2.jpg"],
     links: [{ label: "GitHub", href: "https://github.com/Carpediem324/robocop_pjt.git" }],
   },
   {
@@ -72,6 +74,11 @@ const projects = [
     stack: ["Isaac Sim", "Reinforcement Learning", "Sensor Drivers"],
     outcome: "SSAFY 자율 프로젝트 전체 1등",
     image: "/assets/images/projects/gaemi-1.jpg",
+    images: [
+      "/assets/images/projects/gaemi-1.jpg",
+      "/assets/images/projects/gaemi-2.jpg",
+      "/assets/images/projects/gaemi-3.jpg",
+    ],
     links: [],
   },
   {
@@ -85,6 +92,7 @@ const projects = [
     stack: ["ROS", "roslib.js", "WebRTC"],
     outcome: "로버 원격 운영 데모",
     image: "/assets/images/projects/kaeri-rover-panel-1.jpg",
+    images: ["/assets/images/projects/kaeri-rover-panel-1.jpg", "/assets/images/projects/kaeri-rover-panel-2.jpg"],
     links: [],
   },
   {
@@ -124,6 +132,7 @@ const projects = [
     stack: ["Raspberry Pi", "Docker", "MQTT"],
     outcome: "SSAFY 삼성전자 DA사업부 연계 프로젝트 우수상 | 3등",
     image: "/assets/images/projects/voice-assistant-1.jpg",
+    images: ["/assets/images/projects/voice-assistant-1.jpg", "/assets/images/projects/voice-assistant-2.jpg"],
     links: [],
   },
   {
@@ -657,12 +666,53 @@ function Projects({ projects, lang, text }) {
 
 function ProjectCard({ project, lang, text }) {
   const localized = lang === "en" ? { ...project, ...projectEn[project.id] } : project;
+  const images = project.images ?? (project.image ? [project.image] : []);
+  const [imageIndex, setImageIndex] = React.useState(0);
+  const currentImage = images[imageIndex] ?? project.image;
+  const hasMultipleImages = images.length > 1;
+  const showPreviousImage = (event) => {
+    event?.stopPropagation();
+    setImageIndex((index) => (index - 1 + images.length) % images.length);
+  };
+  const showNextImage = (event) => {
+    event?.stopPropagation();
+    setImageIndex((index) => (index + 1) % images.length);
+  };
+  const handleMediaKeyDown = (event) => {
+    if (!hasMultipleImages) return;
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      showNextImage(event);
+    }
+  };
 
   return (
     <article className="project-card">
-      <div className="project-media">
-        {project.image ? <img src={project.image} alt={localized.title} /> : <div className="media-fallback">{localized.title}</div>}
+      <div
+        className={`project-media${hasMultipleImages ? " is-clickable" : ""}`}
+        onClick={hasMultipleImages ? showNextImage : undefined}
+        onKeyDown={handleMediaKeyDown}
+        role={hasMultipleImages ? "button" : undefined}
+        tabIndex={hasMultipleImages ? 0 : undefined}
+        aria-label={hasMultipleImages ? `${localized.title} image ${imageIndex + 1} of ${images.length}` : localized.title}
+      >
+        {currentImage ? <img src={currentImage} alt={localized.title} /> : <div className="media-fallback">{localized.title}</div>}
         <span>{localized.outcome}</span>
+        {hasMultipleImages && (
+          <>
+            <button className="media-nav media-nav--prev" onClick={showPreviousImage} type="button" aria-label="Previous image">
+              <ChevronLeft size={16} />
+            </button>
+            <button className="media-nav media-nav--next" onClick={showNextImage} type="button" aria-label="Next image">
+              <ChevronRight size={16} />
+            </button>
+            <div className="media-dots" aria-hidden="true">
+              {images.map((image, index) => (
+                <i className={index === imageIndex ? "active" : ""} key={image}></i>
+              ))}
+            </div>
+          </>
+        )}
       </div>
       <div className="project-body">
         <div className="project-meta">
