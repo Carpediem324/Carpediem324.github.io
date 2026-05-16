@@ -175,6 +175,7 @@ const profile = {
     "대한민국, 여수시",
     { label: "imur.navigator@gmail.com", href: "mailto:imur.navigator@gmail.com" },
     { label: "github.com/Carpediem324", href: "https://github.com/Carpediem324" },
+    { label: "linkedin.com/in/현학-신-138298299", href: "https://www.linkedin.com/in/현학-신-138298299" },
     "한국어 Native | 영어 Business Level",
   ],
   education: [
@@ -367,6 +368,7 @@ const profileEn = {
     "Yeosu, Republic of Korea",
     { label: "imur.navigator@gmail.com", href: "mailto:imur.navigator@gmail.com" },
     { label: "github.com/Carpediem324", href: "https://github.com/Carpediem324" },
+    { label: "linkedin.com/in/hyeonhak-shin", href: "https://www.linkedin.com/in/현학-신-138298299" },
     "Korean Native | English Business Level",
   ],
   education: [

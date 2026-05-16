@@ -74,6 +74,7 @@ test("profile page shows framed profile photo", async ({ page }) => {
   await expect(page.getByText("SSAFY 삼성전자 DA사업부 연계 프로젝트 우수상 | 3등")).toBeVisible();
   await expect(page.getByRole("link", { name: "imur.navigator@gmail.com" })).toHaveAttribute("href", "mailto:imur.navigator@gmail.com");
   await expect(page.getByRole("link", { name: /github\.com\/Carpediem324/ })).toHaveAttribute("href", "https://github.com/Carpediem324");
+  await expect(page.getByRole("link", { name: /linkedin\.com\/in/ })).toHaveAttribute("href", /linkedin\.com\/in\/.+138298299/);
   await expect(page.getByAltText("Hyeonhak Shin profile photo")).toBeVisible();
 });
 
