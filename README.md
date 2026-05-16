@@ -6,26 +6,33 @@ Personal portfolio site for GitHub Pages.
 
 ```txt
 src/
+  App.jsx
+  data.js
   main.jsx
   styles.css
 public/
   assets/
     images/
+scripts/
+  smoke-test.cjs
+  sync-pages-build.cjs
 tests/
 package.json
 vite.config.js
 playwright.config.js
 ```
 
-`src/` contains the React application. `public/` contains static assets that Vite copies into the final build. GitHub Pages deploys the generated `dist/` directory through GitHub Actions.
+`src/App.jsx` contains the React views and interaction logic. `src/data.js` contains portfolio content. `src/main.jsx` is only the React entrypoint. `public/` contains source static assets that Vite copies into the final build.
+
+This repository also keeps a built `index.html` and root `assets/` directory because the current GitHub Pages source serves the repository root. Run `npm run build` before committing changes that affect the app or assets.
 
 ## Project Data
 
-This site is a React single-page portfolio. Project cards are defined in `src/main.jsx` and rendered by React components.
+This site is a React single-page portfolio. Project cards are defined in `src/data.js` and rendered by React components in `src/App.jsx`.
 
-GitHub Pages does not provide a shared database or server runtime. To add, edit, or remove projects, update the `projects` array in `src/main.jsx` and deploy the commit.
+GitHub Pages does not provide a shared database or server runtime. To add, edit, or remove projects, update the `projects` array in `src/data.js`, run `npm run build`, and deploy the commit.
 
-Project images use fixed file paths in `src/main.jsx`. Add matching files under `public/assets/images/projects/`, for example:
+Project images use fixed file paths in `src/data.js`. Add matching files under `public/assets/images/projects/`, for example:
 
 ```txt
 public/assets/images/projects/robocop.jpg
@@ -40,4 +47,8 @@ If an image file is missing, the site shows a polished placeholder instead of a 
 npm test
 ```
 
-The test suite builds the Vite app and checks theme switching, profile rendering, and project-card rendering in Chrome through Playwright.
+The default test suite builds the Vite app and runs deterministic smoke checks in Chrome. The original Playwright test runner specs remain available with:
+
+```bash
+npm run test:smoke:pw
+```
