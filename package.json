@@ -12,7 +12,7 @@
     "test": "npm run check:js && npm run test:smoke"
   },
   "devDependencies": {
-    "@playwright/test": "^1.52.0",
+    "@playwright/test": "^1.60.0",
     "@vitejs/plugin-react": "^6.0.2",
     "vite": "^8.0.13"
   },

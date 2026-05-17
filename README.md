@@ -17,6 +17,7 @@ scripts/
   smoke-test.cjs
   sync-pages-build.cjs
 tests/
+SECURITY.md
 package.json
 vite.config.js
 playwright.config.js
@@ -52,3 +53,14 @@ The default test suite builds the Vite app and runs deterministic smoke checks i
 ```bash
 npm run test:smoke:pw
 ```
+
+## Security
+
+This is a static GitHub Pages site with no server-side secrets. The deployment uses a CSP in `index.html`, validated external links, and no inline scripts. Before deploying, run:
+
+```bash
+npm.cmd audit --audit-level=moderate
+npm.cmd test
+```
+
+See `SECURITY.md` for the full checklist.

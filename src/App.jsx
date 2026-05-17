@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Award,
+  BadgeCheck,
   Bot,
   CalendarDays,
   ChevronLeft,
@@ -27,6 +28,47 @@ import {
   projects,
   stats,
 } from "./data.js";
+
+const SAFE_MAILTO_PATTERN = /^mailto:[^\s@]+@[^\s@]+\.[^\s@]+$/i;
+const SAFE_URL_BASE = "https://carpediem324.github.io";
+
+function getSafeHref(href) {
+  if (typeof href !== "string") return null;
+  const trimmed = href.trim();
+  if (trimmed.length === 0) return null;
+
+  if (SAFE_MAILTO_PATTERN.test(trimmed)) return trimmed;
+
+  try {
+    const url = new URL(trimmed, SAFE_URL_BASE);
+    if (url.protocol === "https:") return url.href;
+  } catch {
+    return null;
+  }
+
+  return null;
+}
+
+function SafeLink({ href, className, children }) {
+  const safeHref = getSafeHref(href);
+  const isMail = safeHref?.startsWith("mailto:");
+
+  if (!safeHref) {
+    return <span className={className}>{children}</span>;
+  }
+
+  return (
+    <a
+      className={className}
+      href={safeHref}
+      target={isMail ? undefined : "_blank"}
+      rel={isMail ? undefined : "noopener noreferrer"}
+      referrerPolicy={isMail ? undefined : "no-referrer"}
+    >
+      {children}
+    </a>
+  );
+}
 
 function App() {
   const [page, setPage] = React.useState("home");
@@ -256,6 +298,7 @@ function Profile({ lang, text }) {
       <InfoCard icon={<GraduationCap />} title={text.education} items={currentProfile.education} />
       <InfoCard icon={<Code2 />} title={text.training} items={currentProfile.training} />
       <InfoCard icon={<Award />} title={text.awards} items={currentProfile.awards} />
+      <InfoCard icon={<BadgeCheck />} title={text.certifications} items={currentProfile.certifications} />
     </main>
   );
 }
@@ -347,9 +390,9 @@ function ProjectCard({ project, lang, text }) {
         {project.links.length > 0 && (
           <div className="link-row">
             {project.links.map((link) => (
-              <a href={link.href} key={link.href} target="_blank" rel="noreferrer">
+              <SafeLink href={link.href} key={link.href}>
                 {link.label === "GitHub" ? <GitBranch size={15} /> : <ExternalLink size={15} />} {link.label}
-              </a>
+              </SafeLink>
             ))}
           </div>
         )}
@@ -372,10 +415,10 @@ function InfoCard({ icon, title, items }) {
               {typeof item === "string" ? (
                 item
               ) : (
-                <a className="profile-link" href={item.href} target={item.href.startsWith("mailto:") ? undefined : "_blank"} rel={item.href.startsWith("mailto:") ? undefined : "noreferrer"}>
+                <SafeLink className="profile-link" href={item.href}>
                   {item.label}
                   {!item.href.startsWith("mailto:") && <ExternalLink size={14} />}
-                </a>
+                </SafeLink>
               )}
             </li>
           );

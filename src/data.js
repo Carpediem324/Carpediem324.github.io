@@ -70,8 +70,12 @@ export const projects = [
       "로봇 카메라 영상과 ROS 토픽 데이터를 원격 운영 화면에 연동하고 모터 RPM 등 상태 데이터를 실시간 확인할 수 있게 구현했습니다.",
     stack: ["ROS", "roslib.js", "WebRTC"],
     outcome: "로버 원격 운영 데모",
-    image: "/assets/images/projects/kaeri-rover-panel-1.jpg",
-    images: ["/assets/images/projects/kaeri-rover-panel-1.jpg", "/assets/images/projects/kaeri-rover-panel-2.jpg"],
+    image: "/assets/images/KAERI, ROBOT.jpg",
+    images: [
+      "/assets/images/KAERI, ROBOT.jpg",
+      "/assets/images/projects/kaeri-rover-panel-1.jpg",
+      "/assets/images/projects/kaeri-rover-panel-2.jpg",
+    ],
     links: [],
   },
   {
@@ -170,7 +174,12 @@ export const profile = {
     "SSAFY 자율 프로젝트 우수상 | 1등",
     "SSAFY 삼성전자 DA사업부 연계 프로젝트 우수상 | 3등",
     "SSAFY 프로젝트 전시발표회 발표부문 | 1등",
-    "PCCP C++ Lv.3",
+  ],
+  certifications: [
+    "정보처리기사",
+    "직업능력개발훈련교사(인공지능, 통신서비스, 정보기술개발, 전자기기일반)",
+    "Microsoft Certified: Azure AI Fundamentals(AI-900)",
+    "PCCP (Programmers Certified Coding Professional) C++ Lv.3",
   ],
 };
 
@@ -310,7 +319,8 @@ export const copy = {
     experience: "경력",
     education: "학력",
     training: "교육 및 활동",
-    awards: "수상 및 인증",
+    awards: "수상",
+    certifications: "자격",
     projectsEyebrow: "Selected Work",
     projectsTitle: "프로젝트",
     projectsLead: "자율주행 위치 추정, ROS 기반 로봇 제어, SLAM 평가, 시뮬레이션과 임베디드 로봇 프로젝트를 중심으로 정리했습니다.",
@@ -332,7 +342,8 @@ export const copy = {
     experience: "Experience",
     education: "Education",
     training: "Training & Activities",
-    awards: "Awards & Certifications",
+    awards: "Awards",
+    certifications: "Certifications",
     projectsEyebrow: "Selected Work",
     projectsTitle: "Projects",
     projectsLead: "Selected work across autonomous localization, ROS robot control, SLAM evaluation, simulation, and embedded robotics.",
@@ -363,7 +374,12 @@ export const profileEn = {
     "SSAFY Autonomous Project Excellence Award | 1st place",
     "SSAFY Samsung Electronics DA-linked Project Excellence Award | 3rd place",
     "SSAFY Project Exhibition Presentation Award | 1st place",
-    "PCCP C++ Lv.3",
+  ],
+  certifications: [
+    "Engineer Information Processing",
+    "Vocational Competency Development Training Teacher (AI, Communication Services, IT Development, General Electronic Devices)",
+    "Microsoft Certified: Azure AI Fundamentals(AI-900)",
+    "PCCP (Programmers Certified Coding Professional) C++ Lv.3",
   ],
 };
 

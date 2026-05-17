@@ -7,25 +7,16 @@
       name="description"
       content="Robotics software portfolio for Hyeonhak Shin, covering autonomous driving, SLAM, ROS, and robot control projects."
     />
+    <meta name="referrer" content="no-referrer" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; media-src 'self'; frame-src 'none'; form-action 'none'; manifest-src 'self'; upgrade-insecure-requests"
+    />
     <title>Hyeonhak Shin | Robotics Portfolio</title>
+    <link rel="stylesheet" href="/assets/app.css" />
   </head>
   <body>
     <div id="root"></div>
-    <script>
-      const isLocalDev =
-        ["localhost", "127.0.0.1"].includes(window.location.hostname) && window.location.port === "5173";
-
-      if (!isLocalDev) {
-        const styles = document.createElement("link");
-        styles.rel = "stylesheet";
-        styles.href = "/assets/app.css";
-        document.head.appendChild(styles);
-      }
-
-      const app = document.createElement("script");
-      app.type = "module";
-      app.src = isLocalDev ? "/src/main.jsx" : "/assets/app.js";
-      document.body.appendChild(app);
-    </script>
+    <script type="module" src="/assets/app.js"></script>
   </body>
 </html>
