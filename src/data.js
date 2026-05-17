@@ -70,11 +70,11 @@ export const projects = [
       "로봇 카메라 영상과 ROS 토픽 데이터를 원격 운영 화면에 연동하고 모터 RPM 등 상태 데이터를 실시간 확인할 수 있게 구현했습니다.",
     stack: ["ROS", "roslib.js", "WebRTC"],
     outcome: "로버 원격 운영 데모",
-    image: "/assets/images/KAERI, ROBOT.jpg",
+    image: "/assets/images/projects/kaeri-rover-panel-1.jpg",
     images: [
-      "/assets/images/KAERI, ROBOT.jpg",
       "/assets/images/projects/kaeri-rover-panel-1.jpg",
       "/assets/images/projects/kaeri-rover-panel-2.jpg",
+      "/assets/images/projects/kaeri-rover-panel-3.jpg",
     ],
     links: [],
   },
