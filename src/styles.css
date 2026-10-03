@@ -83,6 +83,71 @@ button {
   z-index: 1;
 }
 
+.visitor-counter {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(16, 24, 40, 0.05);
+  color: var(--text);
+  margin: 28px 0 0 auto;
+  padding: 12px 14px;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.visitor-counter dl {
+  display: flex;
+  gap: 20px;
+  margin: 0;
+}
+
+.visitor-counter dl > div {
+  align-items: baseline;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.visitor-counter dt {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.visitor-counter dd {
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.visitor-sr-only {
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+/* A 1180px content shell plus two 170px gutters leaves the card clear. */
+@media (min-width: 1520px) {
+  .visitor-counter {
+    bottom: 24px;
+    margin: 0;
+    position: fixed;
+    right: 16px;
+    width: 144px;
+  }
+
+  .visitor-counter dl {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
 .ripple-layer {
   inset: 0;
   pointer-events: none;

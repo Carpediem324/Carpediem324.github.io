@@ -1,4 +1,6 @@
 import React from "react";
+import VisitorCounter from "./VisitorCounter.jsx";
+import { trackPage } from "./analytics.js";
 import {
   Award,
   BadgeCheck,
@@ -79,6 +81,10 @@ function App() {
   const text = copy[lang];
 
   React.useEffect(() => {
+    trackPage(page);
+  }, [page]);
+
+  React.useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
   }, [dark]);
 
@@ -135,6 +141,7 @@ function App() {
         {page === "home" && <Home projects={featuredProjects} setPage={setPage} lang={lang} text={text} />}
         {page === "profile" && <Profile lang={lang} text={text} />}
         {page === "projects" && <Projects projects={projects} lang={lang} text={text} />}
+        <VisitorCounter lang={lang} />
       </div>
     </>
   );
