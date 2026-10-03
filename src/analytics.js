@@ -1,6 +1,6 @@
 // Public site code, not an API token. Rebuild after changing this value.
 export const analyticsConfig = {
-  siteCode: "YOUR_GOATCOUNTER_CODE",
+  siteCode: "carpediem324",
 };
 
 export function getAnalyticsOrigin() {

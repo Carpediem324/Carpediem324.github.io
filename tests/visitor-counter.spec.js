@@ -1,14 +1,15 @@
 const { test, expect } = require("@playwright/test");
 
-async function configureCounter(page) {
+async function configureCounter(page, siteCode = "counter-test") {
   // Change only the served bundle; never write test credentials to source/build.
   await page.route("**/assets/app.js*", async (route) => {
     const response = await route.fetch();
-    await route.fulfill({ response, body: (await response.text()).replaceAll("YOUR_GOATCOUNTER_CODE", "counter-test") });
+    await route.fulfill({ response, body: (await response.text()).replace(/(["'`])carpediem324\1/g, (_, quote) => `${quote}${siteCode}${quote}`) });
   });
 }
 
 test("unconfigured counter makes no external requests and fits narrow screens", async ({ page }) => {
+  await configureCounter(page, "YOUR_GOATCOUNTER_CODE");
   const requests = [];
   page.on("request", (request) => {
     if (/goatcounter\.com|gc\.zgo\.at/.test(request.url())) requests.push(request.url());

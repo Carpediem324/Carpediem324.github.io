@@ -70,7 +70,7 @@ See `SECURITY.md` for the full checklist.
 ### 설정
 
 1. [GoatCounter](https://www.goatcounter.com/)에 가입하고 이 사이트용 사이트를 생성합니다.
-2. `src/analytics.js`의 `YOUR_GOATCOUNTER_CODE`를 가입한 사이트 코드로 바꿉니다.
+2. `src/analytics.js`의 `siteCode`를 가입한 사이트 코드로 지정합니다. 현재 `carpediem324`로 연결되어 있습니다.
    예를 들어 주소가 `https://example.goatcounter.com`이면 `example`만 입력합니다.
    서버 환경변수나 API 토큰은 필요하지 않습니다. 코드 변경 후 다시 빌드합니다.
 3. GoatCounter 사이트 설정에서 **Allow adding visitor counts on your website**를 켭니다.
