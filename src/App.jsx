@@ -201,7 +201,7 @@ function Header({ page, setPage, dark, setDark, lang, setLang, text }) {
 }
 
 function Home({ projects, setPage, lang, text }) {
-  const careerItems = lang === "en" ? careerEn : careerHighlights;
+  const careerItems = [...(lang === "en" ? careerEn : careerHighlights)].reverse();
   const currentProfile = lang === "en" ? { ...profile, ...profileEn } : profile;
 
   return (
