@@ -31,6 +31,8 @@ The single root `index.html` supports both local Vite development and GitHub Pag
 
 This site is a React single-page portfolio. Project cards are defined in `src/data.js` and rendered by React components in `src/App.jsx`.
 
+Home, profile, and project views can be shared with `/#home`, `/#profile`, and `/#projects`. Browser history and reload preserve the selected view. Language and theme choices are stored locally when browser storage is available. Project search matches Korean and English titles, roles, descriptions, and technology tags.
+
 GitHub Pages does not provide a shared database or server runtime. To add, edit, or remove projects, update the `projects` array in `src/data.js`, run `npm run build`, and deploy the commit.
 
 Project images use fixed file paths in `src/data.js`. Add matching files under `public/assets/images/projects/`, for example:
@@ -91,10 +93,9 @@ See `SECURITY.md` for the full checklist.
   같은 세션에서 같은 경로의 새로고침/재방문은 중복 제외됩니다. 약 8시간의 세션 구분을
   사용하므로 평생 중복 제거된 사람 수나 엄밀한 일별 unique person 수가 아닙니다.
   세션이 바뀌거나 기기/네트워크가 바뀌면 다시 집계될 수 있습니다.
-- 현재 앱은 항상 홈에서 시작하므로 `/`를 사이트 방문의 기준으로 사용합니다.
+- 카운터는 홈(`/`) 방문을 기준으로 합니다. 프로필이나 프로젝트 공유 링크로 바로 들어온 방문은 해당 페이지 경로에 기록됩니다.
   프로필과 프로젝트 탭은 각각 `/profile`, `/projects`라는 가상 경로로 전송합니다.
-  테마/언어 변경은 전송하지 않습니다. 향후 직접 진입하는 라우트를 추가하면 이 기준을
-  재검토해야 합니다. 여러 경로의 방문 수를 더하면 같은 방문자가 중복되므로 합산하지 않습니다.
+  테마/언어 변경은 전송하지 않습니다. 여러 경로의 방문 수를 더하면 같은 방문자가 중복되므로 합산하지 않습니다.
 - 페이지뷰는 매 로드/탭 진입, 방문 수는 세션별 경로 중복을 제외한 값입니다.
   Dashboard에서 일별/경로별 방문량, 유입 경로, 브라우저, OS, 화면 크기 기반 기기 정보,
   국가 등 수집한 상세 통계를 확인합니다. 원시 페이지뷰가 필요하면 GoatCounter export를

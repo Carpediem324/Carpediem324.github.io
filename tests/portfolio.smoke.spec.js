@@ -14,7 +14,7 @@ test("home page toggles theme and language", async ({ page }) => {
   await expect(page.getByRole("button", { name: "이력 한눈에 보기" })).toBeVisible();
   await expect(page.getByText("Autonomy Pipeline")).toHaveCount(0);
   await expect(page.locator(".career-card")).toHaveCSS("background-color", "rgb(248, 250, 252)");
-  await expect(page.locator(".primary-btn")).toHaveCSS("background-color", "rgb(17, 24, 39)");
+  await expect(page.locator(".hero-actions .primary-btn")).toHaveCSS("background-color", "rgb(17, 24, 39)");
   const brandXBeforeLanguageToggle = Math.round((await page.locator(".brand").boundingBox()).x);
   const initialTheme = await page.locator("html").evaluate((el) => el.classList.contains("dark"));
   await expect(page.locator(".hero-section")).toBeVisible();

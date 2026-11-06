@@ -13,6 +13,7 @@ if (!fs.existsSync(distAssets)) {
 }
 
 fs.copyFileSync(pagesHtml, distPagesHtml);
+fs.copyFileSync(path.join(root, "public", "favicon.svg"), path.join(root, "favicon.svg"));
 
 if (!fs.existsSync(pagesAssets)) {
   fs.mkdirSync(pagesAssets, { recursive: true });

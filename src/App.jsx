@@ -16,6 +16,7 @@ import {
   Mail,
   Moon,
   Radar,
+  Search,
   Sun,
   UserRound,
 } from "lucide-react";
@@ -33,6 +34,27 @@ import {
 
 const SAFE_MAILTO_PATTERN = /^mailto:[^\s@]+@[^\s@]+\.[^\s@]+$/i;
 const SAFE_URL_BASE = "https://carpediem324.github.io";
+
+function readPreference(key, fallback) {
+  try {
+    return localStorage.getItem(key) ?? fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function savePreference(key, value) {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    // Navigation and preferences still work when browser storage is unavailable.
+  }
+}
+
+function pageFromHash() {
+  const page = window.location.hash.slice(1);
+  return ["profile", "projects"].includes(page) ? page : "home";
+}
 
 function getSafeHref(href) {
   if (typeof href !== "string") return null;
@@ -73,12 +95,31 @@ function SafeLink({ href, className, children }) {
 }
 
 function App() {
-  const [page, setPage] = React.useState("home");
-  const [dark, setDark] = React.useState(false);
-  const [lang, setLang] = React.useState("ko");
+  const [page, setPage] = React.useState(pageFromHash);
+  const [dark, setDark] = React.useState(() => readPreference("portfolio-theme", "light") === "dark");
+  const [lang, setLang] = React.useState(() => readPreference("portfolio-language", "ko") === "en" ? "en" : "ko");
+  const previousPage = React.useRef(page);
   const [ripples, setRipples] = React.useState([]);
   const featuredProjects = projects.slice(0, 5);
   const text = copy[lang];
+
+  const navigate = (nextPage) => {
+    window.location.hash = nextPage;
+  };
+
+  React.useEffect(() => {
+    const handleHashChange = () => setPage(pageFromHash());
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
+  React.useEffect(() => {
+    if (previousPage.current !== page) {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      document.getElementById("main-content")?.focus({ preventScroll: true });
+      previousPage.current = page;
+    }
+  }, [page]);
 
   React.useEffect(() => {
     trackPage(page);
@@ -86,11 +127,17 @@ function App() {
 
   React.useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
+    savePreference("portfolio-theme", dark ? "dark" : "light");
   }, [dark]);
 
   React.useEffect(() => {
     document.documentElement.lang = lang;
+    savePreference("portfolio-language", lang);
   }, [lang]);
+
+  React.useEffect(() => {
+    document.title = `${text.nav[page]} · ${lang === "ko" ? "신현학" : "Hyeonhak Shin"} | Robotics Portfolio`;
+  }, [page, lang, text]);
 
   React.useEffect(() => {
     const isReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -135,12 +182,17 @@ function App() {
 
   return (
     <>
+      <a className="skip-link" href="#main-content" onClick={(event) => {
+        event.preventDefault();
+        document.getElementById("main-content")?.focus();
+      }}>{lang === "ko" ? "본문 바로가기" : "Skip to content"}</a>
       <RippleLayer ripples={ripples} />
       <div className="app-shell">
-        <Header page={page} setPage={setPage} dark={dark} setDark={setDark} lang={lang} setLang={setLang} text={text} />
-        {page === "home" && <Home projects={featuredProjects} setPage={setPage} lang={lang} text={text} />}
+        <Header page={page} setPage={navigate} dark={dark} setDark={setDark} lang={lang} setLang={setLang} text={text} />
+        {page === "home" && <Home projects={featuredProjects} setPage={navigate} lang={lang} text={text} />}
         {page === "profile" && <Profile lang={lang} text={text} />}
         {page === "projects" && <Projects projects={projects} lang={lang} text={text} />}
+        <Footer lang={lang} />
         <VisitorCounter lang={lang} />
       </div>
     </>
@@ -183,17 +235,17 @@ function Header({ page, setPage, dark, setDark, lang, setLang, text }) {
       </button>
       <nav className="nav-tabs" aria-label="Primary navigation">
         {links.map(([key, label]) => (
-          <button className={page === key ? "active" : ""} key={key} onClick={() => setPage(key)} type="button">
+          <button className={page === key ? "active" : ""} aria-current={page === key ? "page" : undefined} key={key} onClick={() => setPage(key)} type="button">
             {label}
           </button>
         ))}
       </nav>
-      <button className="lang-btn" onClick={() => setLang((value) => (value === "ko" ? "en" : "ko"))} type="button" aria-label="Language toggle">
+      <button className="lang-btn" onClick={() => setLang((value) => (value === "ko" ? "en" : "ko"))} type="button" aria-label="Language toggle" title={lang === "ko" ? "Switch to English" : "한국어로 전환"}>
         <span className={lang === "ko" ? "active" : ""}>한</span>
         <i></i>
         <span className={lang === "en" ? "active" : ""}>EN</span>
       </button>
-      <button className="icon-btn" onClick={() => setDark((value) => !value)} type="button" aria-label="Theme toggle">
+      <button className="icon-btn" onClick={() => setDark((value) => !value)} type="button" aria-label="Theme toggle" aria-pressed={dark} title={lang === "ko" ? "화면 테마 변경" : "Change color theme"}>
         {dark ? <Sun size={18} /> : <Moon size={18} />}
       </button>
     </header>
@@ -205,7 +257,7 @@ function Home({ projects, setPage, lang, text }) {
   const currentProfile = lang === "en" ? { ...profile, ...profileEn } : profile;
 
   return (
-    <main>
+    <main id="main-content" tabIndex={-1}>
       <section className="hero-section">
         <div className="hero-copy">
           <p className="eyebrow">
@@ -227,6 +279,7 @@ function Home({ projects, setPage, lang, text }) {
             <span>ROS2</span>
             <span>A* / Pure Pursuit</span>
           </div>
+          <div className="hero-proof"><Award size={18} /><span>{lang === "ko" ? "국토교통부 장관상 · SSAFY 자율 프로젝트 1등" : "MOLIT Minister Award · SSAFY Autonomous Project, 1st Place"}</span></div>
         </div>
         <div className="hero-card" aria-label="Career highlights">
           <div className="profile-strip">
@@ -284,7 +337,7 @@ function Profile({ lang, text }) {
         ];
 
   return (
-    <main className="page-grid">
+    <main id="main-content" tabIndex={-1} className="page-grid">
       <section className="profile-panel">
         <img src="/assets/images/profile/hyeonhak-shin.jpg" alt="Hyeonhak Shin profile photo" />
         <div>
@@ -311,8 +364,15 @@ function Profile({ lang, text }) {
 }
 
 function Projects({ projects, lang, text }) {
+  const [query, setQuery] = React.useState("");
+  const matchingProjects = projects.filter((project) => {
+    const english = projectEn[project.id];
+    return [project.title, project.role, project.summary, ...project.stack, english?.title, english?.role, english?.summary]
+      .join(" ").toLocaleLowerCase().includes(query.trim().toLocaleLowerCase());
+  });
+
   return (
-    <main>
+    <main id="main-content" tabIndex={-1}>
       <section className="page-title">
         <p className="eyebrow">
           <Code2 size={16} /> {text.projectsEyebrow}
@@ -320,11 +380,20 @@ function Projects({ projects, lang, text }) {
         <h1>{text.projectsTitle}</h1>
         <p>{text.projectsLead}</p>
       </section>
+      <div className="project-toolbar">
+        <label className="project-search">
+          <Search size={20} aria-hidden="true" />
+          <span className="visitor-sr-only">{lang === "ko" ? "프로젝트 검색" : "Search projects"}</span>
+          <input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder={lang === "ko" ? "프로젝트, 기술, 역할 검색" : "Search projects, skills, or roles"} />
+        </label>
+        <p role="status">{lang === "ko" ? `${matchingProjects.length}개의 프로젝트` : `${matchingProjects.length} projects`}</p>
+      </div>
       <div className="project-grid">
-        {projects.map((project) => (
+        {matchingProjects.map((project) => (
           <ProjectCard key={project.id} project={project} lang={lang} text={text} />
         ))}
       </div>
+      {matchingProjects.length === 0 && <div className="empty-state"><h2>{lang === "ko" ? "일치하는 프로젝트가 없습니다" : "No matching projects"}</h2><p>{lang === "ko" ? "다른 기술명이나 키워드로 검색해 보세요." : "Try a different skill or keyword."}</p><button className="secondary-btn" type="button" onClick={() => setQuery("")}>{lang === "ko" ? "전체 프로젝트 보기" : "Show all projects"}</button></div>}
     </main>
   );
 }
@@ -345,7 +414,10 @@ function ProjectCard({ project, lang, text }) {
   };
   const handleMediaKeyDown = (event) => {
     if (!hasMultipleImages) return;
-    if (event.key === "Enter" || event.key === " ") {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      showPreviousImage(event);
+    } else if (event.key === "ArrowRight") {
       event.preventDefault();
       showNextImage(event);
     }
@@ -357,12 +429,11 @@ function ProjectCard({ project, lang, text }) {
         className={`project-media${hasMultipleImages ? " is-clickable" : ""}${project.imageFit === "contain" ? " is-contain" : ""}`}
         onClick={hasMultipleImages ? showNextImage : undefined}
         onKeyDown={handleMediaKeyDown}
-        role={hasMultipleImages ? "button" : undefined}
-        tabIndex={hasMultipleImages ? 0 : undefined}
+        role={hasMultipleImages ? "group" : undefined}
         aria-label={hasMultipleImages ? `${localized.title} image ${imageIndex + 1} of ${images.length}` : localized.title}
       >
-        {currentImage ? <img src={currentImage} alt={localized.title} /> : <div className="media-fallback">{localized.title}</div>}
-        <span>{localized.outcome}</span>
+        {currentImage ? <img src={currentImage} alt={`${localized.title}${hasMultipleImages ? ` (${imageIndex + 1}/${images.length})` : ""}`} decoding="async" /> : <div className="media-fallback"><Bot size={40} /><span>{project.stack.join(" / ")}</span></div>}
+        <span className="project-outcome">{localized.outcome}</span>
         {hasMultipleImages && (
           <>
             <button className="media-nav media-nav--prev" onClick={showPreviousImage} type="button" aria-label="Previous image">
@@ -376,6 +447,7 @@ function ProjectCard({ project, lang, text }) {
                 <i className={index === imageIndex ? "active" : ""} key={image}></i>
               ))}
             </div>
+            <span className="visitor-sr-only" aria-live="polite">{lang === "ko" ? `이미지 ${imageIndex + 1} / ${images.length}` : `Image ${imageIndex + 1} of ${images.length}`}</span>
           </>
         )}
       </div>
@@ -405,6 +477,18 @@ function ProjectCard({ project, lang, text }) {
         )}
       </div>
     </article>
+  );
+}
+
+function Footer({ lang }) {
+  return (
+    <footer className="site-footer">
+      <div className="contact-panel">
+        <div><p className="eyebrow">LET’S CONNECT</p><h2>{lang === "ko" ? "다음 로봇의 움직임을 함께." : "Let’s build what moves next."}</h2><p>{lang === "ko" ? "로보틱스 소프트웨어와 자율주행에 관한 이야기를 기다립니다." : "Get in touch about robotics software and autonomous systems."}</p></div>
+        <SafeLink className="primary-btn" href="mailto:imur.navigator@gmail.com"><Mail size={18} />{lang === "ko" ? "이메일로 연락하기" : "Get in touch"}<ChevronRight size={18} /></SafeLink>
+      </div>
+      <div className="footer-bottom"><span>© {new Date().getFullYear()} Hyeonhak Shin</span><span>Robotics & Autonomous Driving</span><SafeLink href="https://github.com/Carpediem324">GitHub <ExternalLink size={14} /></SafeLink></div>
+    </footer>
   );
 }
 
