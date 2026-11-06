@@ -103,10 +103,6 @@ function App() {
   const featuredProjects = projects.slice(0, 5);
   const text = copy[lang];
 
-  const navigate = (nextPage) => {
-    window.location.hash = nextPage;
-  };
-
   React.useEffect(() => {
     const handleHashChange = () => setPage(pageFromHash());
     window.addEventListener("hashchange", handleHashChange);
@@ -188,8 +184,8 @@ function App() {
       }}>{lang === "ko" ? "본문 바로가기" : "Skip to content"}</a>
       <RippleLayer ripples={ripples} />
       <div className="app-shell">
-        <Header page={page} setPage={navigate} dark={dark} setDark={setDark} lang={lang} setLang={setLang} text={text} />
-        {page === "home" && <Home projects={featuredProjects} setPage={navigate} lang={lang} text={text} />}
+        <Header page={page} dark={dark} setDark={setDark} lang={lang} setLang={setLang} text={text} />
+        {page === "home" && <Home projects={featuredProjects} lang={lang} text={text} />}
         {page === "profile" && <Profile lang={lang} text={text} />}
         {page === "projects" && <Projects projects={projects} lang={lang} text={text} />}
         <Footer lang={lang} />
@@ -220,7 +216,7 @@ function RippleLayer({ ripples }) {
   );
 }
 
-function Header({ page, setPage, dark, setDark, lang, setLang, text }) {
+function Header({ page, dark, setDark, lang, setLang, text }) {
   const links = [
     ["home", text.nav.home],
     ["profile", text.nav.profile],
@@ -229,15 +225,15 @@ function Header({ page, setPage, dark, setDark, lang, setLang, text }) {
 
   return (
     <header className="topbar">
-      <button className="brand" onClick={() => setPage("home")} type="button" aria-label="Home">
+      <a className="brand" href="#home" aria-label="Home">
         <Bot size={22} />
         <span>CARPEDIEM</span>
-      </button>
+      </a>
       <nav className="nav-tabs" aria-label="Primary navigation">
         {links.map(([key, label]) => (
-          <button className={page === key ? "active" : ""} aria-current={page === key ? "page" : undefined} key={key} onClick={() => setPage(key)} type="button">
+          <a className={page === key ? "active" : ""} aria-current={page === key ? "page" : undefined} key={key} href={`#${key}`}>
             {label}
-          </button>
+          </a>
         ))}
       </nav>
       <button className="lang-btn" onClick={() => setLang((value) => (value === "ko" ? "en" : "ko"))} type="button" aria-label="Language toggle" title={lang === "ko" ? "Switch to English" : "한국어로 전환"}>
@@ -252,7 +248,7 @@ function Header({ page, setPage, dark, setDark, lang, setLang, text }) {
   );
 }
 
-function Home({ projects, setPage, lang, text }) {
+function Home({ projects, lang, text }) {
   const careerItems = [...(lang === "en" ? careerEn : careerHighlights)].reverse();
   const currentProfile = lang === "en" ? { ...profile, ...profileEn } : profile;
 
@@ -266,12 +262,12 @@ function Home({ projects, setPage, lang, text }) {
           <h1>{text.heroTitle}</h1>
           <p>{text.heroLead}</p>
           <div className="hero-actions">
-            <button className="primary-btn" onClick={() => setPage("projects")} type="button">
+            <a className="primary-btn" href="#projects">
               {text.primaryCta} <ChevronRight size={18} />
-            </button>
-            <button className="secondary-btn" onClick={() => setPage("profile")} type="button">
+            </a>
+            <a className="secondary-btn" href="#profile">
               {text.secondaryCta}
-            </button>
+            </a>
           </div>
           <div className="hero-signal-row">
             <span>RTK GPS / IMU</span>
@@ -283,7 +279,7 @@ function Home({ projects, setPage, lang, text }) {
         </div>
         <div className="hero-card" aria-label="Career highlights">
           <div className="profile-strip">
-            <img src="/assets/images/profile/hyeonhak-shin.jpg" alt="Hyeonhak Shin profile" />
+            <img src="/assets/images/profile/hyeonhak-shin.jpg" alt="Hyeonhak Shin profile" width="58" height="74" />
             <div>
               <strong>{currentProfile.name}</strong>
               <span>{currentProfile.headline}</span>
@@ -316,7 +312,7 @@ function Home({ projects, setPage, lang, text }) {
         ))}
       </section>
 
-      <SectionHeader title={text.featuredTitle} action={text.featuredAction} onAction={() => setPage("projects")} />
+      <SectionHeader title={text.featuredTitle} action={text.featuredAction} />
       <div className="project-grid featured">
         {projects.map((project) => (
           <ProjectCard key={project.id} project={project} lang={lang} text={text} />
@@ -339,7 +335,7 @@ function Profile({ lang, text }) {
   return (
     <main id="main-content" tabIndex={-1} className="page-grid">
       <section className="profile-panel">
-        <img src="/assets/images/profile/hyeonhak-shin.jpg" alt="Hyeonhak Shin profile photo" />
+        <img src="/assets/images/profile/hyeonhak-shin.jpg" alt="Hyeonhak Shin profile photo" width="210" height="280" />
         <div>
           <p className="eyebrow">
             <UserRound size={16} /> {text.profileEyebrow}
@@ -402,6 +398,7 @@ function ProjectCard({ project, lang, text }) {
   const localized = lang === "en" ? { ...project, ...projectEn[project.id] } : project;
   const images = project.images ?? (project.image ? [project.image] : []);
   const [imageIndex, setImageIndex] = React.useState(0);
+  const [failedImages, setFailedImages] = React.useState([]);
   const currentImage = images[imageIndex] ?? project.image;
   const hasMultipleImages = images.length > 1;
   const showPreviousImage = (event) => {
@@ -432,7 +429,19 @@ function ProjectCard({ project, lang, text }) {
         role={hasMultipleImages ? "group" : undefined}
         aria-label={hasMultipleImages ? `${localized.title} image ${imageIndex + 1} of ${images.length}` : localized.title}
       >
-        {currentImage ? <img src={currentImage} alt={`${localized.title}${hasMultipleImages ? ` (${imageIndex + 1}/${images.length})` : ""}`} decoding="async" /> : <div className="media-fallback"><Bot size={40} /><span>{project.stack.join(" / ")}</span></div>}
+        {currentImage && !failedImages.includes(currentImage) ? (
+          <img
+            src={currentImage}
+            alt={`${localized.title}${hasMultipleImages ? ` (${imageIndex + 1}/${images.length})` : ""}`}
+            loading="lazy"
+            decoding="async"
+            onError={() => setFailedImages((images) => [...images, currentImage])}
+          />
+        ) : (
+          <div className="media-fallback" role="img" aria-label={lang === "ko" ? `${localized.title} — 이미지를 표시할 수 없습니다` : `${localized.title} — image unavailable`}>
+            <Bot size={40} aria-hidden="true" /><span>{project.stack.join(" / ")}</span>
+          </div>
+        )}
         <span className="project-outcome">{localized.outcome}</span>
         {hasMultipleImages && (
           <>
@@ -519,13 +528,13 @@ function InfoCard({ icon, title, items }) {
   );
 }
 
-function SectionHeader({ title, action, onAction }) {
+function SectionHeader({ title, action }) {
   return (
     <div className="section-header">
       <h2>{title}</h2>
-      <button onClick={onAction} type="button">
+      <a href="#projects">
         {action} <ChevronRight size={16} />
-      </button>
+      </a>
     </div>
   );
 }

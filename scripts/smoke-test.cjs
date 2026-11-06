@@ -36,18 +36,22 @@ async function runSmokeChecks() {
     await desktop.getByRole("heading", { name: "Building robot software from sensor data to motion control." }).waitFor();
     await desktop.getByRole("button", { name: "Language toggle" }).click();
 
-    await desktop.locator(".nav-tabs button").nth(1).click();
+    await desktop.locator(".nav-tabs a").nth(1).click();
     await desktop.getByRole("link", { name: "imur.navigator@gmail.com" }).waitFor();
     const linkedInHref = await desktop.getByRole("link", { name: /linkedin\.com\/in/ }).getAttribute("href");
     assert(/linkedin\.com\/in\/.+138298299/.test(linkedInHref), "LinkedIn profile link is missing or malformed");
 
-    await desktop.locator(".nav-tabs button").nth(2).click();
+    await desktop.locator(".nav-tabs a").nth(2).click();
     await desktop.locator(".project-card").first().waitFor();
     assert((await desktop.locator(".project-card").count()) === 10, "Expected 10 project cards");
 
-    const loadedImages = await desktop.locator(".project-media img").evaluateAll((images) =>
-      images.map((image) => ({ src: image.getAttribute("src"), width: image.naturalWidth })),
-    );
+    const loadedImages = await desktop.locator(".project-media img").evaluateAll(async (images) => {
+      await Promise.all(images.map((image) => {
+        image.loading = "eager";
+        return image.decode();
+      }));
+      return images.map((image) => ({ src: image.getAttribute("src"), width: image.naturalWidth }));
+    });
     assert(loadedImages.length > 0 && loadedImages.every((image) => image.width > 0), "At least one project image failed to load");
 
     const gaemiCard = desktop.locator(".project-card", { hasText: "GAEMI" }).first();

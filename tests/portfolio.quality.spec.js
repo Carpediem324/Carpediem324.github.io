@@ -9,12 +9,12 @@ test("shared pages, history, and preferences survive reload", async ({ page }) =
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.locator("html")).toHaveClass("dark");
   await expect(page.getByRole("heading", { name: "Projects", exact: true })).toBeVisible();
-  await page.getByRole("button", { name: "Profile", exact: true }).click();
+  await page.getByRole("link", { name: "Profile", exact: true }).click();
   await expect(page).toHaveURL(/#profile$/);
   await expect(page.locator("main")).toBeFocused();
   await page.goBack();
   await expect(page.getByRole("heading", { name: "Projects", exact: true })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Projects", exact: true })).toHaveAttribute("aria-current", "page");
+  await expect(page.getByRole("link", { name: "Projects", exact: true })).toHaveAttribute("aria-current", "page");
 });
 
 test("search finds skills in both languages and recovers from empty results", async ({ page }) => {
@@ -69,7 +69,10 @@ test("career remains newest first and pages render without application errors", 
   await page.route("https://*.goatcounter.com/**", (route) => route.fulfill({ json: { count: "0" } }));
   await page.goto("/");
   await expect(page.locator(".career-item > span")).toHaveText(["현재", "2024.07 - 2025.06", "2024.01 - 2024.06", "2023"]);
-  await page.locator("img").evaluateAll((images) => Promise.all(images.map((image) => image.decode())));
+  await page.locator("img").evaluateAll((images) => Promise.all(images.map((image) => {
+    image.loading = "eager";
+    return image.decode();
+  })));
   await page.screenshot({ path: testInfo.outputPath("home-desktop.png"), fullPage: true });
   await page.getByRole("button", { name: "Theme toggle" }).click();
   await expect(page.locator("html")).toHaveClass("dark");
@@ -86,7 +89,7 @@ test("blocked storage does not prevent navigation", async ({ page }) => {
     Object.defineProperty(window, "localStorage", { get() { throw new Error("Storage unavailable"); } });
   });
   await page.goto("/");
-  await page.getByRole("button", { name: "프로젝트", exact: true }).click();
+  await page.getByRole("link", { name: "프로젝트", exact: true }).click();
   await expect(page.locator(".project-card")).toHaveCount(10);
   await page.getByRole("button", { name: "Theme toggle" }).click();
   await expect(page.locator("html")).toHaveClass("dark");

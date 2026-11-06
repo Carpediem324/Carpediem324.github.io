@@ -10,8 +10,8 @@ test("home page toggles theme and language", async ({ page }) => {
   await expect(page.getByText("관련 수상이력")).toBeVisible();
   await expect(page.getByText("4+")).toBeVisible();
   await expect(page.getByRole("heading", { name: "대표 작업" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "대표 작업 살펴보기" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "이력 한눈에 보기" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "대표 작업 살펴보기" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "이력 한눈에 보기" })).toBeVisible();
   await expect(page.getByText("Autonomy Pipeline")).toHaveCount(0);
   await expect(page.locator(".career-card")).toHaveCSS("background-color", "rgb(248, 250, 252)");
   await expect(page.locator(".hero-actions .primary-btn")).toHaveCSS("background-color", "rgb(17, 24, 39)");
@@ -46,7 +46,7 @@ test("home page toggles theme and language", async ({ page }) => {
   expect(brandXAfterLanguageToggle).toBe(brandXBeforeLanguageToggle);
   await expect(page.getByRole("heading", { name: "Building robot software from sensor data to motion control." })).toBeVisible();
   await expect(page.getByText("Autonomous Vehicle Research Group")).toBeVisible();
-  await expect(page.getByRole("button", { name: "Explore Selected Work" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Explore Selected Work" })).toBeVisible();
 
   await page.getByRole("button", { name: "Theme toggle" }).click();
   await expect
@@ -57,7 +57,7 @@ test("home page toggles theme and language", async ({ page }) => {
 
 test("profile page shows framed profile photo", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "프로필", exact: true }).click();
+  await page.getByRole("link", { name: "프로필", exact: true }).click();
   await expect(page.getByRole("heading", { name: "신현학", exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "연락처" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "경력" })).toBeVisible();
@@ -80,7 +80,7 @@ test("profile page shows framed profile photo", async ({ page }) => {
 
 test("project page renders static project cards", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "프로젝트", exact: true }).click();
+  await page.getByRole("link", { name: "프로젝트", exact: true }).click();
   await expect(page.getByRole("heading", { name: "프로젝트", exact: true })).toBeVisible();
   await expect(page.locator(".project-card")).toHaveCount(10);
   await expect(page.getByRole("heading", { name: "2023 대학생 창작모빌리티 경진대회 무인모빌리티" })).toBeVisible();
@@ -88,9 +88,13 @@ test("project page renders static project cards", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "재난지역탐사로봇 GAEMI" })).toBeVisible();
   await expect(page.getByText("SSAFY 삼성전자 DA사업부 연계 프로젝트 우수상 | 3등")).toBeVisible();
 
-  const loadedImages = await page.locator(".project-media img").evaluateAll((images) =>
-    images.map((image) => ({ src: image.getAttribute("src"), width: image.naturalWidth })),
-  );
+  const loadedImages = await page.locator(".project-media img").evaluateAll(async (images) => {
+    await Promise.all(images.map((image) => {
+      image.loading = "eager";
+      return image.decode();
+    }));
+    return images.map((image) => ({ src: image.getAttribute("src"), width: image.naturalWidth }));
+  });
   expect(loadedImages.every((image) => image.width > 0)).toBeTruthy();
 
   const gaemiCard = page.locator(".project-card", { hasText: "GAEMI" }).first();

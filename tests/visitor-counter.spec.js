@@ -53,7 +53,7 @@ test("failed or malformed counters leave the portfolio usable", async ({ page })
   });
   await page.goto("/");
   await expect(page.locator(".visitor-counter dd")).toHaveText(["--", "--"]);
-  await page.locator(".nav-tabs button").nth(2).click();
+  await page.locator(".nav-tabs a").nth(2).click();
   await expect(page.locator(".project-card")).toHaveCount(10);
   await expect(page.locator(".visitor-counter img")).toHaveCount(0);
 });

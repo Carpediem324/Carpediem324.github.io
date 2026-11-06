@@ -33,6 +33,8 @@ This site is a React single-page portfolio. Project cards are defined in `src/da
 
 Home, profile, and project views can be shared with `/#home`, `/#profile`, and `/#projects`. Browser history and reload preserve the selected view. Language and theme choices are stored locally when browser storage is available. Project search matches Korean and English titles, roles, descriptions, and technology tags.
 
+Navigation uses native links so destinations can be copied or opened in another tab. `public/assets/preferences.js` applies saved appearance before the app renders. Project images load as they approach the viewport, with a fallback if a request fails; gallery controls remain usable after a failed image.
+
 GitHub Pages does not provide a shared database or server runtime. To add, edit, or remove projects, update the `projects` array in `src/data.js`, run `npm run build`, and deploy the commit.
 
 Project images use fixed file paths in `src/data.js`. Add matching files under `public/assets/images/projects/`, for example:

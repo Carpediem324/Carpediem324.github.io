@@ -7,7 +7,7 @@
   --muted: #667085;
   --subtle: #667085;
   --line: #e4e7ec;
-  --blue: #008a5b;
+  --blue: #00794f;
   --green: #007c52;
   --navy: #1f2937;
   --cta: #111827;
@@ -73,6 +73,14 @@ a {
 
 button {
   cursor: pointer;
+}
+
+.brand,
+.nav-tabs a,
+.primary-btn,
+.secondary-btn,
+.section-header a {
+  text-decoration: none;
 }
 
 .app-shell {
@@ -208,12 +216,12 @@ button {
 }
 
 .brand,
-.nav-tabs button,
+.nav-tabs a,
 .icon-btn,
 .lang-btn,
 .primary-btn,
 .secondary-btn,
-.section-header button {
+.section-header a {
   align-items: center;
   border: 0;
   display: inline-flex;
@@ -243,7 +251,7 @@ button {
   padding: 4px;
 }
 
-.nav-tabs button {
+.nav-tabs a {
   background: transparent;
   border-radius: 6px;
   color: var(--muted);
@@ -253,7 +261,7 @@ button {
   padding: 0 14px;
 }
 
-.nav-tabs button.active {
+.nav-tabs a.active {
   background: var(--surface);
   box-shadow: 0 4px 12px rgba(16, 24, 40, 0.08);
   color: var(--blue);
@@ -618,7 +626,7 @@ p {
   letter-spacing: -0.04em;
 }
 
-.section-header button {
+.section-header a {
   background: transparent;
   color: var(--blue);
   font-size: 0.9rem;
@@ -884,6 +892,7 @@ p {
   object-fit: cover;
   object-position: center 18%;
   width: 100%;
+  height: auto;
 }
 
 .skill-row {
@@ -1106,7 +1115,7 @@ main:focus { outline: none; }
     width: 100%;
   }
 
-  .nav-tabs button {
+  .nav-tabs a {
     flex: 1;
     padding: 0 8px;
   }
