@@ -46,6 +46,12 @@ public/assets/images/projects/creative-mobility-2023.jpg
 
 If an image file is missing, the site shows a polished placeholder instead of a broken image.
 
+`npm run build` generates WebP variants from the original project, profile, and hero images with `scripts/optimize-images.cjs`. Originals stay unchanged. The generated `src/image-assets.json` supplies dimensions and `srcset` values; browsers select a variant using the actual display size. Output filenames include a source fingerprint. To regenerate images independently, run `npm run optimize:images`.
+
+The header and favicon share the same green robot mark. `public/favicon.svg` is the icon source; the image build also generates the 32px PNG favicon and 180px touch icon.
+
+The performance tests use fresh browser contexts at 390px/DPR 2 and 1280px/DPR 1. They measure image response bytes after initial load and after scrolling through the homepage, check that WebP variants are used, and enforce initial/full-page image budgets of 350KB/650KB. These are transfer-size checks, not a Lighthouse score or a guarantee of real-world load time.
+
 ## Checks
 
 ```bash

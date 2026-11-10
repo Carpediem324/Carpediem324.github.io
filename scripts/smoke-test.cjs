@@ -56,9 +56,9 @@ async function runSmokeChecks() {
 
     const gaemiCard = desktop.locator(".project-card", { hasText: "GAEMI" }).first();
     const gaemiImage = gaemiCard.locator(".project-media img");
-    assert((await gaemiImage.getAttribute("src")) === "/assets/images/projects/gaemi-1.jpg", "GAEMI first image mismatch");
+    assert(/gaemi-1-.*\.webp$/.test(await gaemiImage.getAttribute("src")), "GAEMI first image mismatch");
     await gaemiCard.locator(".project-media").click();
-    assert((await gaemiImage.getAttribute("src")) === "/assets/images/projects/gaemi-2.jpg", "GAEMI carousel did not advance");
+    assert(/gaemi-2-.*\.webp$/.test(await gaemiImage.getAttribute("src")), "GAEMI carousel did not advance");
 
     const dobotFit = await desktop
       .locator(".project-card", { hasText: "Dobot" })

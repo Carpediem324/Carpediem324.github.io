@@ -1,0 +1,110 @@
+{
+  "/assets/images/projects/creative-mobility-2023.jpg": {
+    "src": "/assets/images/optimized/creative-mobility-2023-dfd60fbfba-960.webp",
+    "srcSet": "/assets/images/optimized/creative-mobility-2023-dfd60fbfba-480.webp 480w, /assets/images/optimized/creative-mobility-2023-dfd60fbfba-960.webp 960w, /assets/images/optimized/creative-mobility-2023-dfd60fbfba-1440.webp 1440w",
+    "width": 1440,
+    "height": 903
+  },
+  "/assets/images/projects/dobot.png": {
+    "src": "/assets/images/optimized/dobot-b1800e3006-629.webp",
+    "srcSet": "/assets/images/optimized/dobot-b1800e3006-480.webp 480w, /assets/images/optimized/dobot-b1800e3006-629.webp 629w",
+    "width": 629,
+    "height": 662
+  },
+  "/assets/images/projects/gaemi-1.jpg": {
+    "src": "/assets/images/optimized/gaemi-1-ffeefe3915-960.webp",
+    "srcSet": "/assets/images/optimized/gaemi-1-ffeefe3915-480.webp 480w, /assets/images/optimized/gaemi-1-ffeefe3915-960.webp 960w, /assets/images/optimized/gaemi-1-ffeefe3915-1400.webp 1400w",
+    "width": 1400,
+    "height": 1050
+  },
+  "/assets/images/projects/gaemi-2.jpg": {
+    "src": "/assets/images/optimized/gaemi-2-ee96baf7be-500.webp",
+    "srcSet": "/assets/images/optimized/gaemi-2-ee96baf7be-480.webp 480w, /assets/images/optimized/gaemi-2-ee96baf7be-500.webp 500w",
+    "width": 500,
+    "height": 500
+  },
+  "/assets/images/projects/gaemi-3.jpg": {
+    "src": "/assets/images/optimized/gaemi-3-5a3c0b30bb-546.webp",
+    "srcSet": "/assets/images/optimized/gaemi-3-5a3c0b30bb-480.webp 480w, /assets/images/optimized/gaemi-3-5a3c0b30bb-546.webp 546w",
+    "width": 546,
+    "height": 457
+  },
+  "/assets/images/projects/indoor-slam-evaluation.jpg": {
+    "src": "/assets/images/optimized/indoor-slam-evaluation-e384ce1cf9-756.webp",
+    "srcSet": "/assets/images/optimized/indoor-slam-evaluation-e384ce1cf9-480.webp 480w, /assets/images/optimized/indoor-slam-evaluation-e384ce1cf9-756.webp 756w",
+    "width": 756,
+    "height": 500
+  },
+  "/assets/images/projects/kaeri-rover-panel-1.jpg": {
+    "src": "/assets/images/optimized/kaeri-rover-panel-1-5ada34f41c-960.webp",
+    "srcSet": "/assets/images/optimized/kaeri-rover-panel-1-5ada34f41c-480.webp 480w, /assets/images/optimized/kaeri-rover-panel-1-5ada34f41c-960.webp 960w, /assets/images/optimized/kaeri-rover-panel-1-5ada34f41c-1440.webp 1440w",
+    "width": 1440,
+    "height": 810
+  },
+  "/assets/images/projects/kaeri-rover-panel-2.jpg": {
+    "src": "/assets/images/optimized/kaeri-rover-panel-2-930fe3f502-680.webp",
+    "srcSet": "/assets/images/optimized/kaeri-rover-panel-2-930fe3f502-480.webp 480w, /assets/images/optimized/kaeri-rover-panel-2-930fe3f502-680.webp 680w",
+    "width": 680,
+    "height": 478
+  },
+  "/assets/images/projects/kaeri-rover-panel-3.jpg": {
+    "src": "/assets/images/optimized/kaeri-rover-panel-3-d26b05476c-960.webp",
+    "srcSet": "/assets/images/optimized/kaeri-rover-panel-3-d26b05476c-480.webp 480w, /assets/images/optimized/kaeri-rover-panel-3-d26b05476c-960.webp 960w, /assets/images/optimized/kaeri-rover-panel-3-d26b05476c-1440.webp 1440w",
+    "width": 1440,
+    "height": 900
+  },
+  "/assets/images/projects/mock-interview-stt.jpg": {
+    "src": "/assets/images/optimized/mock-interview-stt-b28047a605-960.webp",
+    "srcSet": "/assets/images/optimized/mock-interview-stt-b28047a605-480.webp 480w, /assets/images/optimized/mock-interview-stt-b28047a605-960.webp 960w, /assets/images/optimized/mock-interview-stt-b28047a605-1440.webp 1440w",
+    "width": 1440,
+    "height": 691
+  },
+  "/assets/images/projects/rag-chatbot.jpg": {
+    "src": "/assets/images/optimized/rag-chatbot-3052e1a39d-960.webp",
+    "srcSet": "/assets/images/optimized/rag-chatbot-3052e1a39d-480.webp 480w, /assets/images/optimized/rag-chatbot-3052e1a39d-960.webp 960w, /assets/images/optimized/rag-chatbot-3052e1a39d-1440.webp 1440w",
+    "width": 1440,
+    "height": 673
+  },
+  "/assets/images/projects/robocop-1.jpg": {
+    "src": "/assets/images/optimized/robocop-1-d95b820137-960.webp",
+    "srcSet": "/assets/images/optimized/robocop-1-d95b820137-480.webp 480w, /assets/images/optimized/robocop-1-d95b820137-960.webp 960w, /assets/images/optimized/robocop-1-d95b820137-1000.webp 1000w",
+    "width": 1000,
+    "height": 429
+  },
+  "/assets/images/projects/robocop-2.jpg": {
+    "src": "/assets/images/optimized/robocop-2-8949a4845a-960.webp",
+    "srcSet": "/assets/images/optimized/robocop-2-8949a4845a-480.webp 480w, /assets/images/optimized/robocop-2-8949a4845a-960.webp 960w, /assets/images/optimized/robocop-2-8949a4845a-1440.webp 1440w",
+    "width": 1440,
+    "height": 788
+  },
+  "/assets/images/projects/voice-assistant-1.jpg": {
+    "src": "/assets/images/optimized/voice-assistant-1-fc97bd2e55-683.webp",
+    "srcSet": "/assets/images/optimized/voice-assistant-1-fc97bd2e55-480.webp 480w, /assets/images/optimized/voice-assistant-1-fc97bd2e55-683.webp 683w",
+    "width": 683,
+    "height": 750
+  },
+  "/assets/images/projects/voice-assistant-2.jpg": {
+    "src": "/assets/images/optimized/voice-assistant-2-29545c21fa-960.webp",
+    "srcSet": "/assets/images/optimized/voice-assistant-2-29545c21fa-480.webp 480w, /assets/images/optimized/voice-assistant-2-29545c21fa-960.webp 960w, /assets/images/optimized/voice-assistant-2-29545c21fa-1155.webp 1155w",
+    "width": 1155,
+    "height": 716
+  },
+  "/assets/images/profile/hyeonhak-shin.jpg": {
+    "src": "/assets/images/optimized/hyeonhak-shin-6a0c294c12-472.webp",
+    "srcSet": "/assets/images/optimized/hyeonhak-shin-6a0c294c12-96.webp 96w, /assets/images/optimized/hyeonhak-shin-6a0c294c12-256.webp 256w, /assets/images/optimized/hyeonhak-shin-6a0c294c12-472.webp 472w",
+    "width": 472,
+    "height": 630
+  },
+  "/assets/images/hero/road-day.jpg": {
+    "src": "/assets/images/optimized/road-day-d225639f9b-1440.webp",
+    "srcSet": "/assets/images/optimized/road-day-d225639f9b-768.webp 768w, /assets/images/optimized/road-day-d225639f9b-1440.webp 1440w, /assets/images/optimized/road-day-d225639f9b-1920.webp 1920w",
+    "width": 1920,
+    "height": 1442
+  },
+  "/assets/images/hero/road-night.jpg": {
+    "src": "/assets/images/optimized/road-night-b988a5a67f-1440.webp",
+    "srcSet": "/assets/images/optimized/road-night-b988a5a67f-768.webp 768w, /assets/images/optimized/road-night-b988a5a67f-1440.webp 1440w, /assets/images/optimized/road-night-b988a5a67f-1920.webp 1920w",
+    "width": 1920,
+    "height": 2560
+  }
+}

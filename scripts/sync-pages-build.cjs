@@ -13,7 +13,9 @@ if (!fs.existsSync(distAssets)) {
 }
 
 fs.copyFileSync(pagesHtml, distPagesHtml);
-fs.copyFileSync(path.join(root, "public", "favicon.svg"), path.join(root, "favicon.svg"));
+for (const icon of ["favicon.svg", "favicon-32.png", "apple-touch-icon.png"]) {
+  fs.copyFileSync(path.join(root, "public", icon), path.join(root, icon));
+}
 
 if (!fs.existsSync(pagesAssets)) {
   fs.mkdirSync(pagesAssets, { recursive: true });

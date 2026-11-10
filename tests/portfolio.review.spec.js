@@ -34,7 +34,7 @@ test("navigation and content fit at responsive breakpoints in both languages", a
 });
 
 test("failed project images have a fallback and the gallery remains usable", async ({ page }) => {
-  await page.route("**/projects/robocop-1.jpg", (route) => route.abort());
+  await page.route("**/optimized/robocop-1-*", (route) => route.abort());
   await page.goto("/#projects");
   const card = page.locator(".project-card", { hasText: "ROBOCOP" });
   await expect(card.locator(".media-fallback")).toBeVisible();
@@ -77,12 +77,12 @@ test("offscreen project images are deferred and load on scroll", async ({ page }
   await page.setViewportSize({ width: 390, height: 844 });
   const requested = [];
   page.on("request", (request) => {
-    if (request.url().includes("/projects/")) requested.push(new URL(request.url()).pathname);
+    if (request.url().includes("/assets/images/")) requested.push(new URL(request.url()).pathname);
   });
   await page.goto("/");
   const rover = page.locator(".project-card", { hasText: "우주탐사로버" }).locator("img");
   await expect(rover).toHaveAttribute("loading", "lazy");
-  expect(requested).not.toContain("/assets/images/projects/kaeri-rover-panel-1.jpg");
+  expect(requested.some((url) => url.includes("kaeri-rover-panel-1-"))).toBe(false);
   await rover.scrollIntoViewIfNeeded();
   await expect.poll(() => rover.evaluate((image) => image.naturalWidth)).toBeGreaterThan(0);
 });

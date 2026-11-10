@@ -1,6 +1,7 @@
 import React from "react";
 import VisitorCounter from "./VisitorCounter.jsx";
 import { trackPage } from "./analytics.js";
+import imageAssets from "./image-assets.json";
 import {
   Award,
   BadgeCheck,
@@ -34,6 +35,13 @@ import {
 
 const SAFE_MAILTO_PATTERN = /^mailto:[^\s@]+@[^\s@]+\.[^\s@]+$/i;
 const SAFE_URL_BASE = "https://carpediem324.github.io";
+const PROJECT_IMAGE_SIZES = "(max-width: 640px) calc(100vw - 24px), (max-width: 900px) calc(100vw - 44px), (max-width: 1180px) calc((100vw - 68px) / 2), 556px";
+const FEATURED_IMAGE_SIZES = "(max-width: 640px) calc(100vw - 24px), (max-width: 1180px) calc((100vw - 68px) / 2), 556px";
+
+function getImageProps(source, sizes) {
+  const image = imageAssets[source];
+  return image ? { src: image.src, srcSet: image.srcSet, sizes, width: image.width, height: image.height } : { src: source };
+}
 
 function readPreference(key, fallback) {
   try {
@@ -185,7 +193,7 @@ function App() {
       <RippleLayer ripples={ripples} />
       <div className="app-shell">
         <Header page={page} dark={dark} setDark={setDark} lang={lang} setLang={setLang} text={text} />
-        {page === "home" && <Home projects={featuredProjects} lang={lang} text={text} />}
+        {page === "home" && <Home projects={featuredProjects} lang={lang} text={text} dark={dark} />}
         {page === "profile" && <Profile lang={lang} text={text} />}
         {page === "projects" && <Projects projects={projects} lang={lang} text={text} />}
         <Footer lang={lang} />
@@ -226,7 +234,7 @@ function Header({ page, dark, setDark, lang, setLang, text }) {
   return (
     <header className="topbar">
       <a className="brand" href="#home" aria-label="Home">
-        <Bot size={22} />
+        <span className="brand-mark"><Bot size={24} aria-hidden="true" /></span>
         <span>CARPEDIEM</span>
       </a>
       <nav className="nav-tabs" aria-label="Primary navigation">
@@ -248,13 +256,14 @@ function Header({ page, dark, setDark, lang, setLang, text }) {
   );
 }
 
-function Home({ projects, lang, text }) {
+function Home({ projects, lang, text, dark }) {
   const careerItems = [...(lang === "en" ? careerEn : careerHighlights)].reverse();
   const currentProfile = lang === "en" ? { ...profile, ...profileEn } : profile;
 
   return (
     <main id="main-content" tabIndex={-1}>
       <section className="hero-section">
+        <img className="hero-background" {...getImageProps(`/assets/images/hero/road-${dark ? "night" : "day"}.jpg`, "100vw")} alt="" aria-hidden="true" fetchPriority="high" decoding="async" />
         <div className="hero-copy">
           <p className="eyebrow">
             <Radar size={16} /> {text.heroEyebrow}
@@ -279,7 +288,7 @@ function Home({ projects, lang, text }) {
         </div>
         <div className="hero-card" aria-label="Career highlights">
           <div className="profile-strip">
-            <img src="/assets/images/profile/hyeonhak-shin.jpg" alt="Hyeonhak Shin profile" width="58" height="74" />
+            <img {...getImageProps("/assets/images/profile/hyeonhak-shin.jpg", "58px")} alt="Hyeonhak Shin profile" />
             <div>
               <strong>{currentProfile.name}</strong>
               <span>{currentProfile.headline}</span>
@@ -314,8 +323,8 @@ function Home({ projects, lang, text }) {
 
       <SectionHeader title={text.featuredTitle} action={text.featuredAction} />
       <div className="project-grid featured">
-        {projects.map((project) => (
-          <ProjectCard key={project.id} project={project} lang={lang} text={text} />
+        {projects.map((project, index) => (
+          <ProjectCard key={project.id} project={project} lang={lang} text={text} imageSizes={index === 0 ? PROJECT_IMAGE_SIZES : FEATURED_IMAGE_SIZES} />
         ))}
       </div>
     </main>
@@ -335,7 +344,7 @@ function Profile({ lang, text }) {
   return (
     <main id="main-content" tabIndex={-1} className="page-grid">
       <section className="profile-panel">
-        <img src="/assets/images/profile/hyeonhak-shin.jpg" alt="Hyeonhak Shin profile photo" width="210" height="280" />
+        <img {...getImageProps("/assets/images/profile/hyeonhak-shin.jpg", "(max-width: 640px) 200px, 210px")} alt="Hyeonhak Shin profile photo" />
         <div>
           <p className="eyebrow">
             <UserRound size={16} /> {text.profileEyebrow}
@@ -394,7 +403,7 @@ function Projects({ projects, lang, text }) {
   );
 }
 
-function ProjectCard({ project, lang, text }) {
+function ProjectCard({ project, lang, text, imageSizes = PROJECT_IMAGE_SIZES }) {
   const localized = lang === "en" ? { ...project, ...projectEn[project.id] } : project;
   const images = project.images ?? (project.image ? [project.image] : []);
   const [imageIndex, setImageIndex] = React.useState(0);
@@ -431,7 +440,7 @@ function ProjectCard({ project, lang, text }) {
       >
         {currentImage && !failedImages.includes(currentImage) ? (
           <img
-            src={currentImage}
+            {...getImageProps(currentImage, imageSizes)}
             alt={`${localized.title}${hasMultipleImages ? ` (${imageIndex + 1}/${images.length})` : ""}`}
             loading="lazy"
             decoding="async"

@@ -18,7 +18,7 @@ test("home page toggles theme and language", async ({ page }) => {
   const brandXBeforeLanguageToggle = Math.round((await page.locator(".brand").boundingBox()).x);
   const initialTheme = await page.locator("html").evaluate((el) => el.classList.contains("dark"));
   await expect(page.locator(".hero-section")).toBeVisible();
-  await expect(page.locator(".hero-section")).toHaveCSS("background-image", initialTheme ? /road-night\.jpg/ : /road-day\.jpg/);
+  await expect(page.locator(".hero-background")).toHaveAttribute("src", initialTheme ? /road-night-.*\.webp/ : /road-day-.*\.webp/);
   await expect
     .poll(async () =>
       page.locator(".hero-section").evaluate((hero) => {
@@ -52,7 +52,7 @@ test("home page toggles theme and language", async ({ page }) => {
   await expect
     .poll(() => page.locator("html").evaluate((el) => el.classList.contains("dark")))
     .toBe(!initialTheme);
-  await expect(page.locator(".hero-section")).toHaveCSS("background-image", initialTheme ? /road-day\.jpg/ : /road-night\.jpg/);
+  await expect(page.locator(".hero-background")).toHaveAttribute("src", initialTheme ? /road-day-.*\.webp/ : /road-night-.*\.webp/);
 });
 
 test("profile page shows framed profile photo", async ({ page }) => {
@@ -99,11 +99,11 @@ test("project page renders static project cards", async ({ page }) => {
 
   const gaemiCard = page.locator(".project-card", { hasText: "GAEMI" }).first();
   const gaemiImage = gaemiCard.locator(".project-media img");
-  await expect(gaemiImage).toHaveAttribute("src", "/assets/images/projects/gaemi-1.jpg");
+  await expect(gaemiImage).toHaveAttribute("src", /gaemi-1-.*\.webp/);
   await gaemiCard.locator(".project-media").click();
-  await expect(gaemiImage).toHaveAttribute("src", "/assets/images/projects/gaemi-2.jpg");
+  await expect(gaemiImage).toHaveAttribute("src", /gaemi-2-.*\.webp/);
   await gaemiCard.getByRole("button", { name: "Previous image" }).click();
-  await expect(gaemiImage).toHaveAttribute("src", "/assets/images/projects/gaemi-1.jpg");
+  await expect(gaemiImage).toHaveAttribute("src", /gaemi-1-.*\.webp/);
 
   const mediaHeights = await page.locator(".project-card .project-media").evaluateAll((media) =>
     media.map((item) => Math.round(item.getBoundingClientRect().height)),

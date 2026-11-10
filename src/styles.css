@@ -242,6 +242,18 @@ button {
   font-size: 0.92rem;
 }
 
+.brand-mark {
+  align-items: center;
+  background: #00794f;
+  border-radius: 10px;
+  color: #fff;
+  display: inline-flex;
+  flex-shrink: 0;
+  height: 34px;
+  justify-content: center;
+  width: 34px;
+}
+
 .nav-tabs {
   background: var(--surface-soft);
   border: 1px solid var(--line);
@@ -307,10 +319,7 @@ main {
 }
 
 .hero-section {
-  background:
-    linear-gradient(90deg, rgba(15, 23, 42, 0.76), rgba(15, 23, 42, 0.38) 48%, rgba(15, 23, 42, 0.7)),
-    linear-gradient(180deg, rgba(15, 23, 42, 0.1), rgba(15, 23, 42, 0.62)),
-    url("/assets/images/hero/road-day.jpg") center / cover;
+  background: #172033;
   border: 0;
   border-radius: 0;
   box-shadow: none;
@@ -326,11 +335,35 @@ main {
   width: 100vw;
 }
 
-:root.dark .hero-section {
+.hero-section::before {
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+  background:
+    linear-gradient(90deg, rgba(15, 23, 42, 0.76), rgba(15, 23, 42, 0.38) 48%, rgba(15, 23, 42, 0.7)),
+    linear-gradient(180deg, rgba(15, 23, 42, 0.1), rgba(15, 23, 42, 0.62));
+}
+
+:root.dark .hero-section::before {
   background:
     linear-gradient(90deg, rgba(3, 7, 18, 0.72), rgba(3, 7, 18, 0.28) 48%, rgba(3, 7, 18, 0.72)),
-    linear-gradient(180deg, rgba(3, 7, 18, 0.08), rgba(3, 7, 18, 0.7)),
-    url("/assets/images/hero/road-night.jpg") center / cover;
+    linear-gradient(180deg, rgba(3, 7, 18, 0.08), rgba(3, 7, 18, 0.7));
+}
+
+.hero-background {
+  height: 100%;
+  inset: 0;
+  object-fit: cover;
+  position: absolute;
+  width: 100%;
+}
+
+.hero-section > .hero-copy,
+.hero-section > .hero-card {
+  position: relative;
+  z-index: 2;
 }
 
 .hero-copy,
